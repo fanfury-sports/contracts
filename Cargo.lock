@@ -2149,7 +2149,7 @@ dependencies = [
 [[package]]
 name = "fury-health"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/mars-protocol/v2-fields-of-mars?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2511,7 +2511,7 @@ dependencies = [
 [[package]]
 name = "fury-rover"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/mars-protocol/v2-fields-of-mars?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
