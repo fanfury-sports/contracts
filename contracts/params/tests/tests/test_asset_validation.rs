@@ -1,12 +1,12 @@
 use std::str::FromStr;
 
 use cosmwasm_std::Decimal;
-use mars_params::error::ContractError;
-use mars_types::{
-    error::MarsError::Validation,
+use fury_params::error::ContractError;
+use fury_types::{
+    error::FuryError::Validation,
     params::{AssetParamsUpdate, HlsAssetType, HlsParamsUnchecked},
 };
-use mars_utils::error::ValidationError::{InvalidDenom, InvalidParam};
+use fury_utils::error::ValidationError::{InvalidDenom, InvalidParam};
 
 use super::helpers::{assert_err, default_asset_params, MockEnv};
 
@@ -23,7 +23,7 @@ fn denom_must_be_native() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidDenom {
+        ContractError::Fury(Validation(InvalidDenom {
             reason: "Invalid denom length".to_string(),
         })),
     );
@@ -43,7 +43,7 @@ fn max_ltv_less_than_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "max_loan_to_value".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "< 1".to_string(),
@@ -65,7 +65,7 @@ fn liquidation_threshold_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "liquidation_threshold".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -88,7 +88,7 @@ fn liq_threshold_gt_max_ltv() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "liquidation_threshold".to_string(),
             invalid_value: "0.5".to_string(),
             predicate: "> 0.6 (max LTV)".to_string(),
@@ -114,7 +114,7 @@ fn hls_max_ltv_less_than_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_max_loan_to_value".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "< 1".to_string(),
@@ -140,7 +140,7 @@ fn hls_liquidation_threshold_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_liquidation_threshold".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -166,7 +166,7 @@ fn hls_liq_threshold_gt_hls_max_ltv() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_liquidation_threshold".to_string(),
             invalid_value: "0.5".to_string(),
             predicate: "> 0.6 (hls max LTV)".to_string(),
@@ -194,7 +194,7 @@ fn correlations_must_be_valid_denoms() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidDenom {
+        ContractError::Fury(Validation(InvalidDenom {
             reason: "Invalid denom length".to_string(),
         })),
     );
@@ -214,7 +214,7 @@ fn protocol_liquidation_fee_less_than_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "protocol_liquidation_fee".to_string(),
             invalid_value: "1".to_string(),
             predicate: "< 1".to_string(),
@@ -236,7 +236,7 @@ fn liquidation_bonus_param_b_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "starting_lb".to_string(),
             invalid_value: "0.101".to_string(),
             predicate: "[0, 0.1]".to_string(),
@@ -258,7 +258,7 @@ fn liquidation_bonus_param_slope_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "slope".to_string(),
             invalid_value: "0.99".to_string(),
             predicate: "[1, 5]".to_string(),
@@ -274,7 +274,7 @@ fn liquidation_bonus_param_slope_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "slope".to_string(),
             invalid_value: "5.01".to_string(),
             predicate: "[1, 5]".to_string(),
@@ -296,7 +296,7 @@ fn liquidation_bonus_param_min_lb_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "min_lb".to_string(),
             invalid_value: "0.101".to_string(),
             predicate: "[0, 0.1]".to_string(),
@@ -318,7 +318,7 @@ fn liquidation_bonus_param_max_lb_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "max_lb".to_string(),
             invalid_value: "0.0499".to_string(),
             predicate: "[0.05, 0.3]".to_string(),
@@ -334,7 +334,7 @@ fn liquidation_bonus_param_max_lb_out_of_range() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "max_lb".to_string(),
             invalid_value: "0.31".to_string(),
             predicate: "[0.05, 0.3]".to_string(),
@@ -357,7 +357,7 @@ fn liquidation_bonus_param_max_lb_gt_min_lb() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "max_lb".to_string(),
             invalid_value: "0.07".to_string(),
             predicate: "> 0.08 (min LB)".to_string(),

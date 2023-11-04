@@ -2,17 +2,17 @@ use cosmwasm_std::{
     attr, coin, coins, testing::mock_info, Addr, BankMsg, CosmosMsg, Decimal, SubMsg, Uint128,
 };
 use cw_utils::PaymentError;
-use mars_interest_rate::{
+use fury_interest_rate::{
     calculate_applied_linear_interest_rate, compute_scaled_amount, compute_underlying_amount,
     ScalingOperation, SCALING_FACTOR,
 };
-use mars_red_bank::{
+use fury_red_bank::{
     contract::execute,
     error::ContractError,
     state::{DEBTS, MARKETS, UNCOLLATERALIZED_LOAN_LIMITS},
 };
-use mars_testing::{mock_env, mock_env_at_block_time, MockEnvParams};
-use mars_types::{
+use fury_testing::{mock_env, mock_env_at_block_time, MockEnvParams};
+use fury_types::{
     params::{AssetParams, CmSettings, RedBankSettings},
     red_bank::{ExecuteMsg, Market},
 };

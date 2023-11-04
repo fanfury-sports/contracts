@@ -1,5 +1,5 @@
 use cosmwasm_std::{to_binary, CosmosMsg, DepsMut, Env, Response, Uint128, WasmMsg};
-use mars_types::{
+use fury_types::{
     adapters::vault::{UpdateType, Vault, VaultPositionUpdate},
     credit_manager::{CallbackMsg, ChangeExpected, ExecuteMsg as RoverExecuteMsg},
 };

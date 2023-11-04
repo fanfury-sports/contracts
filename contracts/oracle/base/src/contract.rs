@@ -5,12 +5,12 @@ use cosmwasm_std::{
     StdError, StdResult,
 };
 use cw_storage_plus::{Bound, Item, Map};
-use mars_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
-use mars_types::oracle::{
+use fury_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
+use fury_types::oracle::{
     ActionKind, Config, ConfigResponse, ExecuteMsg, InstantiateMsg, PriceResponse,
     PriceSourceResponse, QueryMsg,
 };
-use mars_utils::helpers::validate_native_denom;
+use fury_utils::helpers::validate_native_denom;
 
 use crate::{error::ContractResult, ContractError, PriceSourceChecked, PriceSourceUnchecked};
 

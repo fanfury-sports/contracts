@@ -20,8 +20,8 @@ pub type ParamsUnchecked = ParamsBase<String>;
 pub type Params = ParamsBase<Addr>;
 
 impl From<Params> for ParamsUnchecked {
-    fn from(mars_params: Params) -> Self {
-        Self(mars_params.0.to_string())
+    fn from(fury_params: Params) -> Self {
+        Self(fury_params.0.to_string())
     }
 }
 

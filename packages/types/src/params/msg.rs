@@ -1,6 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Decimal, Uint128};
-use mars_owner::OwnerUpdate;
+use fury_owner::OwnerUpdate;
 
 use super::{asset::AssetParamsUnchecked, vault::VaultConfigUnchecked};
 
@@ -29,7 +29,7 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(mars_owner::OwnerResponse)]
+    #[returns(fury_owner::OwnerResponse)]
     Owner {},
 
     #[returns(super::msg::ConfigResponse)]

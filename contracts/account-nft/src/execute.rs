@@ -6,7 +6,7 @@ use cw721_base::{
     ContractError::Ownership,
     OwnershipError::{NoOwner, NotOwner},
 };
-use mars_types::{
+use fury_types::{
     account_nft::NftConfigUpdates,
     credit_manager::QueryMsg,
     health::{AccountKind, HealthValuesResponse, QueryMsg::HealthValues},

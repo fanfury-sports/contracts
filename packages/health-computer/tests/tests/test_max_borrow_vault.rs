@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{coin, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     credit_manager::Positions,
     health::{AccountKind, BorrowTarget},
 };
 
-use super::helpers::{osmo_atom_1_config, udai_info, umars_info};
+use super::helpers::{osmo_atom_1_config, udai_info, ufury_info};
 
 #[test]
 fn max_borrow_vault_offset_good() {
@@ -54,12 +54,12 @@ fn max_borrow_vault_offset_good() {
 
 #[test]
 fn max_borrow_vault_offset_margin_of_error() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let osmo_atom_1_config = osmo_atom_1_config();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
-        params: HashMap::from([(umars.denom.clone(), umars.params.clone())]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
+        params: HashMap::from([(ufury.denom.clone(), ufury.params.clone())]),
     };
 
     let vaults_data = VaultsData {
@@ -74,7 +74,7 @@ fn max_borrow_vault_offset_margin_of_error() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom)],
+            deposits: vec![coin(1200, &ufury.denom)],
             debts: vec![],
             lends: vec![],
             vaults: vec![],
@@ -85,7 +85,7 @@ fn max_borrow_vault_offset_margin_of_error() {
 
     let max_borrow_amount = h
         .max_borrow_amount_estimate(
-            &umars.denom,
+            &ufury.denom,
             &BorrowTarget::Vault {
                 address: osmo_atom_1_config.addr,
             },

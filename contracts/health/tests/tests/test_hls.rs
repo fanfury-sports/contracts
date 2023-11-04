@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{Decimal, Uint128};
-use mars_types::{
+use fury_types::{
     adapters::vault::{Vault, VaultAmount, VaultPosition, VaultPositionAmount},
     credit_manager::{DebtAmount, Positions},
     health::AccountKind,
@@ -16,7 +16,7 @@ fn hls_account_kind_passed_along() {
     let mut mock = MockEnv::new().build().unwrap();
 
     let vault_base_token = "base_token_abc";
-    let debt_token = "umars";
+    let debt_token = "ufury";
     let account_id = "123";
 
     let vault_token_amount = Uint128::new(1_000_000);

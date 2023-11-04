@@ -1,11 +1,11 @@
-import { Positions } from '../../../types/generated/mars-credit-manager/MarsCreditManager.types'
+import { Positions } from '../../../types/generated/fury-credit-manager/FuryCreditManager.types'
 
 import init, {
   compute_health_js,
   max_withdraw_estimate_js,
   max_borrow_estimate_js,
 } from '../../pkg-web'
-import { HealthValuesResponse } from '../../../types/generated/mars-rover-health/MarsRoverHealth.types'
+import { HealthValuesResponse } from '../../../types/generated/fury-rover-health/FuryRoverHealth.types'
 import { DataFetcher } from '../../DataFetcher'
 import { oracle, params } from '../../../deploy/addresses/devnet-deployer-owner.json'
 

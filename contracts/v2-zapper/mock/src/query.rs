@@ -1,5 +1,5 @@
 use cosmwasm_std::{Coin, Deps, StdResult, Storage, Uint128};
-use mars_types::oracle::ActionKind;
+use fury_types::oracle::ActionKind;
 
 use crate::{
     contract::STARTING_LP_POOL_TOKENS,

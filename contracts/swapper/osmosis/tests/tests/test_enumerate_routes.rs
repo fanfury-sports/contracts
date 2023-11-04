@@ -4,8 +4,8 @@ use std::collections::HashMap;
 
 use cosmwasm_std::coin;
 use cw_it::osmosis_test_tube::{Gamm, Module, OsmosisTestApp, SigningAccount, Wasm};
-use mars_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
-use mars_types::swapper::{ExecuteMsg, QueryMsg, RouteResponse};
+use fury_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
+use fury_types::swapper::{ExecuteMsg, QueryMsg, RouteResponse};
 
 use super::helpers::instantiate_contract;
 
@@ -17,7 +17,7 @@ fn enumerating_routes() {
         .init_account(&[
             coin(1_000_000_000_000, "uatom"),
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uusdc"),
         ])
         .unwrap();
@@ -30,8 +30,8 @@ fn enumerating_routes() {
         &contract_addr,
         &ExecuteMsg::SetRoute {
             denom_in: "uatom".to_string(),
-            denom_out: "umars".to_string(),
-            route: routes.get(&("uatom", "umars")).unwrap().clone(),
+            denom_out: "ufury".to_string(),
+            route: routes.get(&("uatom", "ufury")).unwrap().clone(),
         },
         &[],
         &signer,
@@ -54,8 +54,8 @@ fn enumerating_routes() {
         &contract_addr,
         &ExecuteMsg::SetRoute {
             denom_in: "uosmo".to_string(),
-            denom_out: "umars".to_string(),
-            route: routes.get(&("uosmo", "umars")).unwrap().clone(),
+            denom_out: "ufury".to_string(),
+            route: routes.get(&("uosmo", "ufury")).unwrap().clone(),
         },
         &[],
         &signer,
@@ -66,8 +66,8 @@ fn enumerating_routes() {
     let expected = vec![
         RouteResponse {
             denom_in: "uatom".to_string(),
-            denom_out: "umars".to_string(),
-            route: routes.get(&("uatom", "umars")).unwrap().clone(),
+            denom_out: "ufury".to_string(),
+            route: routes.get(&("uatom", "ufury")).unwrap().clone(),
         },
         RouteResponse {
             denom_in: "uatom".to_string(),
@@ -76,8 +76,8 @@ fn enumerating_routes() {
         },
         RouteResponse {
             denom_in: "uosmo".to_string(),
-            denom_out: "umars".to_string(),
-            route: routes.get(&("uosmo", "umars")).unwrap().clone(),
+            denom_out: "ufury".to_string(),
+            route: routes.get(&("uosmo", "ufury")).unwrap().clone(),
         },
     ];
 
@@ -126,8 +126,8 @@ fn create_pools_and_routes(
         .unwrap()
         .data
         .pool_id;
-    let pool_osmo_mars = gamm
-        .create_basic_pool(&[coin(100_000, "uosmo"), coin(1_000_000, "umars")], signer)
+    let pool_osmo_fury = gamm
+        .create_basic_pool(&[coin(100_000, "uosmo"), coin(1_000_000, "ufury")], signer)
         .unwrap()
         .data
         .pool_id;
@@ -139,26 +139,26 @@ fn create_pools_and_routes(
 
     let mut map = HashMap::new();
 
-    // uosmo -> umars
+    // uosmo -> ufury
     map.insert(
-        ("uosmo", "umars"),
+        ("uosmo", "ufury"),
         OsmosisRoute(vec![SwapAmountInRoute {
-            pool_id: pool_osmo_mars,
-            token_out_denom: "umars".to_string(),
+            pool_id: pool_osmo_fury,
+            token_out_denom: "ufury".to_string(),
         }]),
     );
 
-    // uatom -> uosmo -> umars
+    // uatom -> uosmo -> ufury
     map.insert(
-        ("uatom", "umars"),
+        ("uatom", "ufury"),
         OsmosisRoute(vec![
             SwapAmountInRoute {
                 pool_id: pool_atom_osmo,
                 token_out_denom: "uosmo".to_string(),
             },
             SwapAmountInRoute {
-                pool_id: pool_osmo_mars,
-                token_out_denom: "umars".to_string(),
+                pool_id: pool_osmo_fury,
+                token_out_denom: "ufury".to_string(),
             },
         ]),
     );

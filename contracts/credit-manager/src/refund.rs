@@ -1,5 +1,5 @@
 use cosmwasm_std::{to_binary, Addr, CosmosMsg, DepsMut, Env, Response, WasmMsg};
-use mars_types::credit_manager::{ActionAmount, ActionCoin, CallbackMsg, ExecuteMsg};
+use fury_types::credit_manager::{ActionAmount, ActionCoin, CallbackMsg, ExecuteMsg};
 
 use crate::{error::ContractResult, query::query_coin_balances, utils::query_nft_token_owner};
 

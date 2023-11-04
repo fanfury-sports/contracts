@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{Deps, StdResult};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     credit_manager::Positions,
     health::{AccountKind, HealthResult, HealthState, HealthValuesResponse},
     oracle::ActionKind,
@@ -10,7 +10,7 @@ use mars_types::{
 
 use crate::querier::HealthQuerier;
 
-/// Uses `mars-rover-health-computer` which is a data agnostic package given
+/// Uses `fury-rover-health-computer` which is a data agnostic package given
 /// it's compiled to .wasm and shared with the frontend.
 /// This function queries all necessary data to pass to `HealthComputer`.
 pub fn compute_health(

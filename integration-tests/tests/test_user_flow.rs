@@ -1,9 +1,9 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{coin, Addr, Decimal, Uint128};
-use mars_red_bank::error::ContractError;
-use mars_testing::integration::mock_env::{MockEnv, MockEnvBuilder, RedBank};
-use mars_types::params::LiquidationBonus;
+use fury_red_bank::error::ContractError;
+use fury_testing::integration::mock_env::{MockEnv, MockEnvBuilder, RedBank};
+use fury_types::params::LiquidationBonus;
 
 use crate::helpers::{assert_red_bank_err, default_asset_params, default_asset_params_with};
 

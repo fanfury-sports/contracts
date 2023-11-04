@@ -1,7 +1,7 @@
 use cosmwasm_std::{
     CheckedMultiplyFractionError, Coin, Decimal, Deps, DepsMut, Env, Response, Uint128,
 };
-use mars_types::{
+use fury_types::{
     credit_manager::{ActionAmount, ActionCoin, ChangeExpected},
     traits::{Denoms, Stringify},
 };

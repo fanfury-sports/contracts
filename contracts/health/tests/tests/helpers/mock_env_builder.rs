@@ -4,11 +4,11 @@ use anyhow::Result as AnyResult;
 use cosmwasm_std::{coin, Addr, Decimal};
 use cw_multi_test::{BasicApp, Executor};
 use cw_utils::Duration;
-use mars_mock_credit_manager::msg::InstantiateMsg as CmMockInstantiateMsg;
-use mars_mock_oracle::msg::InstantiateMsg as OracleInstantiateMsg;
-use mars_mock_vault::msg::InstantiateMsg as VaultInstantiateMsg;
-use mars_owner::OwnerResponse;
-use mars_types::{
+use fury_mock_credit_manager::msg::InstantiateMsg as CmMockInstantiateMsg;
+use fury_mock_oracle::msg::InstantiateMsg as OracleInstantiateMsg;
+use fury_mock_vault::msg::InstantiateMsg as VaultInstantiateMsg;
+use fury_owner::OwnerResponse;
+use fury_types::{
     adapters::oracle::OracleUnchecked,
     credit_manager::ConfigResponse,
     health::{ExecuteMsg::UpdateConfig, InstantiateMsg},

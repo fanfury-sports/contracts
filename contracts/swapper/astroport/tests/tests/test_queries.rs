@@ -1,6 +1,6 @@
 use cosmwasm_std::coin;
 use cw_it::{test_tube::Account, traits::CwItRunner};
-use mars_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
+use fury_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
 
 #[test]
 fn query_owner() {

@@ -1,5 +1,5 @@
 use cosmwasm_std::{Coin, Decimal, DepsMut, Env, Response, Uint128};
-use mars_types::credit_manager::{ActionAmount, ActionCoin, ChangeExpected};
+use fury_types::credit_manager::{ActionAmount, ActionCoin, ChangeExpected};
 
 use crate::{
     error::{ContractError, ContractResult},

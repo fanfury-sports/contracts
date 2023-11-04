@@ -1,6 +1,6 @@
-# Mars Health
+# Fury Health
 
-Functions used for evaluating the health of user positions at Mars Protocol.
+Functions used for evaluating the health of user positions at Fury Protocol.
 
 ## License
 

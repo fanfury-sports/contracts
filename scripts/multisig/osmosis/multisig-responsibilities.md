@@ -13,7 +13,7 @@ The Osmosis multisig being used for this project is `osmo14w4x949nwcrqgfe53pxs3k
    For account-nft, credit-manager, swapper, and zapper contracts:
 
    ```bash
-   git clone https://github.com/mars-protocol/rover.git
+   git clone https://github.com/fury-protocol/rover.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```

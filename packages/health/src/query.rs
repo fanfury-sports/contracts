@@ -1,18 +1,18 @@
 use cosmwasm_std::{Addr, Decimal, QuerierWrapper, StdResult};
-use mars_types::{
+use fury_types::{
     oracle::{self, ActionKind, PriceResponse},
     params::AssetParams,
 };
 
-pub struct MarsQuerier<'a> {
+pub struct FuryQuerier<'a> {
     querier: &'a QuerierWrapper<'a>,
     oracle_addr: &'a Addr,
     params_addr: &'a Addr,
 }
 
-impl<'a> MarsQuerier<'a> {
+impl<'a> FuryQuerier<'a> {
     pub fn new(querier: &'a QuerierWrapper, oracle_addr: &'a Addr, params_addr: &'a Addr) -> Self {
-        MarsQuerier {
+        FuryQuerier {
             querier,
             oracle_addr,
             params_addr,
@@ -22,7 +22,7 @@ impl<'a> MarsQuerier<'a> {
     pub fn query_asset_params(&self, denom: &str) -> StdResult<AssetParams> {
         self.querier.query_wasm_smart(
             self.params_addr,
-            &mars_types::params::QueryMsg::AssetParams {
+            &fury_types::params::QueryMsg::AssetParams {
                 denom: denom.to_string(),
             },
         )

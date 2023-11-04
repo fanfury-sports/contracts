@@ -1,8 +1,8 @@
 use std::{collections::HashMap, str::FromStr};
 
 use cosmwasm_std::{coin, Addr, Decimal, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     adapters::vault::{
         CoinValue, Vault, VaultAmount, VaultPosition, VaultPositionAmount, VaultPositionValue,
     },
@@ -11,17 +11,17 @@ use mars_types::{
     params::{HlsParams, VaultConfig},
 };
 
-use super::helpers::{udai_info, umars_info, ustars_info};
+use super::helpers::{udai_info, ufury_info, ustars_info};
 
 #[test]
 fn missing_price_data() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -35,7 +35,7 @@ fn missing_price_data() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -43,7 +43,7 @@ fn missing_price_data() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -61,12 +61,12 @@ fn missing_price_data() {
 
 #[test]
 fn missing_params() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([(udai.denom.clone(), udai.params.clone())]),
@@ -81,7 +81,7 @@ fn missing_params() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -89,7 +89,7 @@ fn missing_params() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -101,8 +101,8 @@ fn missing_params() {
         vaults_data,
     };
 
-    let err: HealthError = h.max_withdraw_amount_estimate(&umars.denom).unwrap_err();
-    assert_eq!(err, HealthError::MissingParams(umars.denom));
+    let err: HealthError = h.max_withdraw_amount_estimate(&ufury.denom).unwrap_err();
+    assert_eq!(err, HealthError::MissingParams(ufury.denom));
 }
 
 #[test]
@@ -136,18 +136,18 @@ fn deposit_not_present() {
 
 #[test]
 fn blacklisted_assets_should_be_able_be_fully_withdrawn() {
-    let mut umars = umars_info();
+    let mut ufury = ufury_info();
     let udai = udai_info();
 
-    umars.params.credit_manager.whitelisted = false;
+    ufury.params.credit_manager.whitelisted = false;
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -163,7 +163,7 @@ fn blacklisted_assets_should_be_able_be_fully_withdrawn() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(total_deposit.u128(), &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(total_deposit.u128(), &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -171,7 +171,7 @@ fn blacklisted_assets_should_be_able_be_fully_withdrawn() {
                     amount: Uint128::new(2500),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -187,22 +187,22 @@ fn blacklisted_assets_should_be_able_be_fully_withdrawn() {
     assert!(health.max_ltv_health_factor < Some(Decimal::one()));
 
     // Can fully withdraw blacklisted asset even if unhealthy
-    let max_withdraw_amount = h.max_withdraw_amount_estimate(&umars.denom).unwrap();
+    let max_withdraw_amount = h.max_withdraw_amount_estimate(&ufury.denom).unwrap();
     assert_eq!(total_deposit, max_withdraw_amount);
 }
 
 #[test]
 fn zero_when_unhealthy() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -216,7 +216,7 @@ fn zero_when_unhealthy() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -224,7 +224,7 @@ fn zero_when_unhealthy() {
                     amount: Uint128::new(2500),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -276,16 +276,16 @@ fn no_debts() {
 
 #[test]
 fn should_allow_max_withdraw() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -300,7 +300,7 @@ fn should_allow_max_withdraw() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(deposit_amount.u128(), &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(deposit_amount.u128(), &udai.denom)],
             debts: vec![DebtAmount {
                 denom: udai.denom.clone(),
                 shares: Default::default(),

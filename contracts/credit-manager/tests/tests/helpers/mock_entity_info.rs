@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use cosmwasm_std::{coin, Decimal};
 use cw_utils::Duration;
-use mars_types::params::{HlsAssetType, HlsParamsUnchecked, LiquidationBonus};
+use fury_types::params::{HlsAssetType, HlsParamsUnchecked, LiquidationBonus};
 
 use super::{CoinInfo, VaultTestInfo};
 

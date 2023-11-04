@@ -1,5 +1,5 @@
 use cosmwasm_std::{StdResult, Uint128};
-use mars_rover_health_computer::HealthComputer;
+use fury_rover_health_computer::HealthComputer;
 use proptest::{prelude::ProptestConfig, prop_assume, test_runner::TestRunner};
 
 use super::helpers::random_health_computer;

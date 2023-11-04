@@ -1,6 +1,6 @@
 [package]
-name          = "mars-types"
-description   = "Messages and types for Mars smart contracts"
+name          = "fury-types"
+description   = "Messages and types for Fury smart contracts"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -27,8 +27,8 @@ cw721-base        = { workspace = true }
 cw-storage-plus   = { workspace = true }
 cw-utils          = { workspace = true }
 cw-vault-standard = { workspace = true }
-mars-owner        = { workspace = true }
-mars-utils        = { workspace = true }
+fury-owner        = { workspace = true }
+fury-utils        = { workspace = true }
 serde             = { workspace = true }
 serde-json-wasm   = { workspace = true }
 strum             = { workspace = true, features = ["derive"] }

@@ -6,15 +6,15 @@ use cosmwasm_std::{
     testing::{mock_env, mock_info, MockApi, MockStorage},
     Deps, DepsMut, Env, OwnedDeps, Uint128,
 };
-use mars_incentives::contract::{execute, instantiate, query};
-use mars_testing::{mock_dependencies, MarsMockQuerier};
-use mars_types::incentives::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use fury_incentives::contract::{execute, instantiate, query};
+use fury_testing::{mock_dependencies, FuryMockQuerier};
+use fury_types::incentives::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
-pub fn th_setup() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn th_setup() -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     th_setup_with_env(mock_env())
 }
 
-pub fn th_setup_with_env(env: Env) -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn th_setup_with_env(env: Env) -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = mock_dependencies(&[]);
 
     let msg = InstantiateMsg {
@@ -22,7 +22,7 @@ pub fn th_setup_with_env(env: Env) -> OwnedDeps<MockStorage, MockApi, MarsMockQu
         address_provider: String::from("address_provider"),
         epoch_duration: 604800, // 1 week in seconds
         max_whitelisted_denoms: 10,
-        mars_denom: "umars".to_string(),
+        fury_denom: "ufury".to_string(),
     };
     let info = mock_info("owner", &[]);
     instantiate(deps.as_mut(), env, info, msg).unwrap();
@@ -33,7 +33,7 @@ pub fn th_setup_with_env(env: Env) -> OwnedDeps<MockStorage, MockApi, MarsMockQu
 pub fn ths_setup_with_epoch_duration(
     env: Env,
     epoch_duration: u64,
-) -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+) -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = mock_dependencies(&[]);
 
     let msg = InstantiateMsg {
@@ -41,7 +41,7 @@ pub fn ths_setup_with_epoch_duration(
         address_provider: String::from("address_provider"),
         epoch_duration,
         max_whitelisted_denoms: 10,
-        mars_denom: "umars".to_string(),
+        fury_denom: "ufury".to_string(),
     };
     let info = mock_info("owner", &[]);
     instantiate(deps.as_mut(), env, info, msg).unwrap();

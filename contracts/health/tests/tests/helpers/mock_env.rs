@@ -4,10 +4,10 @@ use cw_multi_test::{App, AppResponse, BankSudo, BasicApp, Executor, SudoMsg};
 use cw_vault_standard::{
     VaultInfoResponse, VaultStandardExecuteMsg::Deposit, VaultStandardQueryMsg::Info,
 };
-use mars_mock_credit_manager::msg::ExecuteMsg::SetPositionsResponse;
-use mars_mock_oracle::msg::{CoinPrice, ExecuteMsg::ChangePrice};
-use mars_mock_vault::contract::STARTING_VAULT_SHARES;
-use mars_types::{
+use fury_mock_credit_manager::msg::ExecuteMsg::SetPositionsResponse;
+use fury_mock_oracle::msg::{CoinPrice, ExecuteMsg::ChangePrice};
+use fury_mock_vault::contract::STARTING_VAULT_SHARES;
+use fury_types::{
     adapters::vault::VaultUnchecked,
     credit_manager::Positions,
     health::{

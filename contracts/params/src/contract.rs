@@ -2,8 +2,8 @@
 use cosmwasm_std::entry_point;
 use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response};
 use cw2::set_contract_version;
-use mars_owner::OwnerInit::SetInitialOwner;
-use mars_types::params::{
+use fury_owner::OwnerInit::SetInitialOwner;
+use fury_types::params::{
     CmEmergencyUpdate, EmergencyUpdate, ExecuteMsg, InstantiateMsg, QueryMsg,
     RedBankEmergencyUpdate,
 };

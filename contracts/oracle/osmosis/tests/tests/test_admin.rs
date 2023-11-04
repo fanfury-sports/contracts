@@ -1,10 +1,10 @@
 use cosmwasm_std::{attr, testing::mock_env};
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{contract::entry, msg::ExecuteMsg};
-use mars_owner::OwnerError::NotOwner;
-use mars_testing::{mock_dependencies, mock_info};
-use mars_types::oracle::{ConfigResponse, InstantiateMsg, QueryMsg};
-use mars_utils::error::ValidationError;
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{contract::entry, msg::ExecuteMsg};
+use fury_owner::OwnerError::NotOwner;
+use fury_testing::{mock_dependencies, mock_info};
+use fury_types::oracle::{ConfigResponse, InstantiateMsg, QueryMsg};
+use fury_utils::error::ValidationError;
 
 use super::helpers;
 

@@ -6,8 +6,8 @@ use cosmwasm_std::{
 };
 use cw_paginate::paginate_map;
 use cw_storage_plus::{Bound, Map};
-use mars_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
-use mars_types::swapper::{
+use fury_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
+use fury_types::swapper::{
     EstimateExactInSwapResponse, ExecuteMsg, InstantiateMsg, QueryMsg, RouteResponse,
     RoutesResponse,
 };

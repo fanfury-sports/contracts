@@ -1,10 +1,10 @@
 use cosmwasm_std::{Addr, Decimal, OverflowError, OverflowOperation::Sub, Uint128};
-use mars_credit_manager::error::ContractError as RoverError;
-use mars_types::credit_manager::{
+use fury_credit_manager::error::ContractError as RoverError;
+use fury_types::credit_manager::{
     Action::{Deposit, ProvideLiquidity, WithdrawLiquidity},
     ActionAmount, ActionCoin,
 };
-use mars_zapper_mock::contract::STARTING_LP_POOL_TOKENS;
+use fury_zapper_mock::contract::STARTING_LP_POOL_TOKENS;
 
 use super::helpers::{
     assert_err, get_coin, lp_token_info, uatom_info, uosmo_info, AccountToFund, MockEnv,

@@ -2,7 +2,7 @@ use std::cmp::min;
 
 use cosmwasm_std::{Coin, Decimal, DepsMut, Env, Response, Uint128};
 use cw_vault_standard::VaultInfoResponse;
-use mars_types::adapters::vault::{
+use fury_types::adapters::vault::{
     UnlockingChange, UnlockingPositions, UpdateType, Vault, VaultError, VaultPositionAmount,
     VaultPositionType, VaultPositionUpdate,
 };

@@ -1,6 +1,6 @@
 use cosmwasm_std::{Addr, Decimal, Deps, Empty, Env, StdError, Uint128};
 use cw_storage_plus::Map;
-use mars_types::oracle::{ActionKind, Config};
+use fury_types::oracle::{ActionKind, Config};
 use pyth_sdk_cw::{query_price_feed, Price, PriceFeed, PriceFeedResponse, PriceIdentifier};
 
 use super::*;

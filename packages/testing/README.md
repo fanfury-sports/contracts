@@ -1,4 +1,4 @@
-# Mars Testing
+# Fury Testing
 
 Utilities for testing Red Bank smart contracts.
 

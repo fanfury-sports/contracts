@@ -1,7 +1,7 @@
 use cosmwasm_std::Addr;
-use mars_owner::OwnerError;
-use mars_params::error::ContractError::Owner;
-use mars_types::params::AssetParamsUpdate;
+use fury_owner::OwnerError;
+use fury_params::error::ContractError::Owner;
+use fury_types::params::AssetParamsUpdate;
 
 use super::helpers::{assert_contents_equal, assert_err, default_asset_params, MockEnv};
 
@@ -183,7 +183,7 @@ fn pagination_query() {
     let denom0 = "atom".to_string();
     let denom1 = "osmo".to_string();
     let denom2 = "juno".to_string();
-    let denom3 = "mars".to_string();
+    let denom3 = "fury".to_string();
     let denom4 = "ion".to_string();
     let denom5 = "usdc".to_string();
 

@@ -1,8 +1,8 @@
 use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_interest_rate::get_scaled_liquidity_amount;
-use mars_types::{
-    address_provider::{self, MarsAddressType},
-    error::MarsError,
+use fury_interest_rate::get_scaled_liquidity_amount;
+use fury_types::{
+    address_provider::{self, FuryAddressType},
+    error::FuryError,
 };
 
 use crate::{
@@ -28,22 +28,22 @@ pub fn deposit(
         deps.as_ref(),
         &config.address_provider,
         vec![
-            MarsAddressType::Incentives,
-            MarsAddressType::RewardsCollector,
-            MarsAddressType::Params,
-            MarsAddressType::CreditManager,
+            FuryAddressType::Incentives,
+            FuryAddressType::RewardsCollector,
+            FuryAddressType::Params,
+            FuryAddressType::CreditManager,
         ],
     )?;
-    let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-    let incentives_addr = &addresses[&MarsAddressType::Incentives];
-    let params_addr = &addresses[&MarsAddressType::Params];
-    let credit_manager_addr = &addresses[&MarsAddressType::CreditManager];
+    let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+    let incentives_addr = &addresses[&FuryAddressType::Incentives];
+    let params_addr = &addresses[&FuryAddressType::Params];
+    let credit_manager_addr = &addresses[&FuryAddressType::CreditManager];
 
     // Don't allow red-bank users to create alternative account ids.
     // Only allow credit-manager contract to create them.
     // Even if account_id contains empty string we won't allow it.
     if account_id.is_some() && info.sender != credit_manager_addr {
-        return Err(ContractError::Mars(MarsError::Unauthorized {}));
+        return Err(ContractError::Fury(FuryError::Unauthorized {}));
     }
 
     let user_addr: Addr;
@@ -54,7 +54,7 @@ pub fn deposit(
         // 3.) A user wants to lend out XXX from credit-manager but the call fails because TOTAL_LENT_SHARES is never initialized
         // because this query red_bank.query_lent(&deps.querier, &env.contract.address, &coin.denom)? returns one.
         Some(address) if address == credit_manager_addr.as_str() => {
-            return Err(ContractError::Mars(MarsError::Unauthorized {}));
+            return Err(ContractError::Fury(FuryError::Unauthorized {}));
         }
         Some(address) => {
             user_addr = deps.api.addr_validate(address)?;

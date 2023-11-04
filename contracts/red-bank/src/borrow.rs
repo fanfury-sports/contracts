@@ -1,9 +1,9 @@
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_interest_rate::{
+use fury_interest_rate::{
     get_scaled_debt_amount, get_underlying_debt_amount, get_underlying_liquidity_amount,
 };
-use mars_types::{address_provider, address_provider::MarsAddressType};
-use mars_utils::helpers::build_send_asset_msg;
+use fury_types::{address_provider, address_provider::FuryAddressType};
+use fury_utils::helpers::build_send_asset_msg;
 
 use crate::{
     error::ContractError,
@@ -31,16 +31,16 @@ pub fn borrow(
         deps.as_ref(),
         &config.address_provider,
         vec![
-            MarsAddressType::Oracle,
-            MarsAddressType::Incentives,
-            MarsAddressType::RewardsCollector,
-            MarsAddressType::Params,
+            FuryAddressType::Oracle,
+            FuryAddressType::Incentives,
+            FuryAddressType::RewardsCollector,
+            FuryAddressType::Params,
         ],
     )?;
-    let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-    let incentives_addr = &addresses[&MarsAddressType::Incentives];
-    let oracle_addr = &addresses[&MarsAddressType::Oracle];
-    let params_addr = &addresses[&MarsAddressType::Params];
+    let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+    let incentives_addr = &addresses[&FuryAddressType::Incentives];
+    let oracle_addr = &addresses[&FuryAddressType::Oracle];
+    let params_addr = &addresses[&FuryAddressType::Params];
 
     let asset_params = query_asset_params(&deps.querier, params_addr, &denom)?;
 

@@ -1,7 +1,7 @@
 use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_interest_rate::{get_scaled_debt_amount, get_underlying_debt_amount};
-use mars_types::{address_provider, address_provider::MarsAddressType};
-use mars_utils::helpers::build_send_asset_msg;
+use fury_interest_rate::{get_scaled_debt_amount, get_underlying_debt_amount};
+use fury_types::{address_provider, address_provider::FuryAddressType};
+use fury_utils::helpers::build_send_asset_msg;
 
 use crate::{
     error::ContractError,
@@ -41,10 +41,10 @@ pub fn repay(
     let addresses = address_provider::helpers::query_contract_addrs(
         deps.as_ref(),
         &config.address_provider,
-        vec![MarsAddressType::Incentives, MarsAddressType::RewardsCollector],
+        vec![FuryAddressType::Incentives, FuryAddressType::RewardsCollector],
     )?;
-    let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-    let incentives_addr = &addresses[&MarsAddressType::Incentives];
+    let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+    let incentives_addr = &addresses[&FuryAddressType::Incentives];
 
     let mut market = MARKETS.load(deps.storage, &denom)?;
 

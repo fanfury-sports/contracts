@@ -2,7 +2,7 @@ use cosmwasm_std::{
     to_binary, BankMsg, Coin, CosmosMsg, DepsMut, MessageInfo, Response, StdResult, Uint128,
     WasmMsg,
 };
-use mars_types::{
+use fury_types::{
     credit_manager::{Action::Deposit, ExecuteMsg::UpdateCreditAccount},
     oracle::ActionKind,
 };

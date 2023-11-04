@@ -3,9 +3,9 @@ use std::collections::HashMap;
 use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Order, Response, StdResult, Uint128};
 use cw2::{assert_contract_version, set_contract_version};
 use cw_storage_plus::Bound;
-use mars_owner::OwnerInit;
-use mars_types::{
-    address_provider::{helpers, MarsAddressType},
+use fury_owner::OwnerInit;
+use fury_types::{
+    address_provider::{helpers, FuryAddressType},
     incentives::{Config, IncentiveState, MigrateMsg, MigrateV1ToV2},
     keys::{UserId, UserIdKey},
     red_bank::{Market, QueryMsg, UserCollateralResponse},
@@ -26,7 +26,7 @@ pub mod v1_state {
     use cosmwasm_schema::cw_serde;
     use cosmwasm_std::{Addr, Decimal, Uint128};
     use cw_storage_plus::{Item, Map};
-    use mars_red_bank_types_old::incentives::{AssetIncentive, Config};
+    use fury_red_bank_types_old::incentives::{AssetIncentive, Config};
 
     pub const OWNER: Item<OwnerState> = Item::new("owner");
     pub const CONFIG: Item<Config> = Item::new("config");
@@ -53,8 +53,8 @@ pub mod v1_state {
     }
 
     // Copy of helpers from v1.0.0 tag:
-    // https://github.com/mars-protocol/red-bank/blob/v1.0.0/contracts/incentives/src/helpers.rs
-    // Included as dependency coudn't generate proper schema for mars-incentive, even with specified
+    // https://github.com/fury-protocol/red-bank/blob/v1.0.0/contracts/incentives/src/helpers.rs
+    // Included as dependency coudn't generate proper schema for fury-incentive, even with specified
     // version.
     pub mod helpers {
         use std::cmp::{max, min};
@@ -62,7 +62,7 @@ pub mod v1_state {
         use cosmwasm_std::{
             Decimal, OverflowError, OverflowOperation, StdError, StdResult, Uint128,
         };
-        use mars_red_bank_types_old::incentives::AssetIncentive;
+        use fury_red_bank_types_old::incentives::AssetIncentive;
 
         /// Updates asset incentive index and last updated timestamp by computing
         /// how many rewards were accrued since last time updated given incentive's
@@ -161,12 +161,12 @@ pub fn migrate(mut deps: DepsMut, env: Env, msg: MigrateMsg) -> Result<Response,
         &Config {
             address_provider: old_config_state.address_provider,
             max_whitelisted_denoms: msg.max_whitelisted_denoms,
-            mars_denom: old_config_state.mars_denom.clone(),
+            fury_denom: old_config_state.fury_denom.clone(),
         },
     )?;
 
     // WHITELIST not existent in v1, initializing
-    WHITELIST.save(deps.storage, &old_config_state.mars_denom, &Uint128::one())?;
+    WHITELIST.save(deps.storage, &old_config_state.fury_denom, &Uint128::one())?;
     WHITELIST_COUNT.save(deps.storage, &1)?;
 
     // EPOCH_DURATION not existent in v1, initializing
@@ -177,7 +177,7 @@ pub fn migrate(mut deps: DepsMut, env: Env, msg: MigrateMsg) -> Result<Response,
     }
     EPOCH_DURATION.save(deps.storage, &msg.epoch_duration)?;
 
-    migrate_assets_indexes(&mut deps, env, &old_config_state.mars_denom)?;
+    migrate_assets_indexes(&mut deps, env, &old_config_state.fury_denom)?;
 
     set_contract_version(deps.storage, format!("crates.io:{CONTRACT_NAME}"), CONTRACT_VERSION)?;
 
@@ -191,7 +191,7 @@ pub fn migrate(mut deps: DepsMut, env: Env, msg: MigrateMsg) -> Result<Response,
 fn migrate_assets_indexes(
     deps: &mut DepsMut,
     env: Env,
-    mars_denom: &str,
+    fury_denom: &str,
 ) -> Result<(), ContractError> {
     let current_block_time = env.block.time.seconds();
 
@@ -200,7 +200,7 @@ fn migrate_assets_indexes(
     let red_bank_addr = helpers::query_contract_addr(
         deps.as_ref(),
         &config.address_provider,
-        MarsAddressType::RedBank,
+        FuryAddressType::RedBank,
     )?;
 
     let mut asset_incentives = v1_state::ASSET_INCENTIVES
@@ -221,10 +221,10 @@ fn migrate_assets_indexes(
             current_block_time,
         )?;
 
-        // Update incentive state for collateral and incentive denom (Mars)
+        // Update incentive state for collateral and incentive denom (Fury)
         INCENTIVE_STATES.save(
             deps.storage,
-            (denom, mars_denom),
+            (denom, fury_denom),
             &IncentiveState {
                 index: asset_incentive.index,
                 last_updated: current_block_time,
@@ -284,14 +284,14 @@ fn migrate_users_indexes_and_rewards(
     let red_bank_addr = helpers::query_contract_addr(
         deps.as_ref(),
         &config.address_provider,
-        MarsAddressType::RedBank,
+        FuryAddressType::RedBank,
     )?;
 
     let asset_incentives = INCENTIVE_STATES
         .range(deps.storage, None, None, Order::Ascending)
         .map(|kv| {
             let kv = kv?;
-            let (denom, _mars_denom) = kv.0;
+            let (denom, _fury_denom) = kv.0;
             let incentive_state = kv.1;
             Ok((denom, incentive_state))
         })
@@ -336,7 +336,7 @@ fn migrate_users_indexes_and_rewards(
             // Update user unclaimed rewards
             USER_UNCLAIMED_REWARDS.save(
                 deps.storage,
-                (&user_id_key, &denom, &config.mars_denom),
+                (&user_id_key, &denom, &config.fury_denom),
                 &unclaimed_rewards,
             )?;
         }
@@ -344,7 +344,7 @@ fn migrate_users_indexes_and_rewards(
         // Update user asset index
         USER_ASSET_INDICES.save(
             deps.storage,
-            (&user_id_key, &denom, &config.mars_denom),
+            (&user_id_key, &denom, &config.fury_denom),
             &asset_incentive.index,
         )?;
     }

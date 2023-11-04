@@ -1,7 +1,7 @@
 use cosmwasm_std::{CheckedMultiplyRatioError, OverflowError, StdError, Uint128};
-use mars_owner::OwnerError;
-use mars_types::error::MarsError;
-use mars_utils::error::ValidationError;
+use fury_owner::OwnerError;
+use fury_types::error::FuryError;
+use fury_utils::error::ValidationError;
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]
@@ -10,7 +10,7 @@ pub enum ContractError {
     Std(#[from] StdError),
 
     #[error("{0}")]
-    Mars(#[from] MarsError),
+    Fury(#[from] FuryError),
 
     #[error("{0}")]
     Validation(#[from] ValidationError),

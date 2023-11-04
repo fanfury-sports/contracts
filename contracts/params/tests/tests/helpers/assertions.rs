@@ -2,7 +2,7 @@ use std::{collections::HashSet, hash::Hash};
 
 use anyhow::Result as AnyResult;
 use cw_multi_test::AppResponse;
-use mars_params::error::ContractError;
+use fury_params::error::ContractError;
 
 pub fn assert_err(res: AnyResult<AppResponse>, err: ContractError) {
     match res {

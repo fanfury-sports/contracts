@@ -1,6 +1,6 @@
 use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
-use mars_address_provider::{contract::instantiate, error::ContractError};
-use mars_types::address_provider::{ConfigResponse, InstantiateMsg, QueryMsg};
+use fury_address_provider::{contract::instantiate, error::ContractError};
+use fury_types::address_provider::{ConfigResponse, InstantiateMsg, QueryMsg};
 
 use super::helpers::th_query;
 
@@ -14,11 +14,11 @@ fn invalid_chain_prefix() {
         mock_info("deployer", &[]),
         InstantiateMsg {
             owner: "osmo_owner".to_string(),
-            prefix: "mars".to_string(),
+            prefix: "fury".to_string(),
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::InvalidChainPrefix("mars".to_string()));
+    assert_eq!(err, ContractError::InvalidChainPrefix("fury".to_string()));
 }
 
 #[test]

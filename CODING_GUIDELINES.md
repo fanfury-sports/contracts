@@ -70,7 +70,7 @@ pub use thing_three::*;
 Later we can import `red-bank` module things with one line:
 
 ```rust
-use mars_types::red_bank::*;
+use fury_types::red_bank::*;
 ```
 
 ## API & Design
@@ -112,7 +112,7 @@ pub enum ContractError {
     Std(#[from] StdError),
 
     #[error("{0}")]
-    Mars(#[from] MarsError),
+    Fury(#[from] FuryError),
 
     #[error("{0}")]
     Overflow(#[from] OverflowError),
@@ -248,12 +248,12 @@ The report can be found in `target/coverage` directory (for example: `target/cov
 
 Setting up a pipeline with strict checks helps ensure only linted+tested code merged.
 
-- Setup a task runner. _Cargo make_ is recommended. Here’s an example: [https://github.com/mars-protocol/rover/blob/master/Makefile.toml](https://github.com/mars-protocol/rover/blob/master/Makefile.toml). Tasks to test for:
+- Setup a task runner. _Cargo make_ is recommended. Here’s an example: [https://github.com/fury-protocol/rover/blob/master/Makefile.toml](https://github.com/fury-protocol/rover/blob/master/Makefile.toml). Tasks to test for:
   - Building
   - Linting
   - Formatting
   - Testing
   - Generate latest schemas
   - Contract compilation
-- Setup Github workflow that runs all checks when pull requests are open: [https://github.com/mars-protocol/rover/blob/master/.github/workflows](https://github.com/mars-protocol/rover/blob/master/.github/workflows).
+- Setup Github workflow that runs all checks when pull requests are open: [https://github.com/fury-protocol/rover/blob/master/.github/workflows](https://github.com/fury-protocol/rover/blob/master/.github/workflows).
 - Ensure the master branch has protections to not allow merges without passing checks.

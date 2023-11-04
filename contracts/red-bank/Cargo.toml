@@ -1,5 +1,5 @@
 [package]
-name          = "mars-red-bank"
+name          = "fury-red-bank"
 description   = "A smart contract that manages asset deposit, borrowing, and liquidations"
 version       = { workspace = true }
 authors       = { workspace = true }
@@ -25,16 +25,16 @@ cosmwasm-std       = { workspace = true }
 cw2                = { workspace = true }
 cw-storage-plus    = { workspace = true }
 cw-utils           = { workspace = true }
-mars-health        = { workspace = true }
-mars-interest-rate = { workspace = true }
-mars-liquidation   = { workspace = true }
-mars-owner         = { workspace = true }
-mars-types         = { workspace = true }
-mars-utils         = { workspace = true }
+fury-health        = { workspace = true }
+fury-interest-rate = { workspace = true }
+fury-liquidation   = { workspace = true }
+fury-owner         = { workspace = true }
+fury-types         = { workspace = true }
+fury-utils         = { workspace = true }
 thiserror          = { workspace = true }
 
 [dev-dependencies]
 anyhow        = { workspace = true }
 cw-multi-test = { workspace = true }
-mars-testing  = { workspace = true }
+fury-testing  = { workspace = true }
 test-case     = { workspace = true }

@@ -1,6 +1,6 @@
 use cosmwasm_std::{coin, coins, Addr, Event, Uint128};
-use mars_credit_manager::error::ContractError;
-use mars_types::credit_manager::Action::{Deposit, Lend, Reclaim};
+use fury_credit_manager::error::ContractError;
+use fury_types::credit_manager::Action::{Deposit, Lend, Reclaim};
 
 use super::helpers::{assert_err, get_coin, uatom_info, uosmo_info, AccountToFund, MockEnv};
 

@@ -1,6 +1,6 @@
-# Mars Types
+# Fury Types
 
-Contains messages and types for Mars smart contracts.
+Contains messages and types for Fury smart contracts.
 
 ## License
 

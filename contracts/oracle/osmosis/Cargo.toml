@@ -1,5 +1,5 @@
 [package]
-name          = "mars-oracle-osmosis"
+name          = "fury-oracle-osmosis"
 description   = "A smart contract that provides prices denominated in `uosmo` for assets used in the protocol"
 version       = "2.0.1"
 authors       = { workspace = true }
@@ -25,11 +25,11 @@ cosmwasm-std     = { workspace = true }
 cw2              = { workspace = true }
 cw-storage-plus  = { workspace = true }
 ica-oracle       = { workspace = true }
-mars-oracle-base = { workspace = true }
-mars-osmosis     = { workspace = true }
-mars-owner       = { workspace = true }
-mars-utils       = { workspace = true }
-mars-types       = { workspace = true }
+fury-oracle-base = { workspace = true }
+fury-osmosis     = { workspace = true }
+fury-owner       = { workspace = true }
+fury-utils       = { workspace = true }
+fury-types       = { workspace = true }
 osmosis-std      = { workspace = true }
 pyth-sdk-cw      = { workspace = true }
 schemars         = { workspace = true }
@@ -37,7 +37,7 @@ serde            = { workspace = true }
 
 [dev-dependencies]
 cosmwasm-schema = { workspace = true }
-mars-owner      = { workspace = true }
-mars-testing    = { workspace = true }
-mars-utils      = { workspace = true }
+fury-owner      = { workspace = true }
+fury-testing    = { workspace = true }
+fury-utils      = { workspace = true }
 test-case       = { workspace = true }

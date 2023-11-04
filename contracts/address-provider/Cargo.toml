@@ -1,6 +1,6 @@
 [package]
-name          = "mars-address-provider"
-description   = "A smart contract that holds addresses of Mars Red Bank contracts"
+name          = "fury-address-provider"
+description   = "A smart contract that holds addresses of Fury Red Bank contracts"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -25,11 +25,11 @@ cosmwasm-schema = { workspace = true }
 cosmwasm-std    = { workspace = true }
 cw2             = { workspace = true }
 cw-storage-plus = { workspace = true }
-mars-owner      = { workspace = true }
-mars-types      = { workspace = true }
+fury-owner      = { workspace = true }
+fury-types      = { workspace = true }
 thiserror       = { workspace = true }
 
 [dev-dependencies]
 cosmwasm-schema = { workspace = true }
-mars-testing    = { workspace = true }
+fury-testing    = { workspace = true }
 serde           = { workspace = true }

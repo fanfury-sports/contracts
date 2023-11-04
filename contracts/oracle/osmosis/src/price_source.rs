@@ -6,16 +6,16 @@ use cosmwasm_std::{
 };
 use cw_storage_plus::Map;
 use ica_oracle::msg::RedemptionRateResponse;
-use mars_oracle_base::{
+use fury_oracle_base::{
     ContractError::{self, InvalidPrice},
     ContractResult, PriceSourceChecked, PriceSourceUnchecked,
 };
-use mars_osmosis::helpers::{
+use fury_osmosis::helpers::{
     query_arithmetic_twap_price, query_geometric_twap_price, query_pool, query_spot_price,
     recovered_since_downtime_of_length, Pool,
 };
-use mars_types::oracle::{ActionKind, Config};
-use mars_utils::helpers::validate_native_denom;
+use fury_types::oracle::{ActionKind, Config};
+use fury_utils::helpers::validate_native_denom;
 use osmosis_std::types::osmosis::downtimedetector::v1beta1::Downtime;
 use pyth_sdk_cw::PriceIdentifier;
 
@@ -99,10 +99,10 @@ pub enum OsmosisPriceSource<T> {
     /// stATOM/OSMO = stATOM/ATOM * ATOM/OSMO
     /// where:
     /// - stATOM/ATOM price calculated using the geometric TWAP from the stATOM/ATOM pool.
-    /// - ATOM/OSMO price comes from the Mars Oracle contract.
+    /// - ATOM/OSMO price comes from the Fury Oracle contract.
     ///
     /// NOTE: `pool_id` must point to stAsset/Asset Osmosis pool.
-    /// Asset/OSMO price source should be available in the Mars Oracle contract.
+    /// Asset/OSMO price source should be available in the Fury Oracle contract.
     StakedGeometricTwap {
         /// Transitive denom for which we query price in OSMO. It refers to 'Asset' in the equation:
         /// stAsset/OSMO = stAsset/Asset * Asset/OSMO
@@ -167,10 +167,10 @@ pub enum OsmosisPriceSource<T> {
     /// stATOM/USD = stATOM/ATOM * ATOM/USD
     /// where:
     /// - stATOM/ATOM = min(stAtom/Atom Geometric TWAP from Osmosis, stAtom/Atom Redemption Rate from Stride)
-    /// - ATOM/USD price comes from the Mars Oracle contract (should point to Pyth).
+    /// - ATOM/USD price comes from the Fury Oracle contract (should point to Pyth).
     ///
     /// NOTE: `pool_id` must point to stAsset/Asset Osmosis pool.
-    /// Asset/USD price source should be available in the Mars Oracle contract.
+    /// Asset/USD price source should be available in the Fury Oracle contract.
     Lsd {
         /// Transitive denom for which we query price in USD. It refers to 'Asset' in the equation:
         /// stAsset/USD = stAsset/Asset * Asset/USD
@@ -413,12 +413,12 @@ impl PriceSourceUnchecked<OsmosisPriceSourceChecked, Empty> for OsmosisPriceSour
                 max_deviation,
                 denom_decimals,
             } => {
-                mars_oracle_base::pyth::assert_pyth(
+                fury_oracle_base::pyth::assert_pyth(
                     *max_confidence,
                     *max_deviation,
                     *denom_decimals,
                 )?;
-                mars_oracle_base::pyth::assert_usd_price_source(deps, price_sources)?;
+                fury_oracle_base::pyth::assert_usd_price_source(deps, price_sources)?;
                 Ok(OsmosisPriceSourceChecked::Pyth {
                     contract_addr: deps.api.addr_validate(contract_addr)?,
                     price_feed_id: *price_feed_id,
@@ -541,7 +541,7 @@ impl PriceSourceChecked<Empty> for OsmosisPriceSourceChecked {
                 max_confidence,
                 max_deviation,
                 denom_decimals,
-            } => Ok(mars_oracle_base::pyth::query_pyth_price(
+            } => Ok(fury_oracle_base::pyth::query_pyth_price(
                 deps,
                 env,
                 contract_addr.to_owned(),
@@ -663,7 +663,7 @@ impl OsmosisPriceSourceChecked {
     /// stAsset/OSMO = stAsset/Asset * Asset/OSMO
     /// where:
     /// - stAsset/Asset price calculated using the geometric TWAP from the stAsset/Asset pool.
-    /// - Asset/OSMO price comes from the Mars Oracle contract.
+    /// - Asset/OSMO price comes from the Fury Oracle contract.
     #[allow(clippy::too_many_arguments)]
     fn query_staked_asset_price(
         deps: &Deps,

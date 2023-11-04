@@ -1,5 +1,5 @@
 use cosmwasm_std::StdError;
-use mars_owner::OwnerError;
+use fury_owner::OwnerError;
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]

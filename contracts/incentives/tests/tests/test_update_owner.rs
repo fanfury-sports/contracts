@@ -1,7 +1,7 @@
 use cosmwasm_std::testing::{mock_env, mock_info};
-use mars_incentives::{contract::execute, ContractError};
-use mars_owner::{OwnerError::NotOwner, OwnerUpdate};
-use mars_types::incentives::{ConfigResponse, ExecuteMsg, QueryMsg};
+use fury_incentives::{contract::execute, ContractError};
+use fury_owner::{OwnerError::NotOwner, OwnerUpdate};
+use fury_types::incentives::{ConfigResponse, ExecuteMsg, QueryMsg};
 
 use super::helpers::{th_query, th_setup};
 

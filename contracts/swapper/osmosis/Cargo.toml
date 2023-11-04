@@ -1,5 +1,5 @@
 [package]
-name          = "mars-swapper-osmosis"
+name          = "fury-swapper-osmosis"
 version       = { workspace = true }
 authors       = { workspace = true }
 license       = { workspace = true }
@@ -24,13 +24,13 @@ cosmwasm-schema   = { workspace = true }
 cosmwasm-std      = { workspace = true }
 cw2               = { workspace = true }
 cw-storage-plus   = { workspace = true }
-mars-osmosis      = { workspace = true }
-mars-owner        = { workspace = true }
-mars-swapper-base = { workspace = true }
-mars-types        = { workspace = true }
+fury-osmosis      = { workspace = true }
+fury-owner        = { workspace = true }
+fury-swapper-base = { workspace = true }
+fury-types        = { workspace = true }
 osmosis-std       = { workspace = true }
 
 [dev-dependencies]
 anyhow       = { workspace = true }
 cw-it        = { workspace = true, features = ["osmosis-test-tube"] }
-mars-testing = { workspace = true }
+fury-testing = { workspace = true }

@@ -5,9 +5,9 @@ use std::{collections::HashMap, default::Default, mem::take, str::FromStr};
 use anyhow::Result as AnyResult;
 use cosmwasm_std::{coin, Addr, Coin, Decimal, Empty, StdResult, Uint128};
 use cw_multi_test::{App, AppResponse, BankSudo, BasicApp, Executor, SudoMsg};
-use mars_oracle_osmosis::OsmosisPriceSourceUnchecked;
-use mars_types::{
-    address_provider::{self, MarsAddressType},
+use fury_oracle_osmosis::OsmosisPriceSourceUnchecked;
+use fury_types::{
+    address_provider::{self, FuryAddressType},
     incentives,
     oracle::{
         self,
@@ -675,7 +675,7 @@ impl RewardsCollector {
             .execute_contract(
                 Addr::unchecked("anyone"),
                 self.contract_addr.clone(),
-                &mars_types::rewards_collector::ExecuteMsg::WithdrawFromRedBank {
+                &fury_types::rewards_collector::ExecuteMsg::WithdrawFromRedBank {
                     denom: denom.to_string(),
                     amount,
                 },
@@ -688,7 +688,7 @@ impl RewardsCollector {
         env.app.execute_contract(
             Addr::unchecked("anyone"),
             self.contract_addr.clone(),
-            &mars_types::rewards_collector::ExecuteMsg::ClaimIncentiveRewards {
+            &fury_types::rewards_collector::ExecuteMsg::ClaimIncentiveRewards {
                 start_after_collateral_denom: None,
                 start_after_incentive_denom: None,
                 limit: None,
@@ -704,7 +704,7 @@ impl Params {
             .execute_contract(
                 env.owner.clone(),
                 self.contract_addr.clone(),
-                &mars_types::params::ExecuteMsg::UpdateAssetParams(
+                &fury_types::params::ExecuteMsg::UpdateAssetParams(
                     AssetParamsUpdate::AddOrUpdate {
                         params: params.into(),
                     },
@@ -719,7 +719,7 @@ impl Params {
             .wrap()
             .query_wasm_smart(
                 self.contract_addr.clone(),
-                &mars_types::params::QueryMsg::AssetParams {
+                &fury_types::params::QueryMsg::AssetParams {
                     denom: denom.to_string(),
                 },
             )
@@ -733,7 +733,7 @@ pub struct MockEnvBuilder {
     owner: Addr,
 
     chain_prefix: String,
-    mars_denom: String,
+    fury_denom: String,
     base_denom: String,
     base_denom_decimals: u8,
     target_health_factor: Decimal,
@@ -756,7 +756,7 @@ impl MockEnvBuilder {
             admin,
             owner,
             chain_prefix: "".to_string(), // empty prefix for multitest because deployed contracts have addresses such as contract1, contract2 etc which are invalid in address-provider
-            mars_denom: "umars".to_string(),
+            fury_denom: "ufury".to_string(),
             base_denom: "uosmo".to_string(),
             base_denom_decimals: 6u8,
             target_health_factor: Decimal::from_str("1.05").unwrap(),
@@ -776,8 +776,8 @@ impl MockEnvBuilder {
         self
     }
 
-    pub fn mars_denom(&mut self, denom: &str) -> &mut Self {
-        self.mars_denom = denom.to_string();
+    pub fn fury_denom(&mut self, denom: &str) -> &mut Self {
+        self.fury_denom = denom.to_string();
         self
     }
 
@@ -827,25 +827,25 @@ impl MockEnvBuilder {
 
         self.update_address_provider(
             &address_provider_addr,
-            MarsAddressType::Incentives,
+            FuryAddressType::Incentives,
             &incentives_addr,
         );
-        self.update_address_provider(&address_provider_addr, MarsAddressType::Oracle, &oracle_addr);
+        self.update_address_provider(&address_provider_addr, FuryAddressType::Oracle, &oracle_addr);
         self.update_address_provider(
             &address_provider_addr,
-            MarsAddressType::RedBank,
+            FuryAddressType::RedBank,
             &red_bank_addr,
         );
         self.update_address_provider(
             &address_provider_addr,
-            MarsAddressType::RewardsCollector,
+            FuryAddressType::RewardsCollector,
             &rewards_collector_addr,
         );
-        self.update_address_provider(&address_provider_addr, MarsAddressType::Params, &params_addr);
+        self.update_address_provider(&address_provider_addr, FuryAddressType::Params, &params_addr);
         let cm_addr = Addr::unchecked(&self.credit_manager_contract_addr);
         self.update_address_provider(
             &address_provider_addr,
-            MarsAddressType::CreditManager,
+            FuryAddressType::CreditManager,
             &cm_addr,
         );
 
@@ -905,7 +905,7 @@ impl MockEnvBuilder {
                     address_provider: address_provider_addr.to_string(),
                     epoch_duration: 604800,
                     max_whitelisted_denoms: 10,
-                    mars_denom: "umars".to_string(),
+                    fury_denom: "ufury".to_string(),
                 },
                 &[],
                 "incentives",
@@ -985,7 +985,7 @@ impl MockEnvBuilder {
             .instantiate_contract(
                 code_id,
                 self.owner.clone(),
-                &mars_types::params::InstantiateMsg {
+                &fury_types::params::InstantiateMsg {
                     owner: self.owner.to_string(),
                     address_provider: address_provider_addr.to_string(),
                     target_health_factor: self.target_health_factor,
@@ -1008,7 +1008,7 @@ impl MockEnvBuilder {
     fn update_address_provider(
         &mut self,
         address_provider_addr: &Addr,
-        address_type: MarsAddressType,
+        address_type: FuryAddressType,
         addr: &Addr,
     ) {
         self.app

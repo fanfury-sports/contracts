@@ -1,8 +1,8 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::Decimal;
-use mars_utils::{error::ValidationError, helpers::decimal_param_le_one};
+use fury_utils::{error::ValidationError, helpers::decimal_param_le_one};
 
-use crate::error::MarsError;
+use crate::error::FuryError;
 
 #[cw_serde]
 #[derive(Eq, Default)]
@@ -32,7 +32,7 @@ impl InterestRateModel {
         Ok(())
     }
 
-    pub fn get_borrow_rate(&self, current_utilization_rate: Decimal) -> Result<Decimal, MarsError> {
+    pub fn get_borrow_rate(&self, current_utilization_rate: Decimal) -> Result<Decimal, FuryError> {
         let new_borrow_rate = if current_utilization_rate <= self.optimal_utilization_rate {
             if current_utilization_rate.is_zero() {
                 // prevent division by zero when current_utilization_rate is zero
@@ -61,7 +61,7 @@ impl InterestRateModel {
         borrow_rate: Decimal,
         current_utilization_rate: Decimal,
         reserve_factor: Decimal,
-    ) -> Result<Decimal, MarsError> {
+    ) -> Result<Decimal, FuryError> {
         Ok(borrow_rate
             .checked_mul(current_utilization_rate)?
             // This operation should not underflow as reserve_factor is checked to be <= 1

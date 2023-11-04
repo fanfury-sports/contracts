@@ -1,6 +1,6 @@
 use cosmwasm_std::{coins, Addr, Decimal, Uint128};
-use mars_credit_manager::error::ContractError;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_types::{
     credit_manager::Action::{Borrow, Deposit, EnterVault, Lend},
     health::{AccountKind, HealthValuesResponse},
     oracle::ActionKind,

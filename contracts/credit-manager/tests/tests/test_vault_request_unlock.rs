@@ -1,9 +1,9 @@
 use cosmwasm_std::{coins, Addr, OverflowError, OverflowOperation::Sub, Uint128};
 use cw_multi_test::{BankSudo, SudoMsg};
 use cw_utils::{Duration, Expiration};
-use mars_credit_manager::error::ContractError;
-use mars_mock_vault::contract::STARTING_VAULT_SHARES;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_mock_vault::contract::STARTING_VAULT_SHARES;
+use fury_types::{
     adapters::vault::{VaultError, VaultUnchecked},
     credit_manager::Action::{Deposit, EnterVault, RequestVaultUnlock},
 };

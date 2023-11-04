@@ -1,12 +1,12 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Api, Coin, Decimal};
-use mars_utils::helpers::decimal_param_le_one;
+use fury_utils::helpers::decimal_param_le_one;
 
 use super::{
     assertions::{assert_hls_lqt_gt_max_ltv, assert_lqt_gt_max_ltv},
     hls::HlsParamsBase,
 };
-use crate::error::MarsError;
+use crate::error::FuryError;
 
 #[cw_serde]
 pub struct VaultConfigBase<T> {
@@ -35,7 +35,7 @@ impl From<VaultConfig> for VaultConfigUnchecked {
 }
 
 impl VaultConfigUnchecked {
-    pub fn check(&self, api: &dyn Api) -> Result<VaultConfig, MarsError> {
+    pub fn check(&self, api: &dyn Api) -> Result<VaultConfig, FuryError> {
         decimal_param_le_one(self.max_loan_to_value, "max_loan_to_value")?;
         decimal_param_le_one(self.liquidation_threshold, "liquidation_threshold")?;
         assert_lqt_gt_max_ltv(self.max_loan_to_value, self.liquidation_threshold)?;

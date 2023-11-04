@@ -5,8 +5,8 @@ use cw_it::{
     osmosis_std::types::cosmwasm::wasm::v1::MsgMigrateContractResponse, test_tube::Runner,
     traits::CwItRunner,
 };
-use mars_oracle_wasm::contract::CONTRACT_NAME;
-use mars_testing::{
+use fury_oracle_wasm::contract::CONTRACT_NAME;
+use fury_testing::{
     test_runner::get_test_runner,
     wasm_oracle::{get_contracts, get_wasm_oracle_contract, WasmOracleTestRobot},
 };
@@ -26,7 +26,7 @@ fn test_migrate_wasm_oracle() {
     runner
         .execute_cosmos_msgs::<MsgMigrateContractResponse>(
             &[CosmosMsg::Wasm(WasmMsg::Migrate {
-                contract_addr: robot.mars_oracle_contract_addr,
+                contract_addr: robot.fury_oracle_contract_addr,
                 new_code_id,
                 msg: to_binary(&Empty {}).unwrap(),
             })],

@@ -6,8 +6,8 @@ use cosmwasm_std::{
     to_binary, Coin, CosmosMsg, Decimal, Empty, Env, QuerierWrapper, QueryRequest, StdError,
     StdResult, Uint128, WasmMsg, WasmQuery,
 };
-use mars_swapper_base::{ContractError, ContractResult, Route};
-use mars_types::{oracle::PriceResponse, swapper::EstimateExactInSwapResponse};
+use fury_swapper_base::{ContractError, ContractResult, Route};
+use fury_types::{oracle::PriceResponse, swapper::EstimateExactInSwapResponse};
 
 use crate::helpers::hashset;
 
@@ -19,7 +19,7 @@ pub struct AstroportRoute {
     pub router: String,
     /// The astroport factory contract address
     pub factory: String,
-    /// The mars wasm oracle contract address
+    /// The fury wasm oracle contract address
     pub oracle: String,
 }
 
@@ -54,7 +54,7 @@ impl AstroportRoute {
         querier
             .query::<PriceResponse>(&QueryRequest::Wasm(WasmQuery::Smart {
                 contract_addr: self.oracle.clone(),
-                msg: to_binary(&mars_types::oracle::QueryMsg::Price {
+                msg: to_binary(&fury_types::oracle::QueryMsg::Price {
                     denom: denom.to_string(),
                     kind: None,
                 })?,

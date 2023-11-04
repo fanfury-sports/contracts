@@ -2,9 +2,9 @@ use std::fmt;
 
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{BlockInfo, CosmosMsg, Decimal, Empty, Env, Fraction, QuerierWrapper, Uint128};
-use mars_osmosis::helpers::{query_arithmetic_twap_price, query_pool, CommonPoolData};
-use mars_swapper_base::{ContractError, ContractResult, Route};
-use mars_types::swapper::EstimateExactInSwapResponse;
+use fury_osmosis::helpers::{query_arithmetic_twap_price, query_pool, CommonPoolData};
+use fury_swapper_base::{ContractError, ContractResult, Route};
+use fury_types::swapper::EstimateExactInSwapResponse;
 use osmosis_std::types::osmosis::gamm::v1beta1::MsgSwapExactAmountIn;
 pub use osmosis_std::types::osmosis::poolmanager::v1beta1::SwapAmountInRoute as OsmosisSwapAmountInRoute;
 

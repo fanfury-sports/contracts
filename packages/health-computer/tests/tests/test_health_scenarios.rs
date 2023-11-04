@@ -1,8 +1,8 @@
 use std::{collections::HashMap, ops::Add, str::FromStr};
 
 use cosmwasm_std::{coin, Addr, Coin, Decimal, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     adapters::vault::{
         CoinValue, LockingVaultAmount, UnlockingPositions, Vault, VaultAmount, VaultPosition,
         VaultPositionAmount, VaultPositionValue, VaultUnlockingPosition,
@@ -12,20 +12,20 @@ use mars_types::{
     params::VaultConfig,
 };
 
-use super::helpers::{udai_info, ujuno_info, uluna_info, umars_info, ustars_info};
+use super::helpers::{udai_info, ujuno_info, uluna_info, ufury_info, ustars_info};
 
-/// Action: User deposits 300 mars (1 price)
+/// Action: User deposits 300 fury (1 price)
 /// Health: assets_value: 300
 ///         debt value 0
 ///         liquidatable: false
 ///         above_max_ltv: false
 #[test]
 fn only_assets_with_no_debts() {
-    let umars = umars_info();
+    let ufury = ufury_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
-        params: HashMap::from([(umars.denom.clone(), umars.params.clone())]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
+        params: HashMap::from([(ufury.denom.clone(), ufury.params.clone())]),
     };
 
     let vaults_data = VaultsData {
@@ -39,7 +39,7 @@ fn only_assets_with_no_debts() {
         positions: Positions {
             account_id: "123".to_string(),
             deposits: vec![Coin {
-                denom: umars.denom.clone(),
+                denom: ufury.denom.clone(),
                 amount: deposit_amount,
             }],
             debts: vec![],
@@ -51,15 +51,15 @@ fn only_assets_with_no_debts() {
     };
 
     let health = h.compute_health().unwrap();
-    let collateral_value = deposit_amount.checked_mul_floor(umars.price).unwrap();
+    let collateral_value = deposit_amount.checked_mul_floor(ufury.price).unwrap();
     assert_eq!(health.total_collateral_value, collateral_value);
     assert_eq!(
         health.max_ltv_adjusted_collateral,
-        collateral_value.checked_mul_floor(umars.params.max_loan_to_value).unwrap()
+        collateral_value.checked_mul_floor(ufury.params.max_loan_to_value).unwrap()
     );
     assert_eq!(
         health.liquidation_threshold_adjusted_collateral,
-        collateral_value.checked_mul_floor(umars.params.liquidation_threshold).unwrap()
+        collateral_value.checked_mul_floor(ufury.params.liquidation_threshold).unwrap()
     );
     assert_eq!(health.total_debt_value, Uint128::zero());
     assert_eq!(health.liquidation_health_factor, None);
@@ -427,16 +427,16 @@ fn debt_value() {
 
 #[test]
 fn above_max_ltv_below_liq_threshold() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -450,7 +450,7 @@ fn above_max_ltv_below_liq_threshold() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![DebtAmount {
                 denom: udai.denom,
                 shares: Default::default(),
@@ -482,16 +482,16 @@ fn above_max_ltv_below_liq_threshold() {
 
 #[test]
 fn liquidatable() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -505,7 +505,7 @@ fn liquidatable() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -513,7 +513,7 @@ fn liquidatable() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -544,18 +544,18 @@ fn liquidatable() {
 
 #[test]
 fn rover_whitelist_influences_max_ltv() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let mut udai = udai_info();
 
     udai.params.credit_manager.whitelisted = false;
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -569,7 +569,7 @@ fn rover_whitelist_influences_max_ltv() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -577,7 +577,7 @@ fn rover_whitelist_influences_max_ltv() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -608,16 +608,16 @@ fn rover_whitelist_influences_max_ltv() {
 
 #[test]
 fn unlocked_vault() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -657,7 +657,7 @@ fn unlocked_vault() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -665,7 +665,7 @@ fn unlocked_vault() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -699,16 +699,16 @@ fn unlocked_vault() {
 
 #[test]
 fn locked_vault() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -748,7 +748,7 @@ fn locked_vault() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -756,7 +756,7 @@ fn locked_vault() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -793,16 +793,16 @@ fn locked_vault() {
 
 #[test]
 fn locked_vault_with_unlocking_positions() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -842,7 +842,7 @@ fn locked_vault_with_unlocking_positions() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -850,7 +850,7 @@ fn locked_vault_with_unlocking_positions() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -896,16 +896,16 @@ fn locked_vault_with_unlocking_positions() {
 
 #[test]
 fn vault_is_not_whitelisted() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -945,7 +945,7 @@ fn vault_is_not_whitelisted() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -953,7 +953,7 @@ fn vault_is_not_whitelisted() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -988,7 +988,7 @@ fn vault_is_not_whitelisted() {
 /// Delisting base token will make even vault token maxLTV to drop
 #[test]
 fn vault_base_token_is_not_whitelisted() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
     let mut ujuno = ujuno_info();
 
@@ -996,12 +996,12 @@ fn vault_base_token_is_not_whitelisted() {
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
             (ujuno.denom.clone(), ujuno.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
             (ujuno.denom.clone(), ujuno.params.clone()),
         ]),
@@ -1042,7 +1042,7 @@ fn vault_base_token_is_not_whitelisted() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -1050,7 +1050,7 @@ fn vault_base_token_is_not_whitelisted() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -1096,18 +1096,18 @@ fn vault_base_token_is_not_whitelisted() {
 
 #[test]
 fn lent_coins_used_as_collateral() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
     let uluna = uluna_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
             (uluna.denom.clone(), uluna.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
             (uluna.denom.clone(), uluna.params.clone()),
         ]),
@@ -1122,7 +1122,7 @@ fn lent_coins_used_as_collateral() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(23, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(23, &udai.denom)],
             debts: vec![DebtAmount {
                 denom: udai.denom.clone(),
                 shares: Default::default(),
@@ -1154,7 +1154,7 @@ fn lent_coins_used_as_collateral() {
 
 #[test]
 fn allowed_lent_coins_influence_max_ltv() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
     let mut uluna = uluna_info();
 
@@ -1162,12 +1162,12 @@ fn allowed_lent_coins_influence_max_ltv() {
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
             (uluna.denom.clone(), uluna.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
             (uluna.denom.clone(), uluna.params.clone()),
         ]),
@@ -1182,7 +1182,7 @@ fn allowed_lent_coins_influence_max_ltv() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(23, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(23, &udai.denom)],
             debts: vec![DebtAmount {
                 denom: udai.denom.clone(),
                 shares: Default::default(),

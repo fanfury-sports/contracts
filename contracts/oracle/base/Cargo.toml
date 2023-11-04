@@ -1,5 +1,5 @@
 [package]
-name          = "mars-oracle-base"
+name          = "fury-oracle-base"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -20,9 +20,9 @@ backtraces  = ["cosmwasm-std/backtraces"]
 cosmwasm-std    = { workspace = true }
 cw2             = { workspace = true }
 cw-storage-plus = { workspace = true }
-mars-owner      = { workspace = true }
-mars-utils      = { workspace = true }
-mars-types      = { workspace = true }
+fury-owner      = { workspace = true }
+fury-utils      = { workspace = true }
+fury-types      = { workspace = true }
 pyth-sdk-cw     = { workspace = true }
 schemars        = { workspace = true }
 serde           = { workspace = true }

@@ -1,8 +1,8 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Api, Decimal};
-use mars_utils::helpers::validate_native_denom;
+use fury_utils::helpers::validate_native_denom;
 
-use crate::error::MarsError;
+use crate::error::FuryError;
 
 #[cw_serde]
 pub enum HlsAssetType<T> {
@@ -54,7 +54,7 @@ impl From<HlsParams> for HlsParamsUnchecked {
 }
 
 impl HlsParamsUnchecked {
-    pub fn check(&self, api: &dyn Api) -> Result<HlsParams, MarsError> {
+    pub fn check(&self, api: &dyn Api) -> Result<HlsParams, FuryError> {
         Ok(HlsParamsBase {
             max_loan_to_value: self.max_loan_to_value,
             liquidation_threshold: self.liquidation_threshold,
@@ -76,7 +76,7 @@ impl HlsParamsUnchecked {
                         addr: api.addr_validate(addr)?,
                     }),
                 })
-                .collect::<Result<Vec<_>, MarsError>>()?,
+                .collect::<Result<Vec<_>, FuryError>>()?,
         })
     }
 }

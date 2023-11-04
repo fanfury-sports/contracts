@@ -1,20 +1,20 @@
-import { OsmosisPriceSourceForString } from './generated/mars-oracle-osmosis/MarsOracleOsmosis.types'
-import { OsmosisRoute } from './generated/mars-swapper-osmosis/MarsSwapperOsmosis.types'
-import { AstroportRoute } from './generated/mars-swapper-astroport/MarsSwapperAstroport.types'
+import { OsmosisPriceSourceForString } from './generated/fury-oracle-osmosis/FuryOracleOsmosis.types'
+import { OsmosisRoute } from './generated/fury-swapper-osmosis/FurySwapperOsmosis.types'
+import { AstroportRoute } from './generated/fury-swapper-astroport/FurySwapperAstroport.types'
 import {
   WasmOracleCustomInitParams,
   WasmPriceSourceForString,
-} from './generated/mars-oracle-wasm/MarsOracleWasm.types'
+} from './generated/fury-oracle-wasm/FuryOracleWasm.types'
 import {
   CmSettingsForString,
   Decimal,
   LiquidationBonus,
   RedBankSettings,
   VaultConfigBaseForString,
-} from './generated/mars-params/MarsParams.types'
-import { NeutronIbcConfig } from './generated/mars-rewards-collector-base/MarsRewardsCollectorBase.types'
-import { Uint128 } from './generated/mars-red-bank/MarsRedBank.types'
-import { Duration, VaultInfoResponse } from './generated/mars-mock-vault/MarsMockVault.types'
+} from './generated/fury-params/FuryParams.types'
+import { NeutronIbcConfig } from './generated/fury-rewards-collector-base/FuryRewardsCollectorBase.types'
+import { Uint128 } from './generated/fury-red-bank/FuryRedBank.types'
+import { Duration, VaultInfoResponse } from './generated/fury-mock-vault/FuryMockVault.types'
 
 type SwapRoute = {
   denom_in: string
@@ -37,7 +37,7 @@ export function isAstroportRoute(route: OsmosisRoute | AstroportRoute): route is
 export interface DeploymentConfig {
   mainnet: boolean
   deployerMnemonic: string
-  marsDenom: string
+  furyDenom: string
   atomDenom: string
   safetyFundAddr: string
   protocolAdminAddr: string

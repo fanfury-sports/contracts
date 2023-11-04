@@ -1,7 +1,7 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Addr, Api, Coin, Decimal, StdResult, Uint128};
-use mars_owner::OwnerUpdate;
-use mars_utils::{
+use fury_owner::OwnerUpdate;
+use fury_utils::{
     error::ValidationError,
     helpers::{decimal_param_le_one, integer_param_gt_zero, validate_native_denom},
 };
@@ -22,7 +22,7 @@ pub struct InstantiateMsg {
     pub safety_fund_denom: String,
     /// The asset to which the fee collector share is converted
     pub fee_collector_denom: String,
-    /// The channel ID of the mars hub
+    /// The channel ID of the fury hub
     pub channel_id: String,
     /// Number of seconds after which an IBC transfer is to be considered failed, if no acknowledgement is received
     pub timeout_seconds: u64,
@@ -42,7 +42,7 @@ pub struct Config {
     pub safety_fund_denom: String,
     /// The asset to which the fee collector share is converted
     pub fee_collector_denom: String,
-    /// The channel ID of the mars hub
+    /// The channel ID of the fury hub
     pub channel_id: String,
     /// Number of seconds after which an IBC transfer is to be considered failed, if no acknowledgement is received
     pub timeout_seconds: u64,
@@ -106,7 +106,7 @@ pub struct UpdateConfig {
     pub safety_fund_denom: Option<String>,
     /// The asset to which the fee collector share is converted
     pub fee_collector_denom: Option<String>,
-    /// The channel id of the mars hub
+    /// The channel id of the fury hub
     pub channel_id: Option<String>,
     /// Number of seconds after which an IBC transfer is to be considered failed, if no acknowledgement is received
     pub timeout_seconds: Option<u64>,
@@ -138,7 +138,7 @@ pub enum ExecuteMsg {
         actions: Vec<Action>,
     },
 
-    /// Distribute the accrued protocol income between the safety fund and the fee modules on mars hub,
+    /// Distribute the accrued protocol income between the safety fund and the fee modules on fury hub,
     /// according to the split set in config.
     /// Callable by any address.
     DistributeRewards {
@@ -155,7 +155,7 @@ pub enum ExecuteMsg {
     /// Claim rewards in incentives contract.
     ///
     /// We wanted to leave protocol rewards in the red-bank so they continue to work as liquidity (until the bot invokes WithdrawFromRedBank).
-    /// As an side effect to this, if the market is incentivised with MARS tokens, the contract will also accrue MARS token incentives.
+    /// As an side effect to this, if the market is incentivised with FURY tokens, the contract will also accrue FURY token incentives.
     ClaimIncentiveRewards {
         /// Start pagination after this collateral denom
         start_after_collateral_denom: Option<String>,
@@ -182,7 +182,7 @@ pub struct ConfigResponse {
     pub safety_fund_denom: String,
     /// The asset to which the fee collector share is converted
     pub fee_collector_denom: String,
-    /// The channel ID of the mars hub
+    /// The channel ID of the fury hub
     pub channel_id: String,
     /// Number of seconds after which an IBC transfer is to be considered failed, if no acknowledgement is received
     pub timeout_seconds: u64,

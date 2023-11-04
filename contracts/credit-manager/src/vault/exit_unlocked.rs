@@ -1,6 +1,6 @@
 use cosmwasm_std::{to_binary, CosmosMsg, DepsMut, Env, Response, WasmMsg};
 use cw_vault_standard::extensions::lockup::UnlockingPosition;
-use mars_types::{
+use fury_types::{
     adapters::vault::{UnlockingChange, Vault, VaultError, VaultPositionUpdate},
     credit_manager::{CallbackMsg, ChangeExpected, ExecuteMsg},
 };

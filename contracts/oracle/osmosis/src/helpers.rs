@@ -1,7 +1,7 @@
 use cosmwasm_std::{to_binary, Addr, QuerierWrapper, QueryRequest, StdResult, WasmQuery};
 use ica_oracle::msg::{QueryMsg, RedemptionRateResponse};
-use mars_oracle_base::{ContractError, ContractResult};
-use mars_osmosis::{
+use fury_oracle_base::{ContractError, ContractResult};
+use fury_osmosis::{
     helpers::{CommonPoolData, Pool},
     BalancerPool,
 };

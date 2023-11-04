@@ -57,12 +57,12 @@ args = ["test", "--locked"]
 [tasks.unit-test]
 toolchain = "${RUST_VERSION}"
 command = "cargo"
-args = ["test", "--locked", "--workspace", "--exclude", "mars-integration-tests", "--exclude", "mars-swapper-astroport", "--exclude", "mars-oracle-wasm", "--exclude", "mars-swapper-osmosis"]
+args = ["test", "--locked", "--workspace", "--exclude", "fury-integration-tests", "--exclude", "fury-swapper-astroport", "--exclude", "fury-oracle-wasm", "--exclude", "fury-swapper-osmosis"]
 
 [tasks.integration-test]
 toolchain = "${RUST_VERSION}"
 command = "cargo"
-args = ["test", "--locked", "-p", "mars-integration-tests", "-p", "mars-swapper-astroport", "-p", "mars-oracle-wasm", "-p", "mars-swapper-osmosis", "--test", "*"]
+args = ["test", "--locked", "-p", "fury-integration-tests", "-p", "fury-swapper-astroport", "-p", "fury-oracle-wasm", "-p", "fury-swapper-osmosis", "--test", "*"]
 
 [tasks.fmt]
 toolchain = "nightly"

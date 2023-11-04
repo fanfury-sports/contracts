@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::Decimal;
-use mars_types::params::{
+use fury_types::params::{
     AssetParams, CmSettings, HlsAssetType, HlsParams, LiquidationBonus, RedBankSettings,
 };
 
@@ -13,8 +13,8 @@ pub struct CoinInfo {
     pub params: AssetParams,
 }
 
-pub fn umars_info() -> CoinInfo {
-    let denom = "umars".to_string();
+pub fn ufury_info() -> CoinInfo {
+    let denom = "ufury".to_string();
     CoinInfo {
         denom: denom.clone(),
         price: Decimal::from_atomics(1u128, 0).unwrap(),

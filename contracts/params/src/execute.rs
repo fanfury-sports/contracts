@@ -1,6 +1,6 @@
 use cosmwasm_std::{Decimal, DepsMut, MessageInfo, Response};
-use mars_types::params::{AssetParamsUpdate, VaultConfigUpdate};
-use mars_utils::{error::ValidationError, helpers::option_string_to_addr};
+use fury_types::params::{AssetParamsUpdate, VaultConfigUpdate};
+use fury_utils::{error::ValidationError, helpers::option_string_to_addr};
 
 use crate::{
     error::{ContractError, ContractResult},

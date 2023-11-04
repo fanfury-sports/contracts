@@ -1,6 +1,6 @@
-# Mars Utils
+# Fury Utils
 
-Contains helpers for all Mars smart contracts.
+Contains helpers for all Fury smart contracts.
 
 ## License
 

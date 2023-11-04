@@ -7,9 +7,9 @@ use cw721_base::{
     Ownership,
 };
 use cw_multi_test::{App, AppResponse, BasicApp, Executor};
-use mars_mock_credit_manager::msg::ExecuteMsg::SetAccountKindResponse;
-use mars_mock_rover_health::msg::ExecuteMsg::SetHealthResponse;
-use mars_types::{
+use fury_mock_credit_manager::msg::ExecuteMsg::SetAccountKindResponse;
+use fury_mock_rover_health::msg::ExecuteMsg::SetHealthResponse;
+use fury_types::{
     account_nft::{
         ExecuteMsg, ExecuteMsg::UpdateConfig, MigrateV1ToV2, NftConfigUpdates, QueryMsg,
         UncheckedNftConfig,

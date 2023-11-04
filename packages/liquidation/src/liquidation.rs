@@ -4,8 +4,8 @@ use std::{
 };
 
 use cosmwasm_std::{Decimal, StdError, Uint128};
-use mars_health::health::Health;
-use mars_types::params::AssetParams;
+use fury_health::health::Health;
+use fury_types::params::AssetParams;
 
 use crate::error::LiquidationError;
 

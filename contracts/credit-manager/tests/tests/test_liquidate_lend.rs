@@ -1,7 +1,7 @@
 use cosmwasm_std::{coins, Addr, Decimal, Event, Uint128};
-use mars_credit_manager::error::{ContractError, ContractError::NotLiquidatable};
-use mars_mock_oracle::msg::CoinPrice;
-use mars_types::{
+use fury_credit_manager::error::{ContractError, ContractError::NotLiquidatable};
+use fury_mock_oracle::msg::CoinPrice;
+use fury_types::{
     credit_manager::{
         Action::{Borrow, Deposit, Lend, Liquidate},
         LiquidateRequest,

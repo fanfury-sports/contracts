@@ -1,7 +1,7 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::{assert_contract_version, set_contract_version};
-use mars_owner::OwnerInit;
-use mars_rewards_collector_base::ContractError;
+use fury_owner::OwnerInit;
+use fury_rewards_collector_base::ContractError;
 
 use crate::entry::{OsmosisCollector, CONTRACT_NAME, CONTRACT_VERSION};
 

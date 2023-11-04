@@ -1,6 +1,6 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Coin, DepsMut, Reply, Response, Uint128};
-use mars_types::{
+use fury_types::{
     adapters::vault::{
         UnlockingChange, UpdateType, Vault, VaultBase, VaultPositionUpdate, VaultUnlockingPosition,
     },

@@ -2,7 +2,7 @@ use std::collections::BTreeSet;
 
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{to_binary, Addr, Coin, CosmosMsg, Decimal, StdResult, Uint128, WasmMsg};
-use mars_owner::OwnerUpdate;
+use fury_owner::OwnerUpdate;
 
 use super::ConfigUpdates;
 use crate::{

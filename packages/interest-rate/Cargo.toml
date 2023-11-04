@@ -1,5 +1,5 @@
 [package]
-name          = "mars-interest-rate"
+name          = "fury-interest-rate"
 description   = "Computations related to interest rates"
 version       = { workspace = true }
 authors       = { workspace = true }
@@ -21,5 +21,5 @@ backtraces = ["cosmwasm-std/backtraces"]
 [dependencies]
 cosmwasm-schema = { workspace = true }
 cosmwasm-std    = { workspace = true }
-mars-utils      = { workspace = true }
-mars-types      = { workspace = true }
+fury-utils      = { workspace = true }
+fury-types      = { workspace = true }

@@ -1,5 +1,5 @@
 use cosmwasm_std::{coin, Addr, Uint128};
-use mars_types::credit_manager::{Action, CoinBalanceResponseItem};
+use fury_types::credit_manager::{Action, CoinBalanceResponseItem};
 
 use super::helpers::{build_mock_coin_infos, AccountToFund, MockEnv};
 

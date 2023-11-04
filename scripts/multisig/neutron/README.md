@@ -117,7 +117,7 @@ $NEUTRON_MULTI
    For address-provider, incentives, oracle, red-bank, rewards-collector, swapper contracts:
 
    ```bash
-   git clone https://github.com/mars-protocol/red-bank.git
+   git clone https://github.com/fury-protocol/red-bank.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -125,7 +125,7 @@ $NEUTRON_MULTI
    For liquidation-filterer contract
 
    ```bash
-   git clone https://github.com/mars-protocol/liquidation-helpers
+   git clone https://github.com/fury-protocol/liquidation-helpers
    git checkout <commit-id>
    cargo make rust-optimizer
    ```

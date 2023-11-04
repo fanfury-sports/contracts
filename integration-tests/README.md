@@ -1,6 +1,6 @@
-# Mars Integration Tests
+# Fury Integration Tests
 
-Contains integration tests for Mars Red Bank and auxiliary contracts.
+Contains integration tests for Fury Red Bank and auxiliary contracts.
 
 ## License
 

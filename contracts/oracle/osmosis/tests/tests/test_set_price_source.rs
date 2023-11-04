@@ -1,17 +1,17 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{testing::mock_env, Addr, Decimal};
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{
     contract::entry::execute,
     msg::{ExecuteMsg, PriceSourceResponse},
     DowntimeDetector, OsmosisPriceSourceChecked, OsmosisPriceSourceUnchecked, RedemptionRate, Twap,
     TwapKind,
 };
-use mars_owner::OwnerError::NotOwner;
-use mars_testing::mock_info;
-use mars_types::oracle::QueryMsg;
-use mars_utils::error::ValidationError;
+use fury_owner::OwnerError::NotOwner;
+use fury_testing::mock_info;
+use fury_types::oracle::QueryMsg;
+use fury_utils::error::ValidationError;
 use osmosis_std::types::osmosis::downtimedetector::v1beta1::Downtime;
 use pyth_sdk_cw::PriceIdentifier;
 use test_case::test_case;
@@ -157,11 +157,11 @@ fn setting_price_source_spot() {
     );
 
     // attempting to use a pool that does not contain the denom of interest; should fail
-    let err = set_price_source_spot("umars", 1).unwrap_err();
+    let err = set_price_source_spot("ufury", 1).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 1 does not contain umars".to_string()
+            reason: "pool 1 does not contain ufury".to_string()
         }
     );
 
@@ -202,13 +202,13 @@ fn setting_price_source_spot() {
     );
 
     // properly set spot price source
-    let res = set_price_source_spot("umars", 89).unwrap();
+    let res = set_price_source_spot("ufury", 89).unwrap();
     assert_eq!(res.messages.len(), 0);
 
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -253,11 +253,11 @@ fn setting_price_source_arithmetic_twap_with_invalid_params() {
     );
 
     // attempting to use a pool that does not contain the denom of interest; should fail
-    let err = set_price_source_twap("umars", 1, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ufury", 1, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 1 does not contain umars".to_string()
+            reason: "pool 1 does not contain ufury".to_string()
         }
     );
 
@@ -298,7 +298,7 @@ fn setting_price_source_arithmetic_twap_with_invalid_params() {
     );
 
     // attempting to set window_size bigger than 172800 sec (48h)
-    let err = set_price_source_twap("umars", 89, 172801, None).unwrap_err();
+    let err = set_price_source_twap("ufury", 89, 172801, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
@@ -308,7 +308,7 @@ fn setting_price_source_arithmetic_twap_with_invalid_params() {
 
     // attempting to set downtime recovery to 0
     let err = set_price_source_twap(
-        "umars",
+        "ufury",
         89,
         86400,
         Some(DowntimeDetector {
@@ -335,7 +335,7 @@ fn setting_price_source_arithmetic_twap_successfully() {
         mock_env(),
         mock_info("owner"),
         ExecuteMsg::SetPriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             price_source: OsmosisPriceSourceUnchecked::ArithmeticTwap {
                 pool_id: 89,
                 window_size: 86400,
@@ -349,7 +349,7 @@ fn setting_price_source_arithmetic_twap_successfully() {
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -367,7 +367,7 @@ fn setting_price_source_arithmetic_twap_successfully() {
         mock_env(),
         mock_info("owner"),
         ExecuteMsg::SetPriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             price_source: OsmosisPriceSourceUnchecked::ArithmeticTwap {
                 pool_id: 89,
                 window_size: 86400,
@@ -384,7 +384,7 @@ fn setting_price_source_arithmetic_twap_successfully() {
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -434,11 +434,11 @@ fn setting_price_source_geometric_twap_with_invalid_params() {
     );
 
     // attempting to use a pool that does not contain the denom of interest; should fail
-    let err = set_price_source_twap("umars", 1, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ufury", 1, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 1 does not contain umars".to_string()
+            reason: "pool 1 does not contain ufury".to_string()
         }
     );
 
@@ -479,7 +479,7 @@ fn setting_price_source_geometric_twap_with_invalid_params() {
     );
 
     // attempting to set window_size bigger than 172800 sec (48h)
-    let err = set_price_source_twap("umars", 89, 172801, None).unwrap_err();
+    let err = set_price_source_twap("ufury", 89, 172801, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
@@ -489,7 +489,7 @@ fn setting_price_source_geometric_twap_with_invalid_params() {
 
     // attempting to set downtime recovery to 0
     let err = set_price_source_twap(
-        "umars",
+        "ufury",
         89,
         86400,
         Some(DowntimeDetector {
@@ -516,7 +516,7 @@ fn setting_price_source_geometric_twap_successfully() {
         mock_env(),
         mock_info("owner"),
         ExecuteMsg::SetPriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             price_source: OsmosisPriceSourceUnchecked::GeometricTwap {
                 pool_id: 89,
                 window_size: 86400,
@@ -530,7 +530,7 @@ fn setting_price_source_geometric_twap_successfully() {
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -548,7 +548,7 @@ fn setting_price_source_geometric_twap_successfully() {
         mock_env(),
         mock_info("owner"),
         ExecuteMsg::SetPriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             price_source: OsmosisPriceSourceUnchecked::GeometricTwap {
                 pool_id: 89,
                 window_size: 86400,
@@ -565,7 +565,7 @@ fn setting_price_source_geometric_twap_successfully() {
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -626,18 +626,18 @@ fn setting_price_source_staked_geometric_twap_with_invalid_params() {
     );
 
     // attempting to use a pool that does not contain the denom of interest; should fail
-    let err = set_price_source_twap("ustatom", "umars", 803, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ustatom", "ufury", 803, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 803 does not contain the base denom umars".to_string()
+            reason: "pool 803 does not contain the base denom ufury".to_string()
         }
     );
-    let err = set_price_source_twap("umars", "uatom", 803, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ufury", "uatom", 803, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 803 does not contain umars".to_string()
+            reason: "pool 803 does not contain ufury".to_string()
         }
     );
 
@@ -828,18 +828,18 @@ fn setting_price_source_lsd_with_invalid_params() {
     );
 
     // attempting to use a pool that does not contain the denom of interest; should fail
-    let err = set_price_source_twap("ustatom", "umars", 803, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ustatom", "ufury", 803, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 803 does not contain the base denom umars".to_string()
+            reason: "pool 803 does not contain the base denom ufury".to_string()
         }
     );
-    let err = set_price_source_twap("umars", "uatom", 803, 86400, None).unwrap_err();
+    let err = set_price_source_twap("ufury", "uatom", 803, 86400, None).unwrap_err();
     assert_eq!(
         err,
         ContractError::InvalidPriceSource {
-            reason: "pool 803 does not contain umars".to_string()
+            reason: "pool 803 does not contain ufury".to_string()
         }
     );
 
@@ -1039,13 +1039,13 @@ fn setting_price_source_xyk_lp() {
     );
 
     // properly set xyk lp price source
-    let res = set_price_source_xyk_lp("uosmo_umars_lp", 89).unwrap();
+    let res = set_price_source_xyk_lp("uosmo_ufury_lp", 89).unwrap();
     assert_eq!(res.messages.len(), 0);
 
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "uosmo_umars_lp".to_string(),
+            denom: "uosmo_ufury_lp".to_string(),
         },
     );
     assert_eq!(
@@ -1220,7 +1220,7 @@ fn querying_price_source() {
     );
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::Spot {
             pool_id: 89,
         },
@@ -1230,7 +1230,7 @@ fn querying_price_source() {
     let res: PriceSourceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::PriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
         },
     );
     assert_eq!(
@@ -1260,7 +1260,7 @@ fn querying_price_source() {
                 }
             },
             PriceSourceResponse {
-                denom: "umars".to_string(),
+                denom: "ufury".to_string(),
                 price_source: OsmosisPriceSourceChecked::Spot {
                     pool_id: 89
                 }
@@ -1279,7 +1279,7 @@ fn querying_price_source() {
         res,
         vec![
             PriceSourceResponse {
-                denom: "umars".to_string(),
+                denom: "ufury".to_string(),
                 price_source: OsmosisPriceSourceChecked::Spot {
                     pool_id: 89
                 }

@@ -1,5 +1,5 @@
 use cosmwasm_schema::write_api;
-use mars_mock_oracle::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use fury_mock_oracle::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
 fn main() {
     write_api! {

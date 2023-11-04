@@ -1,5 +1,5 @@
 use cosmwasm_std::{Coin, Decimal, QuerierWrapper, StdResult};
-use mars_types::params::{AssetParams, QueryMsg};
+use fury_types::params::{AssetParams, QueryMsg};
 
 pub fn query_asset_params(
     querier: &QuerierWrapper,

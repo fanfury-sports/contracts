@@ -1,7 +1,7 @@
 use cosmwasm_std::{coin, Addr, Coin, OverflowError, OverflowOperation::Sub, Uint128};
-use mars_credit_manager::error::ContractError::NotTokenOwner;
-use mars_mock_vault::contract::STARTING_VAULT_SHARES;
-use mars_types::{
+use fury_credit_manager::error::ContractError::NotTokenOwner;
+use fury_mock_vault::contract::STARTING_VAULT_SHARES;
+use fury_types::{
     adapters::vault::{VaultBase, VaultError},
     credit_manager::Action::{Deposit, EnterVault, ExitVault},
     params::VaultConfigUpdate,

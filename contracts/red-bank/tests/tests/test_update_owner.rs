@@ -1,7 +1,7 @@
 use cosmwasm_std::testing::{mock_env, mock_info};
-use mars_owner::{OwnerError::NotOwner, OwnerUpdate};
-use mars_red_bank::{contract::execute, error::ContractError};
-use mars_types::red_bank::{ConfigResponse, ExecuteMsg, QueryMsg};
+use fury_owner::{OwnerError::NotOwner, OwnerUpdate};
+use fury_red_bank::{contract::execute, error::ContractError};
+use fury_types::red_bank::{ConfigResponse, ExecuteMsg, QueryMsg};
 
 use super::helpers::{th_query, th_setup};
 

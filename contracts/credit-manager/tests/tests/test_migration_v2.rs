@@ -3,7 +3,7 @@ use cosmwasm_std::{
     Addr, Decimal,
 };
 use cw2::VersionError;
-use mars_credit_manager::{
+use fury_credit_manager::{
     contract::migrate,
     error::ContractError,
     migrations::v2_0_0::{v1_state, v1_state::OwnerSetNoneProposed},
@@ -12,7 +12,7 @@ use mars_credit_manager::{
         REWARDS_COLLECTOR, SWAPPER,
     },
 };
-use mars_types::{
+use fury_types::{
     adapters::{
         health::HealthContractUnchecked, incentives::IncentivesUnchecked, params::ParamsUnchecked,
         swapper::SwapperUnchecked,
@@ -41,7 +41,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-credit-manager".to_string(),
+            expected: "crates.io:fury-credit-manager".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -50,7 +50,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies();
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-credit-manager", "4.1.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-credit-manager", "4.1.0")
         .unwrap();
 
     let err = migrate(
@@ -78,7 +78,7 @@ fn wrong_contract_version() {
 #[test]
 fn successful_migration() {
     let mut deps = mock_dependencies();
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-credit-manager", "1.0.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-credit-manager", "1.0.0")
         .unwrap();
 
     let old_owner = "spiderman_246";

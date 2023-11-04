@@ -5,8 +5,8 @@ use cosmwasm_std::{coin, to_binary, Binary, Decimal, Uint128};
 use cw_it::{
     astroport::robot::AstroportTestRobot, robot::TestRobot, test_tube::Account, traits::CwItRunner,
 };
-use mars_oracle_wasm::WasmPriceSourceUnchecked;
-use mars_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
+use fury_oracle_wasm::WasmPriceSourceUnchecked;
+use fury_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
 use test_case::test_case;
 
 #[derive(Clone, Debug)]

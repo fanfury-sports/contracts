@@ -7,15 +7,15 @@ use cosmwasm_std::{
     testing::{mock_env, MockApi, MockQuerier, MockStorage},
     Coin, Decimal, Deps, DepsMut, OwnedDeps,
 };
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{contract::entry, msg::ExecuteMsg, OsmosisPriceSourceUnchecked};
-use mars_osmosis::{BalancerPool, ConcentratedLiquidityPool, StableSwapPool};
-use mars_testing::{mock_info, MarsMockQuerier};
-use mars_types::oracle::{InstantiateMsg, QueryMsg};
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{contract::entry, msg::ExecuteMsg, OsmosisPriceSourceUnchecked};
+use fury_osmosis::{BalancerPool, ConcentratedLiquidityPool, StableSwapPool};
+use fury_testing::{mock_info, FuryMockQuerier};
+use fury_types::oracle::{InstantiateMsg, QueryMsg};
 use osmosis_std::types::osmosis::{gamm::v1beta1::PoolAsset, poolmanager::v1beta1::PoolResponse};
 use pyth_sdk_cw::PriceIdentifier;
 
-pub fn setup_test_with_pools() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn setup_test_with_pools() -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = setup_test();
 
     // set a few osmosis pools
@@ -41,7 +41,7 @@ pub fn setup_test_with_pools() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerie
         ),
     );
 
-    let assets = vec![coin(12345, "uosmo"), coin(88888, "umars")];
+    let assets = vec![coin(12345, "uosmo"), coin(88888, "ufury")];
     deps.querier.set_query_pool_response(
         89,
         prepare_query_balancer_pool_response(
@@ -103,7 +103,7 @@ pub fn setup_test_with_pools() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerie
     deps
 }
 
-pub fn setup_test_for_pyth() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn setup_test_for_pyth() -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = setup_test();
 
     // price source used to convert USD to base_denom
@@ -118,11 +118,11 @@ pub fn setup_test_for_pyth() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier>
     deps
 }
 
-pub fn setup_test() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn setup_test() -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = OwnedDeps::<_, _, _> {
         storage: MockStorage::default(),
         api: MockApi::default(),
-        querier: MarsMockQuerier::new(MockQuerier::new(&[])),
+        querier: FuryMockQuerier::new(MockQuerier::new(&[])),
         custom_query_type: PhantomData,
     };
 

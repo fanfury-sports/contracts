@@ -1,6 +1,6 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Decimal, StdResult, Uint128};
-use mars_utils::{error::ValidationError, helpers::decimal_param_lt_one};
+use fury_utils::{error::ValidationError, helpers::decimal_param_lt_one};
 
 use crate::red_bank::InterestRateModel;
 

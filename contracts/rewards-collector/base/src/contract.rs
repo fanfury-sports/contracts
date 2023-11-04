@@ -3,16 +3,16 @@ use cosmwasm_std::{
     MessageInfo, Response, StdResult, Uint128, WasmMsg,
 };
 use cw_storage_plus::Item;
-use mars_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
-use mars_types::{
-    address_provider::{self, AddressResponseItem, MarsAddressType},
+use fury_owner::{Owner, OwnerInit::SetInitialOwner, OwnerUpdate};
+use fury_types::{
+    address_provider::{self, AddressResponseItem, FuryAddressType},
     credit_manager::{self, Action},
     incentives, red_bank,
     rewards_collector::{
         Config, ConfigResponse, ExecuteMsg, InstantiateMsg, QueryMsg, UpdateConfig,
     },
 };
-use mars_utils::helpers::option_string_to_addr;
+use fury_utils::helpers::option_string_to_addr;
 
 use crate::{
     helpers::{stringify_option_amount, unwrap_option_amount},
@@ -164,7 +164,7 @@ where
 
         self.config.save(deps.storage, &cfg)?;
 
-        Ok(Response::new().add_attribute("action", "mars/rewards-collector/update_config"))
+        Ok(Response::new().add_attribute("action", "fury/rewards-collector/update_config"))
     }
 
     pub fn withdraw_from_red_bank(
@@ -178,7 +178,7 @@ where
         let red_bank_addr = address_provider::helpers::query_contract_addr(
             deps.as_ref(),
             &cfg.address_provider,
-            MarsAddressType::RedBank,
+            FuryAddressType::RedBank,
         )?;
 
         let withdraw_msg = CosmosMsg::Wasm(WasmMsg::Execute {
@@ -218,7 +218,7 @@ where
         let cm_addr = address_provider::helpers::query_contract_addr(
             deps.as_ref(),
             &cfg.address_provider,
-            MarsAddressType::CreditManager,
+            FuryAddressType::CreditManager,
         )?;
 
         let withdraw_from_cm_msg = CosmosMsg::Wasm(WasmMsg::Execute {
@@ -248,7 +248,7 @@ where
         let incentives_addr = address_provider::helpers::query_contract_addr(
             deps.as_ref(),
             &cfg.address_provider,
-            MarsAddressType::Incentives,
+            FuryAddressType::Incentives,
         )?;
 
         let claim_msg = CosmosMsg::Wasm(WasmMsg::Execute {
@@ -280,7 +280,7 @@ where
             .querier
             .query_wasm_smart::<AddressResponseItem>(
                 cfg.address_provider,
-                &mars_types::address_provider::QueryMsg::Address(MarsAddressType::Swapper),
+                &fury_types::address_provider::QueryMsg::Address(FuryAddressType::Swapper),
             )?
             .address;
 
@@ -299,7 +299,7 @@ where
             let coin_in_safety_fund = coin(amount_safety_fund.u128(), denom.clone());
             messages.push(WasmMsg::Execute {
                 contract_addr: swapper_addr.clone(),
-                msg: to_binary(&mars_types::swapper::ExecuteMsg::<Empty>::SwapExactIn {
+                msg: to_binary(&fury_types::swapper::ExecuteMsg::<Empty>::SwapExactIn {
                     coin_in: coin_in_safety_fund.clone(),
                     denom_out: cfg.safety_fund_denom,
                     slippage: cfg.slippage_tolerance,
@@ -314,7 +314,7 @@ where
             let coin_in_fee_collector = coin(amount_fee_collector.u128(), denom.clone());
             messages.push(WasmMsg::Execute {
                 contract_addr: swapper_addr,
-                msg: to_binary(&mars_types::swapper::ExecuteMsg::<Empty>::SwapExactIn {
+                msg: to_binary(&fury_types::swapper::ExecuteMsg::<Empty>::SwapExactIn {
                     coin_in: coin_in_fee_collector.clone(),
                     denom_out: cfg.fee_collector_denom,
                     slippage: cfg.slippage_tolerance,
@@ -345,13 +345,13 @@ where
             address_provider::helpers::query_module_addr(
                 deps.as_ref(),
                 &cfg.address_provider,
-                MarsAddressType::SafetyFund,
+                FuryAddressType::SafetyFund,
             )?
         } else if denom == cfg.fee_collector_denom {
             address_provider::helpers::query_module_addr(
                 deps.as_ref(),
                 &cfg.address_provider,
-                MarsAddressType::FeeCollector,
+                FuryAddressType::FeeCollector,
             )?
         } else {
             return Err(ContractError::AssetNotEnabledForDistribution {

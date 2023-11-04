@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{Addr, Decimal, Uint128};
-use mars_types::{
+use fury_types::{
     adapters::vault::VaultUnchecked,
     credit_manager::{
         Action::{Deposit, EnterVault},

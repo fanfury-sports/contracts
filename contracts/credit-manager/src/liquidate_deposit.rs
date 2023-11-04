@@ -1,5 +1,5 @@
 use cosmwasm_std::{Coin, CosmosMsg, DepsMut, Env, Response, Storage};
-use mars_types::credit_manager::CallbackMsg;
+use fury_types::credit_manager::CallbackMsg;
 
 use crate::{
     error::{ContractError, ContractResult},

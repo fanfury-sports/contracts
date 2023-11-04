@@ -6,7 +6,7 @@ use cosmwasm_std::{
     Addr, Decimal, Event, Order, StdResult, Timestamp, Uint128,
 };
 use cw2::{ContractVersion, VersionError};
-use mars_incentives::{
+use fury_incentives::{
     contract::{execute, migrate},
     migrations::v2_0_0::v1_state::{self, OwnerSetNoneProposed},
     state::{
@@ -15,13 +15,13 @@ use mars_incentives::{
     },
     ContractError,
 };
-use mars_testing::{mock_dependencies, MockEnvParams};
-use mars_types::{
+use fury_testing::{mock_dependencies, MockEnvParams};
+use fury_types::{
     incentives::{Config, ExecuteMsg, IncentiveState, MigrateMsg, MigrateV1ToV2},
     keys::{UserId, UserIdKey},
     red_bank::{Market, UserCollateralResponse},
 };
-use mars_utils::error::GuardError;
+use fury_utils::error::GuardError;
 
 #[test]
 fn wrong_contract_name() {
@@ -41,7 +41,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-incentives".to_string(),
+            expected: "crates.io:fury-incentives".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -50,7 +50,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-incentives", "4.1.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-incentives", "4.1.0").unwrap();
 
     let err = migrate(
         deps.as_mut(),
@@ -74,7 +74,7 @@ fn wrong_contract_version() {
 #[test]
 fn full_migration() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-incentives", "1.0.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-incentives", "1.0.0").unwrap();
 
     let old_owner = "spiderman_246";
     v1_state::OWNER
@@ -86,10 +86,10 @@ fn full_migration() {
         )
         .unwrap();
 
-    let mars_denom = "umars";
-    let old_config = mars_red_bank_types_old::incentives::Config {
+    let fury_denom = "ufury";
+    let old_config = fury_red_bank_types_old::incentives::Config {
         address_provider: Addr::unchecked("address_provider"),
-        mars_denom: mars_denom.to_string(),
+        fury_denom: fury_denom.to_string(),
     };
     v1_state::CONFIG.save(deps.as_mut().storage, &old_config).unwrap();
 
@@ -102,7 +102,7 @@ fn full_migration() {
     let migration_time = incentive_start_time + duration + 100u64;
 
     // The incentive will have to be recalculated for the entire duration
-    let atom_incentive = mars_red_bank_types_old::incentives::AssetIncentive {
+    let atom_incentive = fury_red_bank_types_old::incentives::AssetIncentive {
         emission_per_second: Uint128::new(100),
         start_time: incentive_start_time,
         duration,
@@ -112,7 +112,7 @@ fn full_migration() {
     v1_state::ASSET_INCENTIVES.save(deps.as_mut().storage, atom_denom, &atom_incentive).unwrap();
 
     // The incentive will have to be recalculated for the part of the duration
-    let usdc_incentive = mars_red_bank_types_old::incentives::AssetIncentive {
+    let usdc_incentive = fury_red_bank_types_old::incentives::AssetIncentive {
         emission_per_second: Uint128::new(50),
         start_time: incentive_start_time,
         duration,
@@ -122,7 +122,7 @@ fn full_migration() {
     v1_state::ASSET_INCENTIVES.save(deps.as_mut().storage, usdc_denom, &usdc_incentive).unwrap();
 
     // The incentive won't be recalculated because it finished before migration time
-    let osmo_incentive = mars_red_bank_types_old::incentives::AssetIncentive {
+    let osmo_incentive = fury_red_bank_types_old::incentives::AssetIncentive {
         emission_per_second: Uint128::new(50),
         start_time: incentive_start_time,
         duration,
@@ -207,7 +207,7 @@ fn full_migration() {
         create_user_collateral(osmo_denom, user_2_osmo_amount_scaled),
     );
 
-    let env = mars_testing::mock_env(MockEnvParams {
+    let env = fury_testing::mock_env(MockEnvParams {
         block_time: Timestamp::from_seconds(migration_time),
         ..Default::default()
     });
@@ -245,7 +245,7 @@ fn full_migration() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-incentives".to_string(),
+        contract: "crates.io:fury-incentives".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);
@@ -263,7 +263,7 @@ fn full_migration() {
         Config {
             address_provider: old_config.address_provider,
             max_whitelisted_denoms,
-            mars_denom: old_config.mars_denom
+            fury_denom: old_config.fury_denom
         }
     );
 
@@ -274,7 +274,7 @@ fn full_migration() {
         .collect::<StdResult<HashMap<_, _>>>()
         .unwrap();
     assert_eq!(whitelist.len(), 1);
-    assert_eq!(whitelist.get("umars").unwrap(), &Uint128::one());
+    assert_eq!(whitelist.get("ufury").unwrap(), &Uint128::one());
 
     // Update asset incentive indices and check if indices changed
     let mut new_atom_incentive = atom_incentive.clone();
@@ -309,21 +309,21 @@ fn full_migration() {
         .unwrap();
     assert_eq!(incentive_states.len(), 3);
     assert_eq!(
-        incentive_states.get(&(atom_denom.to_string(), mars_denom.to_string())).unwrap(),
+        incentive_states.get(&(atom_denom.to_string(), fury_denom.to_string())).unwrap(),
         &IncentiveState {
             index: new_atom_incentive.index,
             last_updated: migration_time
         }
     );
     assert_eq!(
-        incentive_states.get(&(usdc_denom.to_string(), mars_denom.to_string())).unwrap(),
+        incentive_states.get(&(usdc_denom.to_string(), fury_denom.to_string())).unwrap(),
         &IncentiveState {
             index: new_usdc_incentive.index,
             last_updated: migration_time
         }
     );
     assert_eq!(
-        incentive_states.get(&(osmo_denom.to_string(), mars_denom.to_string())).unwrap(),
+        incentive_states.get(&(osmo_denom.to_string(), fury_denom.to_string())).unwrap(),
         &IncentiveState {
             index: new_osmo_incentive.index,
             last_updated: migration_time
@@ -368,7 +368,7 @@ fn full_migration() {
         ExecuteMsg::Migrate(MigrateV1ToV2::ClearV1State {}),
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Owner(mars_owner::OwnerError::NotOwner {}));
+    assert_eq!(err, ContractError::Owner(fury_owner::OwnerError::NotOwner {}));
 
     // can't clear old V1 state if migration in progress - guard is active
     let err = execute(
@@ -457,19 +457,19 @@ fn full_migration() {
     let user_1_id_key: UserIdKey = user_id.try_into().unwrap();
     assert_eq!(
         user_asset_indices
-            .get(&(user_1_id_key.clone(), atom_denom.to_string(), mars_denom.to_string()))
+            .get(&(user_1_id_key.clone(), atom_denom.to_string(), fury_denom.to_string()))
             .unwrap(),
         new_atom_incentive.index
     );
     assert_eq!(
         user_asset_indices
-            .get(&(user_1_id_key.clone(), usdc_denom.to_string(), mars_denom.to_string()))
+            .get(&(user_1_id_key.clone(), usdc_denom.to_string(), fury_denom.to_string()))
             .unwrap(),
         new_usdc_incentive.index
     );
     assert_eq!(
         user_asset_indices
-            .get(&(user_1_id_key.clone(), osmo_denom.to_string(), mars_denom.to_string()))
+            .get(&(user_1_id_key.clone(), osmo_denom.to_string(), fury_denom.to_string()))
             .unwrap(),
         new_osmo_incentive.index
     );
@@ -478,7 +478,7 @@ fn full_migration() {
     let user_2_id_key: UserIdKey = user_id.try_into().unwrap();
     assert_eq!(
         user_asset_indices
-            .get(&(user_2_id_key, osmo_denom.to_string(), mars_denom.to_string()))
+            .get(&(user_2_id_key, osmo_denom.to_string(), fury_denom.to_string()))
             .unwrap(),
         new_osmo_incentive.index
     );
@@ -487,7 +487,7 @@ fn full_migration() {
     let user_3_id_key: UserIdKey = user_id.try_into().unwrap();
     assert_eq!(
         user_asset_indices
-            .get(&(user_3_id_key.clone(), atom_denom.to_string(), mars_denom.to_string()))
+            .get(&(user_3_id_key.clone(), atom_denom.to_string(), fury_denom.to_string()))
             .unwrap(),
         new_atom_incentive.index
     );
@@ -513,7 +513,7 @@ fn full_migration() {
     )
     .unwrap();
     let user_1_atom_rewards_migrated = *user_unclaimed_rewards
-        .get(&(user_1_id_key.clone(), atom_denom.to_string(), mars_denom.to_string()))
+        .get(&(user_1_id_key.clone(), atom_denom.to_string(), fury_denom.to_string()))
         .unwrap();
     assert_eq!(user_1_atom_rewards_migrated, user_1_unclaimed_rewards + user_1_atom_rewards);
     let user_1_usdc_rewards = v1_state::helpers::compute_user_accrued_rewards(
@@ -523,7 +523,7 @@ fn full_migration() {
     )
     .unwrap();
     let user_1_usdc_rewards_migrated = *user_unclaimed_rewards
-        .get(&(user_1_id_key.clone(), usdc_denom.to_string(), mars_denom.to_string()))
+        .get(&(user_1_id_key.clone(), usdc_denom.to_string(), fury_denom.to_string()))
         .unwrap();
     assert_eq!(user_1_usdc_rewards_migrated, user_1_usdc_rewards);
     let user_1_osmo_rewards = v1_state::helpers::compute_user_accrued_rewards(
@@ -533,7 +533,7 @@ fn full_migration() {
     )
     .unwrap();
     let user_1_osmo_rewards_migrated = *user_unclaimed_rewards
-        .get(&(user_1_id_key, osmo_denom.to_string(), mars_denom.to_string()))
+        .get(&(user_1_id_key, osmo_denom.to_string(), fury_denom.to_string()))
         .unwrap();
     assert_eq!(user_1_osmo_rewards_migrated, user_1_osmo_rewards);
 
@@ -552,7 +552,7 @@ fn full_migration() {
     )
     .unwrap();
     let user_3_atom_rewards_migrated = *user_unclaimed_rewards
-        .get(&(user_3_id_key, atom_denom.to_string(), mars_denom.to_string()))
+        .get(&(user_3_id_key, atom_denom.to_string(), fury_denom.to_string()))
         .unwrap();
     assert_eq!(user_3_atom_rewards_migrated, user_3_atom_rewards);
 

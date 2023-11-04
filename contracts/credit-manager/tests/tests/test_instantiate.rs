@@ -24,7 +24,7 @@ fn nft_contract_addr_not_set_on_instantiate() {
 
 #[test]
 fn red_bank_set_on_instantiate() {
-    let red_bank_addr = "mars_red_bank_contract_123".to_string();
+    let red_bank_addr = "fury_red_bank_contract_123".to_string();
     let mock = MockEnv::new().red_bank(&red_bank_addr).build().unwrap();
     let res = mock.query_config();
     assert_eq!(red_bank_addr, res.red_bank);

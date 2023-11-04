@@ -1,5 +1,5 @@
 [package]
-name          = "mars-mock-pyth"
+name          = "fury-mock-pyth"
 description   = "Mocked version of the Pyth oracle contract"
 version       = { workspace = true }
 authors       = { workspace = true }

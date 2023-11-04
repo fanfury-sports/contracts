@@ -1,6 +1,6 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::set_contract_version;
-use mars_zapper_base::ContractError;
+use fury_zapper_base::ContractError;
 
 use crate::contract::{CONTRACT_NAME, CONTRACT_VERSION};
 

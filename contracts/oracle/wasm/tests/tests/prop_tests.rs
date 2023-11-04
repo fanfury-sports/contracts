@@ -2,7 +2,7 @@ use std::cmp::min;
 
 use astroport::factory::PairType;
 use cosmwasm_std::Decimal;
-use mars_testing::wasm_oracle::{
+use fury_testing::wasm_oracle::{
     validate_and_query_astroport_spot_price_source, validate_and_query_astroport_twap_price_source,
 };
 use proptest::{collection::vec, prelude::*, proptest};

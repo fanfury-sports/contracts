@@ -1,14 +1,14 @@
 use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_interest_rate::{
+use fury_interest_rate::{
     get_scaled_debt_amount, get_scaled_liquidity_amount, get_underlying_debt_amount,
     get_underlying_liquidity_amount,
 };
-use mars_liquidation::liquidation::calculate_liquidation_amounts;
-use mars_types::{
-    address_provider::{self, MarsAddressType},
+use fury_liquidation::liquidation::calculate_liquidation_amounts;
+use fury_types::{
+    address_provider::{self, FuryAddressType},
     keys::{UserId, UserIdKey},
 };
-use mars_utils::helpers::{build_send_asset_msg, option_string_to_addr};
+use fury_utils::helpers::{build_send_asset_msg, option_string_to_addr};
 
 use crate::{
     error::ContractError,
@@ -79,16 +79,16 @@ pub fn liquidate(
         deps.as_ref(),
         &config.address_provider,
         vec![
-            MarsAddressType::Oracle,
-            MarsAddressType::Incentives,
-            MarsAddressType::RewardsCollector,
-            MarsAddressType::Params,
+            FuryAddressType::Oracle,
+            FuryAddressType::Incentives,
+            FuryAddressType::RewardsCollector,
+            FuryAddressType::Params,
         ],
     )?;
-    let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-    let incentives_addr = &addresses[&MarsAddressType::Incentives];
-    let oracle_addr = &addresses[&MarsAddressType::Oracle];
-    let params_addr = &addresses[&MarsAddressType::Params];
+    let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+    let incentives_addr = &addresses[&FuryAddressType::Incentives];
+    let oracle_addr = &addresses[&FuryAddressType::Oracle];
+    let params_addr = &addresses[&FuryAddressType::Params];
 
     let (health, assets_positions) = get_health_and_positions(
         &deps.as_ref(),

@@ -1,6 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Coin, Decimal, Uint128};
-use mars_owner::OwnerResponse;
+use fury_owner::OwnerResponse;
 
 use crate::{
     adapters::{

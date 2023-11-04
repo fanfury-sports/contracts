@@ -3,14 +3,14 @@ use cosmwasm_std::{
     testing::{mock_env, mock_info},
     Addr, Decimal, Event, Response, Timestamp, Uint128,
 };
-use mars_incentives::{
+use fury_incentives::{
     contract::{execute, execute_balance_change, query_user_unclaimed_rewards},
     helpers::{compute_incentive_index, compute_user_accrued_rewards},
     state::{EMISSIONS, INCENTIVE_STATES, USER_ASSET_INDICES, USER_UNCLAIMED_REWARDS},
 };
-use mars_testing::MockEnvParams;
-use mars_types::{
-    error::MarsError,
+use fury_testing::MockEnvParams;
+use fury_types::{
+    error::FuryError,
     incentives::{ExecuteMsg, IncentiveState},
     keys::{UserId, UserIdKey},
     red_bank::{Market, UserCollateralResponse},
@@ -36,7 +36,7 @@ fn balance_change_unauthorized() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, MarsError::Unauthorized {}.into());
+    assert_eq!(err, FuryError::Unauthorized {}.into());
 }
 
 #[test]
@@ -57,7 +57,7 @@ fn execute_balance_change_noops() {
     assert_eq!(
         res,
         Response::default().add_event(
-            Event::new("mars/incentives/balance_change")
+            Event::new("fury/incentives/balance_change")
                 .add_attribute("action", "balance_change")
                 .add_attribute("denom", "uosmo")
                 .add_attribute("user", "user")
@@ -76,7 +76,7 @@ fn balance_change_zero_emission() {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            (denom, "umars"),
+            (denom, "ufury"),
             &IncentiveState {
                 index: asset_incentive_index,
                 last_updated: 500_000,
@@ -84,11 +84,11 @@ fn balance_change_zero_emission() {
         )
         .unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, (denom, "umars", env.block.time.seconds()), &Uint128::zero())
+        .save(deps.as_mut().storage, (denom, "ufury", env.block.time.seconds()), &Uint128::zero())
         .unwrap();
 
     let info = mock_info("red_bank", &[]);
-    let env = mars_testing::mock_env(MockEnvParams {
+    let env = fury_testing::mock_env(MockEnvParams {
         block_time: Timestamp::from_seconds(600_000),
         ..Default::default()
     });
@@ -113,14 +113,14 @@ fn balance_change_zero_emission() {
     assert_eq!(
         res.events[1].attributes,
         vec![
-            attr("incentive_denom", "umars"),
+            attr("incentive_denom", "ufury"),
             attr("rewards_accrued", expected_accrued_rewards),
             attr("asset_index", asset_incentive_index.to_string())
         ]
     );
 
     // asset incentive index stays the same
-    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
     assert_eq!(asset_incentive.index, asset_incentive_index);
     assert_eq!(asset_incentive.last_updated, 600_000);
 
@@ -129,12 +129,12 @@ fn balance_change_zero_emission() {
 
     // user index is set to asset's index
     let user_asset_index =
-        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
     assert_eq!(user_asset_index, asset_incentive_index);
 
     // rewards get updated
     let user_unclaimed_rewards =
-        USER_UNCLAIMED_REWARDS.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+        USER_UNCLAIMED_REWARDS.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
     assert_eq!(user_unclaimed_rewards, expected_accrued_rewards)
 }
 
@@ -154,7 +154,7 @@ fn balance_change_user_with_zero_balance() {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            (denom, "umars"),
+            (denom, "ufury"),
             &IncentiveState {
                 index: start_index,
                 last_updated: time_last_updated,
@@ -162,11 +162,11 @@ fn balance_change_user_with_zero_balance() {
         )
         .unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, (denom, "umars", time_last_updated), &emission_per_second)
+        .save(deps.as_mut().storage, (denom, "ufury", time_last_updated), &emission_per_second)
         .unwrap();
 
     let info = mock_info("red_bank", &[]);
-    let env = mars_testing::mock_env(MockEnvParams {
+    let env = fury_testing::mock_env(MockEnvParams {
         block_time: Timestamp::from_seconds(time_contract_call),
         ..Default::default()
     });
@@ -196,14 +196,14 @@ fn balance_change_user_with_zero_balance() {
     assert_eq!(
         res.events[1].attributes,
         vec![
-            attr("incentive_denom", "umars"),
+            attr("incentive_denom", "ufury"),
             attr("rewards_accrued", "0"),
             attr("asset_index", expected_index.to_string())
         ]
     );
 
     // asset incentive gets updated
-    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
     assert_eq!(asset_incentive.index, expected_index);
     assert_eq!(asset_incentive.last_updated, time_contract_call);
 
@@ -212,12 +212,12 @@ fn balance_change_user_with_zero_balance() {
 
     // user index is set to asset's index
     let user_asset_index =
-        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
     assert_eq!(user_asset_index, expected_index);
 
     // no new rewards
     let user_unclaimed_rewards = USER_UNCLAIMED_REWARDS
-        .may_load(deps.as_ref().storage, (&user_id_key, denom, "umars"))
+        .may_load(deps.as_ref().storage, (&user_id_key, denom, "ufury"))
         .unwrap();
     assert_eq!(user_unclaimed_rewards, None)
 }
@@ -237,7 +237,7 @@ fn with_zero_previous_balance_and_asset_with_zero_index_accumulates_rewards() {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            (denom, "umars"),
+            (denom, "ufury"),
             &IncentiveState {
                 index: start_index,
                 last_updated: time_last_updated,
@@ -245,12 +245,12 @@ fn with_zero_previous_balance_and_asset_with_zero_index_accumulates_rewards() {
         )
         .unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, (denom, "umars", time_last_updated), &emission_per_second)
+        .save(deps.as_mut().storage, (denom, "ufury", time_last_updated), &emission_per_second)
         .unwrap();
 
     {
         let info = mock_info("red_bank", &[]);
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -284,7 +284,7 @@ fn with_zero_previous_balance_and_asset_with_zero_index_accumulates_rewards() {
                 enabled: true,
             },
         );
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call + 1000),
             ..Default::default()
         });
@@ -305,7 +305,7 @@ fn with_zero_previous_balance_and_asset_with_zero_index_accumulates_rewards() {
                     .checked_mul(emission_per_second)
                     .unwrap()
                     .u128(),
-                "umars"
+                "ufury"
             )],
             rewards_query
         );
@@ -347,7 +347,7 @@ fn set_new_asset_incentive_user_non_zero_balance() {
         INCENTIVE_STATES
             .save(
                 deps.as_mut().storage,
-                (denom, "umars"),
+                (denom, "ufury"),
                 &IncentiveState {
                     index: asset_incentive_index,
                     last_updated: time_last_updated,
@@ -355,7 +355,7 @@ fn set_new_asset_incentive_user_non_zero_balance() {
             )
             .unwrap();
         EMISSIONS
-            .save(deps.as_mut().storage, (denom, "umars", time_last_updated), &emission_per_second)
+            .save(deps.as_mut().storage, (denom, "ufury", time_last_updated), &emission_per_second)
             .unwrap();
     }
 
@@ -363,7 +363,7 @@ fn set_new_asset_incentive_user_non_zero_balance() {
     {
         let time_contract_call = 600_000_u64;
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -378,8 +378,8 @@ fn set_new_asset_incentive_user_non_zero_balance() {
             None,
         )
         .unwrap();
-        // 100_000 s * 100 MARS/s * 1/10th of total deposit
-        let expected_unclaimed_rewards = vec![coin(1_000_000, "umars")];
+        // 100_000 s * 100 FURY/s * 1/10th of total deposit
+        let expected_unclaimed_rewards = vec![coin(1_000_000, "ufury")];
         assert_eq!(unclaimed_rewards, expected_unclaimed_rewards);
     }
 
@@ -398,7 +398,7 @@ fn set_new_asset_incentive_user_non_zero_balance() {
             },
         );
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -422,7 +422,7 @@ fn set_new_asset_incentive_user_non_zero_balance() {
     {
         let time_contract_call = 800_000_u64;
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -438,11 +438,11 @@ fn set_new_asset_incentive_user_non_zero_balance() {
         )
         .unwrap();
         let expected_unclaimed_rewards = vec![coin(
-            // 200_000 s * 100 MARS/s * 1/10th of total deposit +
+            // 200_000 s * 100 FURY/s * 1/10th of total deposit +
             2_000_000 +
-                // 100_000 s * 100 MARS/s * 1/4 of total deposit
+                // 100_000 s * 100 FURY/s * 1/4 of total deposit
                 2_500_000,
-            "umars",
+            "ufury",
         )];
         assert_eq!(unclaimed_rewards, expected_unclaimed_rewards);
     }
@@ -465,7 +465,7 @@ fn balance_change_user_non_zero_balance() {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            (denom, "umars"),
+            (denom, "ufury"),
             &IncentiveState {
                 index: expected_asset_incentive_index,
                 last_updated: expected_time_last_updated,
@@ -475,7 +475,7 @@ fn balance_change_user_non_zero_balance() {
     EMISSIONS
         .save(
             deps.as_mut().storage,
-            (denom, "umars", expected_time_last_updated),
+            (denom, "ufury", expected_time_last_updated),
             &emission_per_second,
         )
         .unwrap();
@@ -487,7 +487,7 @@ fn balance_change_user_non_zero_balance() {
         let time_contract_call = 600_000_u64;
         let user_balance = Uint128::new(10_000);
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -522,7 +522,7 @@ fn balance_change_user_non_zero_balance() {
         assert_eq!(
             res.events[1].attributes,
             vec![
-                attr("incentive_denom", "umars"),
+                attr("incentive_denom", "ufury"),
                 attr("rewards_accrued", expected_accrued_rewards),
                 attr("asset_index", expected_asset_incentive_index.to_string())
             ]
@@ -532,7 +532,7 @@ fn balance_change_user_non_zero_balance() {
         expected_time_last_updated = time_contract_call;
 
         let asset_incentive =
-            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
         assert_eq!(asset_incentive.index, expected_asset_incentive_index);
         assert_eq!(asset_incentive.last_updated, expected_time_last_updated);
 
@@ -541,12 +541,12 @@ fn balance_change_user_non_zero_balance() {
 
         // user index is set to asset's index
         let user_asset_index =
-            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
         assert_eq!(user_asset_index, expected_asset_incentive_index);
 
         // user gets new rewards
         let user_unclaimed_rewards = USER_UNCLAIMED_REWARDS
-            .load(deps.as_ref().storage, (&user_id_key, denom, "umars"))
+            .load(deps.as_ref().storage, (&user_id_key, denom, "ufury"))
             .unwrap();
         expected_accumulated_rewards += expected_accrued_rewards;
         assert_eq!(user_unclaimed_rewards, expected_accumulated_rewards)
@@ -557,7 +557,7 @@ fn balance_change_user_non_zero_balance() {
         let time_contract_call = 700_000_u64;
         let user_balance = Uint128::new(20_000);
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -593,7 +593,7 @@ fn balance_change_user_non_zero_balance() {
         assert_eq!(
             res.events[1].attributes,
             vec![
-                attr("incentive_denom", "umars"),
+                attr("incentive_denom", "ufury"),
                 attr("rewards_accrued", expected_accrued_rewards),
                 attr("asset_index", expected_asset_incentive_index.to_string())
             ]
@@ -603,7 +603,7 @@ fn balance_change_user_non_zero_balance() {
         expected_time_last_updated = time_contract_call;
 
         let asset_incentive =
-            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
         assert_eq!(asset_incentive.index, expected_asset_incentive_index);
         assert_eq!(asset_incentive.last_updated, expected_time_last_updated);
 
@@ -612,12 +612,12 @@ fn balance_change_user_non_zero_balance() {
 
         // user index is set to asset's index
         let user_asset_index =
-            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
         assert_eq!(user_asset_index, expected_asset_incentive_index);
 
         // user gets new rewards
         let user_unclaimed_rewards = USER_UNCLAIMED_REWARDS
-            .load(deps.as_ref().storage, (&user_id_key, denom, "umars"))
+            .load(deps.as_ref().storage, (&user_id_key, denom, "ufury"))
             .unwrap();
         expected_accumulated_rewards += expected_accrued_rewards;
         assert_eq!(user_unclaimed_rewards, expected_accumulated_rewards)
@@ -628,7 +628,7 @@ fn balance_change_user_non_zero_balance() {
         let time_contract_call = 700_000_u64;
         let user_balance = Uint128::new(20_000);
 
-        let env = mars_testing::mock_env(MockEnvParams {
+        let env = fury_testing::mock_env(MockEnvParams {
             block_time: Timestamp::from_seconds(time_contract_call),
             ..Default::default()
         });
@@ -648,7 +648,7 @@ fn balance_change_user_non_zero_balance() {
         assert_eq!(
             res.events[1].attributes,
             vec![
-                attr("incentive_denom", "umars"),
+                attr("incentive_denom", "ufury"),
                 attr("rewards_accrued", "0"),
                 attr("asset_index", expected_asset_incentive_index.to_string())
             ]
@@ -656,7 +656,7 @@ fn balance_change_user_non_zero_balance() {
 
         // asset incentive is still the same
         let asset_incentive =
-            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+            INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
         assert_eq!(asset_incentive.index, expected_asset_incentive_index);
         assert_eq!(asset_incentive.last_updated, expected_time_last_updated);
 
@@ -665,12 +665,12 @@ fn balance_change_user_non_zero_balance() {
 
         // user index is still the same
         let user_asset_index =
-            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+            USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
         assert_eq!(user_asset_index, expected_asset_incentive_index);
 
         // user gets no new rewards
         let user_unclaimed_rewards = USER_UNCLAIMED_REWARDS
-            .load(deps.as_ref().storage, (&user_id_key, denom, "umars"))
+            .load(deps.as_ref().storage, (&user_id_key, denom, "ufury"))
             .unwrap();
         assert_eq!(user_unclaimed_rewards, expected_accumulated_rewards)
     }
@@ -694,7 +694,7 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            (denom, "umars"),
+            (denom, "ufury"),
             &IncentiveState {
                 index: expected_asset_incentive_index,
                 last_updated: expected_time_last_updated,
@@ -704,7 +704,7 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
     EMISSIONS
         .save(
             deps.as_mut().storage,
-            (denom, "umars", expected_time_last_updated),
+            (denom, "ufury", expected_time_last_updated),
             &emission_per_second,
         )
         .unwrap();
@@ -714,7 +714,7 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
     let time_contract_call = 600_000_u64;
     let user_balance = Uint128::new(10_000);
 
-    let env = mars_testing::mock_env(MockEnvParams {
+    let env = fury_testing::mock_env(MockEnvParams {
         block_time: Timestamp::from_seconds(time_contract_call),
         ..Default::default()
     });
@@ -751,7 +751,7 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
     assert_eq!(
         res.events[1].attributes,
         vec![
-            attr("incentive_denom", "umars"),
+            attr("incentive_denom", "ufury"),
             attr("rewards_accrued", expected_accrued_rewards),
             attr("asset_index", expected_asset_incentive_index.to_string())
         ]
@@ -760,7 +760,7 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
     // asset incentive gets updated
     expected_time_last_updated = time_contract_call;
 
-    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "umars")).unwrap();
+    let asset_incentive = INCENTIVE_STATES.load(deps.as_ref().storage, (denom, "ufury")).unwrap();
     assert_eq!(asset_incentive.index, expected_asset_incentive_index);
     assert_eq!(asset_incentive.last_updated, expected_time_last_updated);
 
@@ -769,12 +769,12 @@ fn balance_change_for_credit_account_id_with_non_zero_balance() {
 
     // user index is set to asset's index
     let user_asset_index =
-        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+        USER_ASSET_INDICES.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
     assert_eq!(user_asset_index, expected_asset_incentive_index);
 
     // user gets new rewards
     let user_unclaimed_rewards =
-        USER_UNCLAIMED_REWARDS.load(deps.as_ref().storage, (&user_id_key, denom, "umars")).unwrap();
+        USER_UNCLAIMED_REWARDS.load(deps.as_ref().storage, (&user_id_key, denom, "ufury")).unwrap();
     expected_accumulated_rewards += expected_accrued_rewards;
     assert_eq!(user_unclaimed_rewards, expected_accumulated_rewards)
 }

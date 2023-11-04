@@ -6,18 +6,18 @@ use cosmwasm_std::{
     Addr, Decimal, Empty, Event, Order, StdResult, Uint128,
 };
 use cw2::{ContractVersion, VersionError};
-use mars_red_bank::{
+use fury_red_bank::{
     contract::{execute, migrate},
     error::ContractError,
     migrations::v2_0_0::v1_state::{self, OwnerSetNoneProposed},
     state::{COLLATERALS, CONFIG, MARKETS, MIGRATION_GUARD, OWNER},
 };
-use mars_testing::mock_dependencies;
-use mars_types::{
+use fury_testing::mock_dependencies;
+use fury_types::{
     keys::{UserId, UserIdKey},
     red_bank::{Collateral, ExecuteMsg, InterestRateModel, Market, MigrateV1ToV2},
 };
-use mars_utils::error::GuardError;
+use fury_utils::error::GuardError;
 
 #[test]
 fn wrong_contract_name() {
@@ -29,7 +29,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-red-bank".to_string(),
+            expected: "crates.io:fury-red-bank".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -38,7 +38,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-red-bank", "4.1.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-red-bank", "4.1.0").unwrap();
 
     let err = migrate(deps.as_mut(), mock_env(), Empty {}).unwrap_err();
 
@@ -54,7 +54,7 @@ fn wrong_contract_version() {
 #[test]
 fn full_migration() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-red-bank", "1.0.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-red-bank", "1.0.0").unwrap();
 
     let old_owner = "spiderman_246";
     v1_state::OWNER
@@ -112,7 +112,7 @@ fn full_migration() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-red-bank".to_string(),
+        contract: "crates.io:fury-red-bank".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);
@@ -221,7 +221,7 @@ fn full_migration() {
         ExecuteMsg::Migrate(MigrateV1ToV2::ClearV1State {}),
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Owner(mars_owner::OwnerError::NotOwner {}));
+    assert_eq!(err, ContractError::Owner(fury_owner::OwnerError::NotOwner {}));
 
     // can't clear old V1 collaterals state if migration in progress - guard is active
     let err = execute(

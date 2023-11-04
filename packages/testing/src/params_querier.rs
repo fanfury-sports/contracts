@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{to_binary, Binary, Coin, ContractResult, Decimal, QuerierResult, Uint128};
-use mars_types::params::{AssetParams, QueryMsg};
+use fury_types::params::{AssetParams, QueryMsg};
 
 #[derive(Default)]
 pub struct ParamsQuerier {

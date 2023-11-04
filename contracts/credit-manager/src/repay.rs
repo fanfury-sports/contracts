@@ -5,7 +5,7 @@ use cosmwasm_std::{
     WasmMsg,
 };
 use cw_utils::one_coin;
-use mars_types::credit_manager::{ActionCoin, CallbackMsg::Repay, ExecuteMsg};
+use fury_types::credit_manager::{ActionCoin, CallbackMsg::Repay, ExecuteMsg};
 
 use crate::{
     error::{ContractError, ContractResult},

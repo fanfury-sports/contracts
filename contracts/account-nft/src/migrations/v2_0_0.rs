@@ -3,7 +3,7 @@ use cosmwasm_std::{
 };
 use cw2::set_contract_version;
 use cw721::Cw721Query;
-use mars_types::{
+use fury_types::{
     account_nft::NftConfig,
     health::{AccountKind, HealthValuesResponse, QueryMsg::HealthValues},
     oracle::ActionKind,
@@ -19,7 +19,7 @@ const FROM_VERSION: &str = "1.0.0";
 
 pub mod v1_state {
     use cw_storage_plus::Item;
-    use mars_rover_old::adapters::account_nft::NftConfig;
+    use fury_rover_old::adapters::account_nft::NftConfig;
 
     pub const CONFIG: Item<NftConfig> = Item::new("config");
 }

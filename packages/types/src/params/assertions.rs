@@ -1,5 +1,5 @@
 use cosmwasm_std::Decimal;
-use mars_utils::error::ValidationError;
+use fury_utils::error::ValidationError;
 
 pub(super) fn assert_lqt_gt_max_ltv(
     max_ltv: Decimal,

@@ -1,5 +1,5 @@
 use cosmwasm_std::{Deps, Response};
-use mars_types::{health::AccountKind, params::HlsAssetType};
+use fury_types::{health::AccountKind, params::HlsAssetType};
 
 use crate::{
     error::{ContractError, ContractResult},
@@ -20,7 +20,7 @@ pub fn assert_hls_rules(deps: Deps, account_id: &str) -> ContractResult<Response
     if let Some(debt) = positions.debts.first() {
         let params = PARAMS.load(deps.storage)?.query_asset_params(&deps.querier, &debt.denom)?;
 
-        // Rule #2: Debt denom must have HLS params set in the Mars-Param contract
+        // Rule #2: Debt denom must have HLS params set in the Fury-Param contract
         let Some(hls) = params.credit_manager.hls else {
             return Err(ContractError::HLS {
                 reason: format!("{} does not have HLS parameters", debt.denom),

@@ -1,19 +1,19 @@
 use cosmwasm_std::{
     attr, coin, coins, testing::mock_info, Addr, BankMsg, CosmosMsg, Decimal, SubMsg, Uint128,
 };
-use mars_interest_rate::{
+use fury_interest_rate::{
     compute_scaled_amount, compute_underlying_amount, get_scaled_debt_amount,
     get_updated_liquidity_index, ScalingOperation, SCALING_FACTOR,
 };
-use mars_owner::OwnerError::NotOwner;
-use mars_red_bank::{
+use fury_owner::OwnerError::NotOwner;
+use fury_red_bank::{
     contract::execute,
     error::ContractError,
     health,
     state::{DEBTS, MARKETS, UNCOLLATERALIZED_LOAN_LIMITS},
 };
-use mars_testing::{mock_env, mock_env_at_block_time, MockEnvParams};
-use mars_types::{
+use fury_testing::{mock_env, mock_env_at_block_time, MockEnvParams};
+use fury_types::{
     params::AssetParams,
     red_bank::{Debt, ExecuteMsg, Market},
 };

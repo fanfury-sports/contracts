@@ -44,7 +44,7 @@ mod tests {
         let deps = mock_dependencies_with_balance(&[
             coin(88888, "uatom"),
             coin(1234, "uusdc"),
-            coin(8964, "umars"),
+            coin(8964, "ufury"),
         ]);
 
         assert_eq!(

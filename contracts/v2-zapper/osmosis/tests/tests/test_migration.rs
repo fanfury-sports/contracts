@@ -4,8 +4,8 @@ use cosmwasm_std::{
     Empty, Event,
 };
 use cw2::{get_contract_version, set_contract_version, ContractVersion, VersionError};
-use mars_zapper_base::ContractError;
-use mars_zapper_osmosis::contract::migrate;
+use fury_zapper_base::ContractError;
+use fury_zapper_osmosis::contract::migrate;
 
 #[test]
 fn invalid_contract_name() {
@@ -27,7 +27,7 @@ fn invalid_contract_name() {
     let err = migrate(deps.as_mut(), env, Empty {}).unwrap_err();
     assert_eq!(
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-zapper-osmosis".to_string(),
+            expected: "crates.io:fury-zapper-osmosis".to_string(),
             found: "WRONG_CONTRACT_NAME".to_string()
         }),
         err
@@ -40,7 +40,7 @@ fn invalid_contract_version() {
     let env = mock_env();
 
     let old_contract_version = ContractVersion {
-        contract: "crates.io:mars-zapper-osmosis".to_string(),
+        contract: "crates.io:fury-zapper-osmosis".to_string(),
         version: "4.4.5".to_string(),
     };
 
@@ -66,7 +66,7 @@ fn proper_migration() {
     let mut deps = mock_dependencies();
 
     let old_contract_version = ContractVersion {
-        contract: "crates.io:mars-zapper-osmosis".to_string(),
+        contract: "crates.io:fury-zapper-osmosis".to_string(),
         version: "1.0.0".to_string(),
     };
 
@@ -80,7 +80,7 @@ fn proper_migration() {
     let res = migrate(deps.as_mut(), mock_env(), Empty {}).unwrap();
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-zapper-osmosis".to_string(),
+        contract: "crates.io:fury-zapper-osmosis".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);

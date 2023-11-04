@@ -1,7 +1,7 @@
 use cosmwasm_std::{coin, coins, Addr, Uint128};
 use cw_multi_test::{BankSudo, SudoMsg};
-use mars_credit_manager::error::ContractError;
-use mars_types::credit_manager::{Action::Deposit, CallbackMsg, ChangeExpected};
+use fury_credit_manager::error::ContractError;
+use fury_types::credit_manager::{Action::Deposit, CallbackMsg, ChangeExpected};
 
 use super::helpers::{assert_err, uosmo_info, AccountToFund, MockEnv};
 

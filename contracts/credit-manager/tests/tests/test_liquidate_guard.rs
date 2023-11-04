@@ -1,6 +1,6 @@
 use cosmwasm_std::{coins, Addr};
-use mars_credit_manager::error::ContractError;
-use mars_types::credit_manager::{
+use fury_credit_manager::error::ContractError;
+use fury_types::credit_manager::{
     Action::{Borrow, Deposit, Liquidate},
     LiquidateRequest,
 };

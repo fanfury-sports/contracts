@@ -9,14 +9,14 @@ use cw_vault_standard::{
     extensions::lockup::{LockupQueryMsg, UnlockingPosition},
     msg::{ExtensionQueryMsg, VaultStandardQueryMsg::VaultExtension},
 };
-use mars_mock_oracle::msg::{
+use fury_mock_oracle::msg::{
     CoinPrice, ExecuteMsg as OracleExecuteMsg, InstantiateMsg as OracleInstantiateMsg,
 };
-use mars_mock_vault::{
+use fury_mock_vault::{
     contract::DEFAULT_VAULT_TOKEN_PREFUND, msg::InstantiateMsg as VaultInstantiateMsg,
 };
-use mars_owner::OwnerUpdate;
-use mars_types::{
+use fury_owner::OwnerUpdate;
+use fury_types::{
     account_nft::{
         ExecuteMsg as NftExecuteMsg, InstantiateMsg as NftInstantiateMsg, NftConfigUpdates,
         QueryMsg as NftQueryMsg, UncheckedNftConfig,
@@ -32,7 +32,7 @@ use mars_types::{
         vault::{Vault, VaultPosition, VaultPositionValue as VPositionValue, VaultUnchecked},
         zapper::{Zapper, ZapperBase},
     },
-    address_provider::{self, MarsAddressType},
+    address_provider::{self, FuryAddressType},
     credit_manager::{
         Account, Action, CallbackMsg, CoinBalanceResponseItem, ConfigResponse, ConfigUpdates,
         DebtShares, ExecuteMsg, InstantiateMsg, Positions, QueryMsg,
@@ -62,7 +62,7 @@ use mars_types::{
         QueryMsg::EstimateExactInSwap,
     },
 };
-use mars_zapper_mock::msg::{InstantiateMsg as ZapperInstantiateMsg, LpConfig};
+use fury_zapper_mock::msg::{InstantiateMsg as ZapperInstantiateMsg, LpConfig};
 
 use super::{
     lp_token_info, mock_account_nft_contract, mock_address_provider_contract, mock_health_contract,
@@ -76,7 +76,7 @@ pub const DEFAULT_RED_BANK_COIN_BALANCE: Uint128 = Uint128::new(1_000_000);
 pub struct MockEnv {
     pub app: BasicApp,
     pub rover: Addr,
-    pub mars_oracle: Addr,
+    pub fury_oracle: Addr,
     pub health_contract: HealthContract,
     pub incentives: Incentives,
     pub params: Params,
@@ -282,7 +282,7 @@ impl MockEnv {
         self.app
             .execute_contract(
                 Addr::unchecked("anyone"),
-                self.mars_oracle.clone(),
+                self.fury_oracle.clone(),
                 &OracleExecuteMsg::ChangePrice(coin),
                 &[],
             )
@@ -293,7 +293,7 @@ impl MockEnv {
         self.app
             .execute_contract(
                 Addr::unchecked("anyone"),
-                self.mars_oracle.clone(),
+                self.fury_oracle.clone(),
                 &OracleExecuteMsg::RemovePrice {
                     denom: denom.to_string(),
                     pricing,
@@ -730,7 +730,7 @@ impl MockEnvBuilder {
         let rover = self.get_rover()?;
         self.set_emergency_owner(&rover);
 
-        let mars_oracle = self.get_oracle();
+        let fury_oracle = self.get_oracle();
         let incentives =
             Incentives::new(Addr::unchecked(self.get_incentives().address()), rover.clone());
 
@@ -759,7 +759,7 @@ impl MockEnvBuilder {
         Ok(MockEnv {
             app: take(&mut self.app),
             rover,
-            mars_oracle: mars_oracle.address().clone(),
+            fury_oracle: fury_oracle.address().clone(),
             health_contract,
             incentives,
             params,
@@ -799,7 +799,7 @@ impl MockEnvBuilder {
         }
     }
 
-    fn set_address(&mut self, address_type: MarsAddressType, address: Addr) {
+    fn set_address(&mut self, address_type: FuryAddressType, address: Addr) {
         let address_provider_addr = self.get_address_provider();
         self.app
             .execute_contract(
@@ -836,7 +836,7 @@ impl MockEnvBuilder {
                 )
                 .unwrap();
 
-            // save asset params to mars-params contract
+            // save asset params to fury-params contract
             self.app
                 .execute_contract(
                     self.get_owner(),
@@ -918,7 +918,7 @@ impl MockEnvBuilder {
             )
             .unwrap();
 
-        self.set_address(MarsAddressType::CreditManager, addr.clone());
+        self.set_address(FuryAddressType::CreditManager, addr.clone());
 
         Ok(addr)
     }
@@ -1123,7 +1123,7 @@ impl MockEnvBuilder {
                 .unwrap();
         }
 
-        self.set_address(MarsAddressType::RedBank, addr.clone());
+        self.set_address(FuryAddressType::RedBank, addr.clone());
 
         RedBankUnchecked::new(addr.to_string())
     }

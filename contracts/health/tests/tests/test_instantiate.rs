@@ -1,9 +1,9 @@
 use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
-use mars_rover_health::{
+use fury_rover_health::{
     contract::instantiate,
     state::{CREDIT_MANAGER, OWNER},
 };
-use mars_types::health::InstantiateMsg;
+use fury_types::health::InstantiateMsg;
 
 #[test]
 fn instantiate_without_credit_manager() {

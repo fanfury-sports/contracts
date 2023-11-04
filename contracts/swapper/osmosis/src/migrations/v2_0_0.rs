@@ -1,7 +1,7 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::{assert_contract_version, set_contract_version};
-use mars_owner::OwnerInit;
-use mars_swapper_base::ContractError;
+use fury_owner::OwnerInit;
+use fury_swapper_base::ContractError;
 
 use crate::contract::{OsmosisSwap, CONTRACT_NAME, CONTRACT_VERSION};
 

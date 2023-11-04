@@ -1,6 +1,6 @@
 use cosmwasm_std::{coin, Addr};
-use mars_credit_manager::borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED;
-use mars_types::credit_manager::{Action, SharesResponseItem};
+use fury_credit_manager::borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED;
+use fury_types::credit_manager::{Action, SharesResponseItem};
 
 use super::helpers::{build_mock_coin_infos, AccountToFund, MockEnv};
 

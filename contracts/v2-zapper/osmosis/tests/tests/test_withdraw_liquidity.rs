@@ -1,8 +1,8 @@
 use cosmwasm_std::{coin, Coin, Uint128};
 use cw_dex::CwDexError;
 use cw_utils::PaymentError;
-use mars_types::zapper::{ExecuteMsg, QueryMsg};
-use mars_zapper_base::ContractError;
+use fury_types::zapper::{ExecuteMsg, QueryMsg};
+use fury_zapper_base::ContractError;
 use osmosis_test_tube::{Account, Bank, Gamm, Module, OsmosisTestApp, Wasm};
 
 use super::helpers::{assert_err, instantiate_contract, query_balance};

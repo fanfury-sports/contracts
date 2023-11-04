@@ -12,9 +12,9 @@ use cw_it::{
     traits::CwItRunner,
     ContractMap, ContractType, TestRunner,
 };
-use mars_oracle_wasm::WasmPriceSourceUnchecked;
-use mars_owner::OwnerUpdate;
-use mars_types::oracle::{InstantiateMsg, WasmOracleCustomExecuteMsg, WasmOracleCustomInitParams};
+use fury_oracle_wasm::WasmPriceSourceUnchecked;
+use fury_owner::OwnerUpdate;
+use fury_types::oracle::{InstantiateMsg, WasmOracleCustomExecuteMsg, WasmOracleCustomInitParams};
 
 use crate::test_runner::get_test_runner;
 
@@ -28,12 +28,12 @@ pub const APPEND_ARCH: bool = false;
 /// The path to the artifacts folder
 pub const ASTRO_ARTIFACTS_PATH: Option<&str> = Some("tests/astroport-artifacts");
 
-pub const ORACLE_CONTRACT_NAME: &str = "mars-oracle-wasm";
+pub const ORACLE_CONTRACT_NAME: &str = "fury-oracle-wasm";
 
 pub struct WasmOracleTestRobot<'a> {
     runner: &'a TestRunner<'a>,
     pub astroport_contracts: AstroportContracts,
-    pub mars_oracle_contract_addr: String,
+    pub fury_oracle_contract_addr: String,
 }
 
 impl<'a> WasmOracleTestRobot<'a> {
@@ -50,7 +50,7 @@ impl<'a> WasmOracleTestRobot<'a> {
         Self {
             runner,
             astroport_contracts,
-            mars_oracle_contract_addr: contract_addr,
+            fury_oracle_contract_addr: contract_addr,
         }
     }
 
@@ -71,7 +71,7 @@ impl<'a> WasmOracleTestRobot<'a> {
                 runner, admin, &code_ids,
             );
 
-        // Instantiate Mars Oracle Wasm contract
+        // Instantiate Fury Oracle Wasm contract
         let code_id = code_ids[ORACLE_CONTRACT_NAME];
         let init_msg = InstantiateMsg::<WasmOracleCustomInitParams> {
             owner: admin_addr.clone(),
@@ -114,11 +114,11 @@ impl<'a> WasmOracleTestRobot<'a> {
         price_source: WasmPriceSourceUnchecked,
         signer: &SigningAccount,
     ) -> &Self {
-        let msg = mars_types::oracle::ExecuteMsg::<_, Empty>::SetPriceSource {
+        let msg = fury_types::oracle::ExecuteMsg::<_, Empty>::SetPriceSource {
             denom: denom.to_string(),
             price_source,
         };
-        self.wasm().execute(&self.mars_oracle_contract_addr, &msg, &[], signer).unwrap();
+        self.wasm().execute(&self.fury_oracle_contract_addr, &msg, &[], signer).unwrap();
         self
     }
 
@@ -134,10 +134,10 @@ impl<'a> WasmOracleTestRobot<'a> {
     }
 
     pub fn remove_price_source(&self, signer: &SigningAccount, denom: &str) -> &Self {
-        let msg = mars_types::oracle::ExecuteMsg::<Empty>::RemovePriceSource {
+        let msg = fury_types::oracle::ExecuteMsg::<Empty>::RemovePriceSource {
             denom: denom.to_string(),
         };
-        self.wasm().execute(&self.mars_oracle_contract_addr, &msg, &[], signer).unwrap();
+        self.wasm().execute(&self.fury_oracle_contract_addr, &msg, &[], signer).unwrap();
         self
     }
 
@@ -145,43 +145,43 @@ impl<'a> WasmOracleTestRobot<'a> {
         &self,
         start_after: Option<String>,
         limit: Option<u32>,
-    ) -> Vec<mars_types::oracle::PriceSourceResponse<WasmPriceSourceUnchecked>> {
-        let msg = &mars_types::oracle::QueryMsg::PriceSources {
+    ) -> Vec<fury_types::oracle::PriceSourceResponse<WasmPriceSourceUnchecked>> {
+        let msg = &fury_types::oracle::QueryMsg::PriceSources {
             start_after,
             limit,
         };
-        self.wasm().query(&self.mars_oracle_contract_addr, &msg).unwrap()
+        self.wasm().query(&self.fury_oracle_contract_addr, &msg).unwrap()
     }
 
     pub fn query_price_source(
         &self,
         denom: &str,
-    ) -> mars_types::oracle::PriceSourceResponse<WasmPriceSourceUnchecked> {
-        let msg = &mars_types::oracle::QueryMsg::PriceSource {
+    ) -> fury_types::oracle::PriceSourceResponse<WasmPriceSourceUnchecked> {
+        let msg = &fury_types::oracle::QueryMsg::PriceSource {
             denom: denom.to_string(),
         };
-        self.wasm().query(&self.mars_oracle_contract_addr, &msg).unwrap()
+        self.wasm().query(&self.fury_oracle_contract_addr, &msg).unwrap()
     }
 
-    pub fn query_price(&self, denom: &str) -> mars_types::oracle::PriceResponse {
-        let msg = &mars_types::oracle::QueryMsg::Price {
+    pub fn query_price(&self, denom: &str) -> fury_types::oracle::PriceResponse {
+        let msg = &fury_types::oracle::QueryMsg::Price {
             denom: denom.to_string(),
             kind: None,
         };
-        self.wasm().query(&self.mars_oracle_contract_addr, &msg).unwrap()
+        self.wasm().query(&self.fury_oracle_contract_addr, &msg).unwrap()
     }
 
     pub fn query_prices(
         &self,
         start_after: Option<String>,
         limit: Option<u32>,
-    ) -> Vec<mars_types::oracle::PriceResponse> {
-        let msg = &mars_types::oracle::QueryMsg::Prices {
+    ) -> Vec<fury_types::oracle::PriceResponse> {
+        let msg = &fury_types::oracle::QueryMsg::Prices {
             start_after,
             limit,
             kind: None,
         };
-        self.wasm().query(&self.mars_oracle_contract_addr, &msg).unwrap()
+        self.wasm().query(&self.fury_oracle_contract_addr, &msg).unwrap()
     }
 
     /// Queries the oracle price and asserts that it is equal to the expected price
@@ -228,12 +228,12 @@ impl<'a> WasmOracleTestRobot<'a> {
     }
 
     pub fn record_twap_snapshots(&self, denoms: &[&str], signer: &SigningAccount) -> &Self {
-        let msg = &mars_types::oracle::ExecuteMsg::<Empty, WasmOracleCustomExecuteMsg>::Custom(
+        let msg = &fury_types::oracle::ExecuteMsg::<Empty, WasmOracleCustomExecuteMsg>::Custom(
             WasmOracleCustomExecuteMsg::RecordTwapSnapshots {
                 denoms: denoms.iter().map(|d| d.to_string()).collect(),
             },
         );
-        self.wasm().execute(&self.mars_oracle_contract_addr, &msg, &[], signer).unwrap();
+        self.wasm().execute(&self.fury_oracle_contract_addr, &msg, &[], signer).unwrap();
         self
     }
     pub fn query_price_via_simulation(&self, pair_addr: &str, denom: &str) -> Decimal {
@@ -251,14 +251,14 @@ impl<'a> WasmOracleTestRobot<'a> {
     // =====  Owner update methods ======
 
     pub fn owner_update(&self, update_msg: OwnerUpdate, signer: &SigningAccount) -> &Self {
-        let msg = &mars_types::oracle::ExecuteMsg::<Empty>::UpdateOwner(update_msg);
-        self.wasm().execute(&self.mars_oracle_contract_addr, &msg, &[], signer).unwrap();
+        let msg = &fury_types::oracle::ExecuteMsg::<Empty>::UpdateOwner(update_msg);
+        self.wasm().execute(&self.fury_oracle_contract_addr, &msg, &[], signer).unwrap();
         self
     }
 
-    pub fn query_config(&self) -> mars_types::oracle::ConfigResponse {
-        let msg = &mars_types::oracle::QueryMsg::Config {};
-        self.wasm().query(&self.mars_oracle_contract_addr, &msg).unwrap()
+    pub fn query_config(&self) -> fury_types::oracle::ConfigResponse {
+        let msg = &fury_types::oracle::QueryMsg::Config {};
+        self.wasm().query(&self.fury_oracle_contract_addr, &msg).unwrap()
     }
 
     pub fn assert_owner(&self, expected_owner: impl Into<String>) -> &Self {
@@ -310,11 +310,11 @@ pub fn get_wasm_oracle_contract(runner: &TestRunner) -> ContractType {
         }
         TestRunner::MultiTest(_) => ContractType::MultiTestContract(Box::new(
             cw_it::cw_multi_test::ContractWrapper::new(
-                mars_oracle_wasm::contract::entry::execute,
-                mars_oracle_wasm::contract::entry::instantiate,
-                mars_oracle_wasm::contract::entry::query,
+                fury_oracle_wasm::contract::entry::execute,
+                fury_oracle_wasm::contract::entry::instantiate,
+                fury_oracle_wasm::contract::entry::query,
             )
-            .with_migrate(mars_oracle_wasm::contract::entry::migrate),
+            .with_migrate(fury_oracle_wasm::contract::entry::migrate),
         )),
         _ => panic!("Unsupported test runner type"),
     }

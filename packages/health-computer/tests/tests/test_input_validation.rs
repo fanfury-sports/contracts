@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{coin, Addr, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     adapters::vault::{
         CoinValue, Vault, VaultAmount, VaultPosition, VaultPositionAmount, VaultPositionValue,
     },
@@ -11,17 +11,17 @@ use mars_types::{
     params::VaultConfig,
 };
 
-use super::helpers::{udai_info, umars_info};
+use super::helpers::{udai_info, ufury_info};
 
 #[test]
 fn missing_price_data() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -35,7 +35,7 @@ fn missing_price_data() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -43,7 +43,7 @@ fn missing_price_data() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -61,12 +61,12 @@ fn missing_price_data() {
 
 #[test]
 fn missing_params() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([(udai.denom.clone(), udai.params.clone())]),
@@ -81,7 +81,7 @@ fn missing_params() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -89,7 +89,7 @@ fn missing_params() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -102,7 +102,7 @@ fn missing_params() {
     };
 
     let err: HealthError = h.compute_health().unwrap_err();
-    assert_eq!(err, HealthError::MissingParams(umars.denom))
+    assert_eq!(err, HealthError::MissingParams(ufury.denom))
 }
 
 #[test]
@@ -257,11 +257,11 @@ fn missing_vault_config() {
 
 #[test]
 fn missing_hls_params() {
-    let umars = umars_info();
+    let ufury = ufury_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
-        params: HashMap::from([(umars.denom.clone(), umars.params.clone())]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
+        params: HashMap::from([(ufury.denom.clone(), ufury.params.clone())]),
     };
 
     let vaults_data = VaultsData {
@@ -273,9 +273,9 @@ fn missing_hls_params() {
         kind: AccountKind::HighLeveredStrategy,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom)],
+            deposits: vec![coin(1200, &ufury.denom)],
             debts: vec![DebtAmount {
-                denom: umars.denom.clone(),
+                denom: ufury.denom.clone(),
                 shares: Default::default(),
                 amount: Uint128::new(200),
             }],
@@ -287,5 +287,5 @@ fn missing_hls_params() {
     };
 
     let err: HealthError = h.compute_health().unwrap_err();
-    assert_eq!(err, HealthError::MissingHLSParams(umars.denom))
+    assert_eq!(err, HealthError::MissingHLSParams(ufury.denom))
 }

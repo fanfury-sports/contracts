@@ -1,15 +1,15 @@
 use std::string::FromUtf8Error;
 
 use cosmwasm_std::{Coin, StdError};
-use mars_owner::OwnerError;
-use mars_types::error::MarsError;
-use mars_utils::error::{GuardError, ValidationError};
+use fury_owner::OwnerError;
+use fury_types::error::FuryError;
+use fury_utils::error::{GuardError, ValidationError};
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]
 pub enum ContractError {
     #[error("{0}")]
-    Mars(#[from] MarsError),
+    Fury(#[from] FuryError),
 
     #[error("{0}")]
     Validation(#[from] ValidationError),

@@ -1,7 +1,7 @@
 use std::vec;
 
 use cosmwasm_std::{coin, Coin, CosmosMsg, Env, StdError};
-use mars_rewards_collector_base::{
+use fury_rewards_collector_base::{
     contract::Collector, ContractError, ContractResult, IbcTransferMsg,
 };
 use neutron_sdk::{
@@ -16,7 +16,7 @@ impl IbcTransferMsg<NeutronMsg> for NeutronIbcMsgFactory {
         env: Env,
         to_address: String,
         amount: Coin,
-        cfg: mars_types::rewards_collector::Config,
+        cfg: fury_types::rewards_collector::Config,
     ) -> ContractResult<CosmosMsg<NeutronMsg>> {
         let neutron_config = cfg.neutron_ibc_config.ok_or(ContractError::Std(
             StdError::generic_err("source_port must be provided for neutron"),
@@ -51,8 +51,8 @@ pub mod entry {
         entry_point, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
     };
     use cw2::set_contract_version;
-    use mars_rewards_collector_base::ContractResult;
-    use mars_types::rewards_collector::{ExecuteMsg, InstantiateMsg, QueryMsg};
+    use fury_rewards_collector_base::ContractResult;
+    use fury_types::rewards_collector::{ExecuteMsg, InstantiateMsg, QueryMsg};
     use neutron_sdk::bindings::msg::NeutronMsg;
 
     use crate::NeutronCollector;

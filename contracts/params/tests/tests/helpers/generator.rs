@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{coin, Decimal, Uint128};
-use mars_types::params::{
+use fury_types::params::{
     AssetParamsUnchecked, CmSettings, LiquidationBonus, RedBankSettings, VaultConfigUnchecked,
 };
 

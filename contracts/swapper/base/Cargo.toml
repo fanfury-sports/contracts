@@ -1,5 +1,5 @@
 [package]
-name          = "mars-swapper-base"
+name          = "fury-swapper-base"
 version       = { workspace = true }
 authors       = { workspace = true }
 license       = { workspace = true }
@@ -24,8 +24,8 @@ cosmwasm-std    = { workspace = true }
 cw2             = { workspace = true }
 cw-paginate     = { workspace = true }
 cw-storage-plus = { workspace = true }
-mars-owner      = { workspace = true }
-mars-types      = { workspace = true }
+fury-owner      = { workspace = true }
+fury-types      = { workspace = true }
 schemars        = { workspace = true }
 serde           = { workspace = true }
 thiserror       = { workspace = true }

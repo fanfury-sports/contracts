@@ -1,7 +1,7 @@
 use cosmwasm_std::{Addr, Decimal, Uint128};
 use cw_storage_plus::{Item, Map};
-use mars_owner::Owner;
-use mars_types::{
+use fury_owner::Owner;
+use fury_types::{
     adapters::{
         account_nft::AccountNft, health::HealthContract, incentives::Incentives, oracle::Oracle,
         params::Params, red_bank::RedBank, rewards_collector::RewardsCollector, swapper::Swapper,
@@ -9,7 +9,7 @@ use mars_types::{
     },
     health::AccountKind,
 };
-use mars_utils::guard::Guard;
+use fury_utils::guard::Guard;
 
 use crate::vault::RequestTempStorage;
 

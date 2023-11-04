@@ -3,9 +3,9 @@ use cw_it::{
     osmosis_test_tube::{Account, Bank, Gamm, Module, OsmosisTestApp, Wasm},
     test_tube::FeeSetting,
 };
-use mars_swapper_base::ContractError;
-use mars_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
-use mars_types::swapper::ExecuteMsg;
+use fury_swapper_base::ContractError;
+use fury_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
+use fury_types::swapper::ExecuteMsg;
 
 use super::helpers::{
     assert_err, instantiate_contract, query_balance, swap_to_create_twap_records,
@@ -27,7 +27,7 @@ fn transfer_callback_only_internal() {
             &contract_addr,
             &ExecuteMsg::<OsmosisRoute>::TransferResult {
                 recipient: Addr::unchecked(bad_guy.address()),
-                denom_in: "mars".to_string(),
+                denom_in: "fury".to_string(),
                 denom_out: "osmo".to_string(),
             },
             &[],
@@ -50,7 +50,7 @@ fn max_slippage_exeeded() {
     let wasm = Wasm::new(&app);
 
     let accs = app
-        .init_accounts(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "umars")], 2)
+        .init_accounts(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "ufury")], 2)
         .unwrap();
     let owner = &accs[0];
     let other_guy = &accs[1];
@@ -61,11 +61,11 @@ fn max_slippage_exeeded() {
         .execute(
             &contract_addr,
             &ExecuteMsg::<OsmosisRoute>::SwapExactIn {
-                coin_in: coin(1_000_000, "umars"),
+                coin_in: coin(1_000_000, "ufury"),
                 denom_out: "uosmo".to_string(),
                 slippage: Decimal::percent(11),
             },
-            &[coin(1_000_000, "umars")],
+            &[coin(1_000_000, "ufury")],
             other_guy,
         )
         .unwrap_err();
@@ -85,30 +85,30 @@ fn swap_exact_in_slippage_too_high() {
     let wasm = Wasm::new(&app);
 
     let signer = app
-        .init_account(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "umars")])
+        .init_account(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "ufury")])
         .unwrap();
-    let whale = app.init_account(&[coin(1_000_000, "umars"), coin(1_000_000, "uosmo")]).unwrap();
+    let whale = app.init_account(&[coin(1_000_000, "ufury"), coin(1_000_000, "uosmo")]).unwrap();
 
     let contract_addr = instantiate_contract(&wasm, &signer);
 
     let gamm = Gamm::new(&app);
-    let pool_mars_osmo = gamm
-        .create_basic_pool(&[coin(6_000_000, "umars"), coin(1_500_000, "uosmo")], &signer)
+    let pool_fury_osmo = gamm
+        .create_basic_pool(&[coin(6_000_000, "ufury"), coin(1_500_000, "uosmo")], &signer)
         .unwrap()
         .data
         .pool_id;
 
-    swap_to_create_twap_records(&app, &signer, pool_mars_osmo, coin(10u128, "umars"), "uosmo");
+    swap_to_create_twap_records(&app, &signer, pool_fury_osmo, coin(10u128, "ufury"), "uosmo");
 
     let route = OsmosisRoute(vec![SwapAmountInRoute {
-        pool_id: pool_mars_osmo,
+        pool_id: pool_fury_osmo,
         token_out_denom: "uosmo".to_string(),
     }]);
 
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::SetRoute {
-            denom_in: "umars".to_string(),
+            denom_in: "ufury".to_string(),
             denom_out: "uosmo".to_string(),
             route,
         },
@@ -122,11 +122,11 @@ fn swap_exact_in_slippage_too_high() {
         .execute(
             &contract_addr,
             &ExecuteMsg::<OsmosisRoute>::SwapExactIn {
-                coin_in: coin(1_000_000, "umars"),
+                coin_in: coin(1_000_000, "ufury"),
                 denom_out: "uosmo".to_string(),
                 slippage: Decimal::percent(5),
             },
-            &[coin(1_000_000, "umars")],
+            &[coin(1_000_000, "ufury")],
             &whale,
         )
         .unwrap_err();
@@ -145,13 +145,13 @@ fn swap_exact_in_success() {
     let wasm = Wasm::new(&app);
 
     let signer = app
-        .init_account(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "umars")])
+        .init_account(&[coin(1_000_000_000_000, "uosmo"), coin(1_000_000_000_000, "ufury")])
         .unwrap();
 
     let tx_fee = 1_000_000u128;
     let user_osmo_starting_amount = 10_000_000u128;
     let user = app
-        .init_account(&[coin(10_000, "umars"), coin(user_osmo_starting_amount, "uosmo")])
+        .init_account(&[coin(10_000, "ufury"), coin(user_osmo_starting_amount, "uosmo")])
         .unwrap()
         .with_fee_setting(FeeSetting::Custom {
             amount: Coin::new(tx_fee, "uosmo"),
@@ -161,21 +161,21 @@ fn swap_exact_in_success() {
     let contract_addr = instantiate_contract(&wasm, &signer);
 
     let gamm = Gamm::new(&app);
-    let pool_mars_osmo = gamm
-        .create_basic_pool(&[coin(6_000_000, "umars"), coin(1_500_000, "uosmo")], &signer)
+    let pool_fury_osmo = gamm
+        .create_basic_pool(&[coin(6_000_000, "ufury"), coin(1_500_000, "uosmo")], &signer)
         .unwrap()
         .data
         .pool_id;
 
-    swap_to_create_twap_records(&app, &signer, pool_mars_osmo, coin(10u128, "umars"), "uosmo");
+    swap_to_create_twap_records(&app, &signer, pool_fury_osmo, coin(10u128, "ufury"), "uosmo");
 
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::SetRoute {
-            denom_in: "umars".to_string(),
+            denom_in: "ufury".to_string(),
             denom_out: "uosmo".to_string(),
             route: OsmosisRoute(vec![SwapAmountInRoute {
-                pool_id: pool_mars_osmo,
+                pool_id: pool_fury_osmo,
                 token_out_denom: "uosmo".to_string(),
             }]),
         },
@@ -186,31 +186,31 @@ fn swap_exact_in_success() {
 
     let bank = Bank::new(&app);
     let osmo_balance = query_balance(&bank, &user.address(), "uosmo");
-    let mars_balance = query_balance(&bank, &user.address(), "umars");
+    let fury_balance = query_balance(&bank, &user.address(), "ufury");
     assert_eq!(osmo_balance, user_osmo_starting_amount);
-    assert_eq!(mars_balance, 10_000);
+    assert_eq!(fury_balance, 10_000);
 
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::<OsmosisRoute>::SwapExactIn {
-            coin_in: coin(10_000, "umars"),
+            coin_in: coin(10_000, "ufury"),
             denom_out: "uosmo".to_string(),
             slippage: Decimal::percent(6),
         },
-        &[coin(10_000, "umars")],
+        &[coin(10_000, "ufury")],
         &user,
     )
     .unwrap();
 
     // Assert user receives their new tokens
     let osmo_balance = query_balance(&bank, &user.address(), "uosmo");
-    let mars_balance = query_balance(&bank, &user.address(), "umars");
+    let fury_balance = query_balance(&bank, &user.address(), "ufury");
     assert_eq!(osmo_balance, 2470 + user_osmo_starting_amount - tx_fee);
-    assert_eq!(mars_balance, 0);
+    assert_eq!(fury_balance, 0);
 
     // Assert no tokens in contract left over
     let osmo_balance = query_balance(&bank, &contract_addr, "uosmo");
-    let mars_balance = query_balance(&bank, &contract_addr, "umars");
+    let fury_balance = query_balance(&bank, &contract_addr, "ufury");
     assert_eq!(osmo_balance, 0);
-    assert_eq!(mars_balance, 0);
+    assert_eq!(fury_balance, 0);
 }

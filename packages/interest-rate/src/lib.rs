@@ -1,5 +1,5 @@
 use cosmwasm_std::{Decimal, StdError, StdResult, Uint128};
-use mars_types::{error::MarsError, red_bank::Market};
+use fury_types::{error::FuryError, red_bank::Market};
 
 /// Scaling factor used to keep more precision during division / multiplication by index.
 pub const SCALING_FACTOR: Uint128 = Uint128::new(1_000_000);
@@ -30,7 +30,7 @@ pub fn get_scaled_liquidity_amount(
     amount: Uint128,
     market: &Market,
     timestamp: u64,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     compute_scaled_amount(
         amount,
         get_updated_liquidity_index(market, timestamp)?,
@@ -47,7 +47,7 @@ pub fn get_underlying_liquidity_amount(
     amount_scaled: Uint128,
     market: &Market,
     timestamp: u64,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     compute_underlying_amount(
         amount_scaled,
         get_updated_liquidity_index(market, timestamp)?,
@@ -67,7 +67,7 @@ pub fn get_scaled_debt_amount(
     amount: Uint128,
     market: &Market,
     timestamp: u64,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     compute_scaled_amount(
         amount,
         get_updated_borrow_index(market, timestamp)?,
@@ -84,7 +84,7 @@ pub fn get_underlying_debt_amount(
     amount_scaled: Uint128,
     market: &Market,
     timestamp: u64,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     compute_underlying_amount(
         amount_scaled,
         get_updated_borrow_index(market, timestamp)?,
@@ -107,7 +107,7 @@ pub fn compute_scaled_amount(
     amount: Uint128,
     index: Decimal,
     scaling_operation: ScalingOperation,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     // Scale by SCALING_FACTOR to have better precision
     let scaled_amount = amount.checked_mul(SCALING_FACTOR)?;
     match scaling_operation {
@@ -122,7 +122,7 @@ pub fn compute_underlying_amount(
     scaled_amount: Uint128,
     index: Decimal,
     scaling_operation: ScalingOperation,
-) -> Result<Uint128, MarsError> {
+) -> Result<Uint128, FuryError> {
     // Multiply scaled amount by decimal (index)
     let before_scaling_factor = scaled_amount * index;
 

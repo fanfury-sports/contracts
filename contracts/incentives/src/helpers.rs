@@ -5,8 +5,8 @@ use cosmwasm_std::{
     QuerierWrapper, StdError, StdResult, Storage, Uint128,
 };
 use cw_storage_plus::Bound;
-use mars_types::{
-    address_provider::{self, MarsAddressType},
+use fury_types::{
+    address_provider::{self, FuryAddressType},
     incentives::IncentiveState,
     keys::{UserId, UserIdKey},
     red_bank,
@@ -132,7 +132,7 @@ pub fn query_red_bank_total_collateral(
     let red_bank_addr = address_provider::helpers::query_contract_addr(
         deps,
         address_provider,
-        MarsAddressType::RedBank,
+        FuryAddressType::RedBank,
     )?;
     let market: red_bank::Market = deps.querier.query_wasm_smart(
         red_bank_addr,

@@ -10,14 +10,14 @@ use cw_it::{
     test_tube::{Account, Module, RunnerExecuteResult, SigningAccount, Wasm},
     ContractMap, ContractType, TestRunner,
 };
-use mars_owner::OwnerResponse;
-use mars_swapper_astroport::route::AstroportRoute;
-use mars_types::swapper::{EstimateExactInSwapResponse, RouteResponse, RoutesResponse};
+use fury_owner::OwnerResponse;
+use fury_swapper_astroport::route::AstroportRoute;
+use fury_types::swapper::{EstimateExactInSwapResponse, RouteResponse, RoutesResponse};
 
 use crate::wasm_oracle::{get_wasm_oracle_contract, WasmOracleTestRobot};
 
 #[cfg(feature = "osmosis-test-tube")]
-const CONTRACT_NAME: &str = "mars_swapper_astroport";
+const CONTRACT_NAME: &str = "fury_swapper_astroport";
 
 pub const ASTRO_ARTIFACTS_PATH: Option<&str> = Some("tests/astroport-artifacts");
 
@@ -47,9 +47,9 @@ fn get_local_swapper_contract(runner: &TestRunner) -> ContractType {
         }
         TestRunner::MultiTest(_) => {
             ContractType::MultiTestContract(Box::new(ContractWrapper::new(
-                mars_swapper_astroport::contract::execute,
-                mars_swapper_astroport::contract::instantiate,
-                mars_swapper_astroport::contract::query,
+                fury_swapper_astroport::contract::execute,
+                fury_swapper_astroport::contract::instantiate,
+                fury_swapper_astroport::contract::query,
             )))
         }
         _ => panic!("Unsupported test runner type"),
@@ -58,9 +58,9 @@ fn get_local_swapper_contract(runner: &TestRunner) -> ContractType {
 
 pub struct AstroportSwapperRobot<'a> {
     pub runner: &'a TestRunner<'a>,
-    /// The mars-swapper-astroport contract address
+    /// The fury-swapper-astroport contract address
     pub swapper: String,
-    /// The mars wasm oracle address
+    /// The fury wasm oracle address
     pub oracle_robot: WasmOracleTestRobot<'a>,
 }
 
@@ -81,7 +81,7 @@ impl<'a> AstroportSwapperRobot<'a> {
     ///
     /// The contracts map must contain contracts for the following keys:
     /// - All contracts in the AstroportContracts struct
-    /// - Mars swapper with key being the CARGO_PKG_NAME environment variable
+    /// - Fury swapper with key being the CARGO_PKG_NAME environment variable
     ///
     /// The contracts in the ContractMap must be compatible with the given TestRunner,
     /// else this function will panic.
@@ -93,7 +93,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         admin: &SigningAccount,
     ) -> Self {
         let mut contracts = astroport_contracts;
-        contracts.insert("mars-oracle-wasm".to_string(), oracle_contract);
+        contracts.insert("fury-oracle-wasm".to_string(), oracle_contract);
         let oracle_robot = WasmOracleTestRobot::new(runner, contracts, admin, Some("usd"));
 
         let swapper_code_id =
@@ -103,7 +103,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         let swapper = wasm
             .instantiate(
                 swapper_code_id,
-                &mars_types::swapper::InstantiateMsg {
+                &fury_types::swapper::InstantiateMsg {
                     owner: admin.address(),
                 },
                 None,
@@ -144,12 +144,12 @@ impl<'a> AstroportSwapperRobot<'a> {
         self.wasm()
             .execute(
                 &self.swapper,
-                &mars_types::swapper::ExecuteMsg::SetRoute {
+                &fury_types::swapper::ExecuteMsg::SetRoute {
                     route: AstroportRoute {
                         operations,
                         router: self.astroport_contracts().router.address.clone(),
                         factory: self.astroport_contracts().factory.address.clone(),
-                        oracle: self.oracle_robot.mars_oracle_contract_addr.clone(),
+                        oracle: self.oracle_robot.fury_oracle_contract_addr.clone(),
                     },
                     denom_in: denom_in.into(),
                     denom_out: denom_out.into(),
@@ -183,7 +183,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         println!("sending {} to swapper contract", coin_in);
         self.wasm().execute(
             &self.swapper,
-            &mars_types::swapper::ExecuteMsg::<AstroportRoute>::SwapExactIn {
+            &fury_types::swapper::ExecuteMsg::<AstroportRoute>::SwapExactIn {
                 coin_in: coin_in.clone(),
                 denom_out: denom_out.into(),
                 slippage,
@@ -201,7 +201,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         self.wasm()
             .query::<_, EstimateExactInSwapResponse>(
                 &self.swapper,
-                &mars_types::swapper::QueryMsg::EstimateExactInSwap {
+                &fury_types::swapper::QueryMsg::EstimateExactInSwap {
                     coin_in: coin_in.clone(),
                     denom_out: denom_out.into(),
                 },
@@ -218,7 +218,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         self.wasm()
             .query::<_, RouteResponse<AstroportRoute>>(
                 &self.swapper,
-                &mars_types::swapper::QueryMsg::Route {
+                &fury_types::swapper::QueryMsg::Route {
                     denom_in: denom_in.into(),
                     denom_out: denom_out.into(),
                 },
@@ -235,7 +235,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         self.wasm()
             .query::<_, RoutesResponse<AstroportRoute>>(
                 &self.swapper,
-                &mars_types::swapper::QueryMsg::Routes {
+                &fury_types::swapper::QueryMsg::Routes {
                     start_after,
                     limit,
                 },
@@ -245,7 +245,7 @@ impl<'a> AstroportSwapperRobot<'a> {
 
     pub fn query_owner(&self) -> Option<String> {
         self.wasm()
-            .query::<_, OwnerResponse>(&self.swapper, &mars_types::swapper::QueryMsg::Owner {})
+            .query::<_, OwnerResponse>(&self.swapper, &fury_types::swapper::QueryMsg::Owner {})
             .unwrap()
             .owner
     }
@@ -260,7 +260,7 @@ impl<'a> AstroportSwapperRobot<'a> {
         assert_eq!(route.operations, operations);
         assert_eq!(route.router, self.astroport_contracts().router.address);
         assert_eq!(route.factory, self.astroport_contracts().factory.address);
-        assert_eq!(route.oracle, self.oracle_robot.mars_oracle_contract_addr);
+        assert_eq!(route.oracle, self.oracle_robot.fury_oracle_contract_addr);
         self
     }
 }

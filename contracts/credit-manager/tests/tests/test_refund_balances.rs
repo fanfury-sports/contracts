@@ -1,5 +1,5 @@
 use cosmwasm_std::{coin, Addr, Uint128};
-use mars_types::credit_manager::Action::{Deposit, EnterVault, RefundAllCoinBalances};
+use fury_types::credit_manager::Action::{Deposit, EnterVault, RefundAllCoinBalances};
 
 use super::helpers::{
     locked_vault_info, lp_token_info, uatom_info, uosmo_info, AccountToFund, MockEnv,

@@ -1,5 +1,5 @@
 [package]
-name          = "mars-credit-manager"
+name          = "fury-credit-manager"
 version       = { workspace = true }
 authors       = { workspace = true }
 license       = { workspace = true }
@@ -28,24 +28,24 @@ cw-paginate       = { workspace = true }
 cw-storage-plus   = { workspace = true }
 cw-utils          = { workspace = true }
 cw-vault-standard = { workspace = true }
-mars-liquidation  = { workspace = true }
-mars-owner        = { workspace = true }
-mars-types        = { workspace = true }
-mars-utils        = { workspace = true }
+fury-liquidation  = { workspace = true }
+fury-owner        = { workspace = true }
+fury-types        = { workspace = true }
+fury-utils        = { workspace = true }
 thiserror         = { workspace = true }
 
 [dev-dependencies]
 anyhow                = { workspace = true }
 cw-multi-test         = { workspace = true }
 itertools             = { workspace = true }
-mars-account-nft      = { workspace = true }
-mars-address-provider = { workspace = true }
-mars-mock-incentives  = { workspace = true }
-mars-mock-oracle      = { workspace = true }
-mars-mock-red-bank    = { workspace = true }
-mars-mock-vault       = { workspace = true }
-mars-params           = { workspace = true }
-mars-rover-health     = { workspace = true }
-mars-swapper-mock     = { workspace = true }
-mars-zapper-mock      = { workspace = true }
+fury-account-nft      = { workspace = true }
+fury-address-provider = { workspace = true }
+fury-mock-incentives  = { workspace = true }
+fury-mock-oracle      = { workspace = true }
+fury-mock-red-bank    = { workspace = true }
+fury-mock-vault       = { workspace = true }
+fury-params           = { workspace = true }
+fury-rover-health     = { workspace = true }
+fury-swapper-mock     = { workspace = true }
+fury-zapper-mock      = { workspace = true }
 test-case             = { workspace = true }

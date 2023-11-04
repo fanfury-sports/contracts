@@ -1,5 +1,5 @@
 use cosmwasm_std::{DepsMut, MessageInfo, Response};
-use mars_types::health::HealthResult;
+use fury_types::health::HealthResult;
 
 use crate::state::{CREDIT_MANAGER, OWNER};
 

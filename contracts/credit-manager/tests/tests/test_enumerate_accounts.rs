@@ -1,5 +1,5 @@
 use cosmwasm_std::Addr;
-use mars_types::{credit_manager::Account, health::AccountKind};
+use fury_types::{credit_manager::Account, health::AccountKind};
 
 use super::helpers::MockEnv;
 

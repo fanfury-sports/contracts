@@ -1,10 +1,10 @@
 use cosmwasm_std::Addr;
-use mars_credit_manager::error::ContractError;
-use mars_types::credit_manager::{
+use fury_credit_manager::error::ContractError;
+use fury_types::credit_manager::{
     Action::{Deposit, EnterVault},
     CallbackMsg,
 };
-use mars_utils::error::GuardError;
+use fury_utils::error::GuardError;
 
 use super::helpers::{assert_err, lp_token_info, unlocked_vault_info, AccountToFund, MockEnv};
 

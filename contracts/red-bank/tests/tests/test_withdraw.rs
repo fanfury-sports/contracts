@@ -5,21 +5,21 @@ use cosmwasm_std::{
     testing::{mock_env, mock_info, MockApi, MockStorage},
     to_binary, Addr, BankMsg, CosmosMsg, Decimal, OwnedDeps, SubMsg, Uint128, WasmMsg,
 };
-use mars_interest_rate::{
+use fury_interest_rate::{
     compute_scaled_amount, compute_underlying_amount, get_scaled_liquidity_amount,
     get_updated_borrow_index, get_updated_liquidity_index, ScalingOperation, SCALING_FACTOR,
 };
-use mars_red_bank::{
+use fury_red_bank::{
     contract::execute,
     error::ContractError,
     state::{COLLATERALS, DEBTS, MARKETS},
 };
-use mars_testing::{
-    integration::mock_env::MockEnvBuilder, mock_env_at_block_time, MarsMockQuerier,
+use fury_testing::{
+    integration::mock_env::MockEnvBuilder, mock_env_at_block_time, FuryMockQuerier,
 };
-use mars_types::{
-    address_provider::MarsAddressType,
-    error::MarsError,
+use fury_types::{
+    address_provider::FuryAddressType,
+    error::FuryError,
     incentives,
     keys::{UserId, UserIdKey},
     params::AssetParams,
@@ -33,7 +33,7 @@ use super::helpers::{
 use crate::tests::helpers::{assert_err_with_str, osmo_asset_params, usdc_asset_params};
 
 struct TestSuite {
-    deps: OwnedDeps<MockStorage, MockApi, MarsMockQuerier>,
+    deps: OwnedDeps<MockStorage, MockApi, FuryMockQuerier>,
     denom: &'static str,
     withdrawer_addr: Addr,
     initial_market: Market,
@@ -185,9 +185,9 @@ fn withdrawing_partially() {
         res.messages,
         vec![
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                    user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                    user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                     account_id: None,
                     denom: denom.to_string(),
                     user_amount_scaled_before: Uint128::zero(),
@@ -197,7 +197,7 @@ fn withdrawing_partially() {
                 funds: vec![],
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                     user_addr: withdrawer_addr.clone(),
                     account_id: None,
@@ -244,7 +244,7 @@ fn withdrawing_partially() {
     assert_eq!(collateral.amount_scaled, expected_withdraw_amount_scaled_remaining);
 
     // the reward collector's collateral scaled amount should have been increased
-    let rewards_addr = Addr::unchecked(MarsAddressType::RewardsCollector.to_string());
+    let rewards_addr = Addr::unchecked(FuryAddressType::RewardsCollector.to_string());
     let user_id = UserId::credit_manager(rewards_addr, "".to_string());
     let user_id_key: UserIdKey = user_id.try_into().unwrap();
     let collateral = COLLATERALS.load(deps.as_ref().storage, (&user_id_key, denom)).unwrap();
@@ -309,9 +309,9 @@ fn withdrawing_completely() {
         res.messages,
         vec![
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                    user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                    user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                     account_id: None,
                     denom: denom.to_string(),
                     user_amount_scaled_before: Uint128::zero(),
@@ -321,7 +321,7 @@ fn withdrawing_completely() {
                 funds: vec![],
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                     user_addr: withdrawer_addr.clone(),
                     account_id: None,
@@ -421,9 +421,9 @@ fn withdrawing_to_another_user() {
         res.messages,
         vec![
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                    user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                    user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                     account_id: None,
                     denom: denom.to_string(),
                     user_amount_scaled_before: Uint128::zero(),
@@ -433,7 +433,7 @@ fn withdrawing_to_another_user() {
                 funds: vec![],
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                     user_addr: withdrawer_addr.clone(),
                     account_id: None,
@@ -468,7 +468,7 @@ fn withdrawing_to_another_user() {
 }
 
 struct HealthCheckTestSuite {
-    deps: OwnedDeps<MockStorage, MockApi, MarsMockQuerier>,
+    deps: OwnedDeps<MockStorage, MockApi, FuryMockQuerier>,
     denoms: [&'static str; 3],
     markets: [Market; 3],
     asset_params: [AssetParams; 3],
@@ -479,7 +479,7 @@ struct HealthCheckTestSuite {
 }
 
 fn setup_health_check_test() -> HealthCheckTestSuite {
-    let denoms = ["uatom", "uosmo", "umars"];
+    let denoms = ["uatom", "uosmo", "ufury"];
     let initial_liquidity = Uint128::from(10000000u128);
 
     let mut deps = th_setup(&[coin(initial_liquidity.into(), denoms[2])]);
@@ -735,7 +735,7 @@ fn withdrawing_if_health_factor_met() {
         res.messages,
         vec![
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                     user_addr: withdrawer_addr.clone(),
                     account_id: None,
@@ -972,7 +972,7 @@ fn withdrawing_with_account_id_by_non_credit_manager_user() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Mars(MarsError::Unauthorized {}));
+    assert_eq!(err, ContractError::Fury(FuryError::Unauthorized {}));
 
     // non-credit-manager user cannot withdraw with account_id
     let err = execute(
@@ -988,5 +988,5 @@ fn withdrawing_with_account_id_by_non_credit_manager_user() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Mars(MarsError::Unauthorized {}));
+    assert_eq!(err, ContractError::Fury(FuryError::Unauthorized {}));
 }

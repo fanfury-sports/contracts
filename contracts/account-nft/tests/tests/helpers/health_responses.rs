@@ -1,7 +1,7 @@
 use std::ops::Sub;
 
 use cosmwasm_std::Uint128;
-use mars_types::health::HealthValuesResponse;
+use fury_types::health::HealthValuesResponse;
 
 pub const MAX_VALUE_FOR_BURN: Uint128 = Uint128::new(1000);
 

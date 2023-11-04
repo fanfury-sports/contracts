@@ -1,5 +1,5 @@
 use cosmwasm_std::Addr;
-use mars_types::health::BorrowTarget;
+use fury_types::health::BorrowTarget;
 
 use super::helpers::max_borrow_prop_test_runner;
 

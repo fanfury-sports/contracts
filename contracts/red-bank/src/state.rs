@@ -1,11 +1,11 @@
 use cosmwasm_std::{Addr, Uint128};
 use cw_storage_plus::{Item, Map};
-use mars_owner::Owner;
-use mars_types::{
+use fury_owner::Owner;
+use fury_types::{
     keys::UserIdKey,
     red_bank::{Collateral, Config, Debt, Market},
 };
-use mars_utils::guard::Guard;
+use fury_utils::guard::Guard;
 
 pub const OWNER: Owner = Owner::new("owner");
 pub const CONFIG: Item<Config<Addr>> = Item::new("config");

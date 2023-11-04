@@ -10,15 +10,15 @@ import {
 const uosmo = 'uosmo'
 const aUSDC = 'ibc/6F34E1BD664C36CE49ACC28E60D62559A5F96C4F9A6CCE4FC5A67B2852E24CFE' // axelar USDC
 const atom = 'ibc/A8C2D23A1E6F95DA4E48BA349667E322BD7A6C996D8A4AAE8BA72E190F3D1477'
-const mars = 'ibc/2E7368A14AC9AB7870F32CFEA687551C5064FA861868EDF7437BC877358A81F9'
+const fury = 'ibc/2E7368A14AC9AB7870F32CFEA687551C5064FA861868EDF7437BC877358A81F9'
 const usdcOsmo = 'gamm/pool/5'
 const atomOsmo = 'gamm/pool/12'
 
 const protocolAdminAddr = 'osmo14w4x949nwcrqgfe53pxs3k7x53p0gvlrq34l5n'
 
-// note the following addresses are all 'mars' bech32 prefix
-const safetyFundAddr = 'mars1s4hgh56can3e33e0zqpnjxh0t5wdf7u3pze575'
-const feeCollectorAddr = 'mars17xpfvakm2amg962yls6f84z3kell8c5ldy6e7x'
+// note the following addresses are all 'fury' bech32 prefix
+const safetyFundAddr = 'furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a'
+const feeCollectorAddr = 'furya17xpfvakm2amg962yls6f84z3kell8c5llvck70'
 
 const defaultCreditLine = '100000000000'
 
@@ -237,7 +237,7 @@ const testActions = {
 export const osmosisTestnetConfig: DeploymentConfig = {
   mainnet: false,
   deployerMnemonic: 'TO BE INSERTED AT TIME OF DEPLOYMENT',
-  marsDenom: mars,
+  furyDenom: fury,
   atomDenom: atom,
   safetyFundAddr: safetyFundAddr,
   protocolAdminAddr: protocolAdminAddr,
@@ -258,7 +258,7 @@ export const osmosisTestnetConfig: DeploymentConfig = {
     timeoutSeconds: 600,
     channelId: 'channel-2083',
     safetyFundFeeShare: '0.5',
-    feeCollectorDenom: mars,
+    feeCollectorDenom: fury,
     safetyFundDenom: aUSDC,
     slippageTolerance: '0.01',
   },
@@ -284,7 +284,7 @@ export const osmosisTestnetConfig: DeploymentConfig = {
   maxValueForBurn: '10000',
   maxUnlockingPositions: '1',
   maxSlippage: '0.2',
-  zapperContractName: 'mars_zapper_osmosis',
+  zapperContractName: 'fury_zapper_osmosis',
   runTests: true,
   testActions: testActions,
   assets: [osmoAsset, atomAsset, USDCAsset],

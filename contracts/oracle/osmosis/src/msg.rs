@@ -1,4 +1,4 @@
-use mars_types::oracle;
+use fury_types::oracle;
 
 use crate::price_source::{OsmosisPriceSourceChecked, OsmosisPriceSourceUnchecked};
 

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{to_binary, Addr, Binary, ContractResult, Decimal, QuerierResult};
-use mars_types::oracle::{PriceResponse, QueryMsg};
+use fury_types::oracle::{PriceResponse, QueryMsg};
 
 #[derive(Default)]
 pub struct OracleQuerier {

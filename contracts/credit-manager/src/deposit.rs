@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use cosmwasm_std::{Coin, Coins, Deps, DepsMut, Response};
-use mars_types::params::TotalDepositResponse;
+use fury_types::params::TotalDepositResponse;
 
 use crate::{
     error::{ContractError, ContractResult},

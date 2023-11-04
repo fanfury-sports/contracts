@@ -1,7 +1,7 @@
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
-use mars_types::{
+use fury_types::{
     self,
-    address_provider::{self, MarsAddressType},
+    address_provider::{self, FuryAddressType},
     keys::{UserId, UserIdKey},
 };
 
@@ -46,10 +46,10 @@ pub fn update_asset_collateral_status(
         let addresses = address_provider::helpers::query_contract_addrs(
             deps.as_ref(),
             &config.address_provider,
-            vec![MarsAddressType::Oracle, MarsAddressType::Params],
+            vec![FuryAddressType::Oracle, FuryAddressType::Params],
         )?;
-        let oracle_addr = &addresses[&MarsAddressType::Oracle];
-        let params_addr = &addresses[&MarsAddressType::Params];
+        let oracle_addr = &addresses[&FuryAddressType::Oracle];
+        let params_addr = &addresses[&FuryAddressType::Params];
 
         let (health, _) = get_health_and_positions(
             &deps.as_ref(),

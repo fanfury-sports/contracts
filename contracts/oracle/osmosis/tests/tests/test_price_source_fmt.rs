@@ -1,5 +1,5 @@
 use cosmwasm_std::{Addr, Decimal};
-use mars_oracle_osmosis::{
+use fury_oracle_osmosis::{
     DowntimeDetector, OsmosisPriceSourceChecked, RedemptionRate, Twap, TwapKind,
 };
 use osmosis_std::types::osmosis::downtimedetector::v1beta1::Downtime;

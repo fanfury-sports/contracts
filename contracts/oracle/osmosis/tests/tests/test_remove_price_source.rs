@@ -1,13 +1,13 @@
 use cosmwasm_std::{testing::mock_env, Decimal};
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{
     contract::entry::execute,
     msg::{ExecuteMsg, PriceSourceResponse},
     OsmosisPriceSourceUnchecked,
 };
-use mars_owner::OwnerError::NotOwner;
-use mars_testing::mock_info;
-use mars_types::oracle::QueryMsg;
+use fury_owner::OwnerError::NotOwner;
+use fury_testing::mock_info;
+use fury_types::oracle::QueryMsg;
 
 use super::helpers;
 
@@ -47,7 +47,7 @@ fn removing_price_source() {
     );
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::Spot {
             pool_id: 89,
         },

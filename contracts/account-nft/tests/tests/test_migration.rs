@@ -8,10 +8,10 @@ use cw721_base::{Cw721Contract, Ownership, QueryMsg};
 use cw721_base_v16::{
     msg::InstantiateMsg as Cw721v16InstantiateMsg, Cw721Contract as Cw721ContractV16,
 };
-use mars_account_nft::{
+use fury_account_nft::{
     contract::migrate, error::ContractError, migrations::v2_0_0::v1_state, state::CONFIG,
 };
-use mars_types::account_nft::NftConfig;
+use fury_types::account_nft::NftConfig;
 
 #[test]
 fn invalid_contract_name() {
@@ -33,7 +33,7 @@ fn invalid_contract_name() {
     let err = migrate(deps.as_mut(), env, Empty {}).unwrap_err();
     assert_eq!(
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-account-nft".to_string(),
+            expected: "crates.io:fury-account-nft".to_string(),
             found: "WRONG_CONTRACT_NAME".to_string()
         }),
         err
@@ -46,7 +46,7 @@ fn invalid_contract_version() {
     let env = mock_env();
 
     let old_contract_version = ContractVersion {
-        contract: "crates.io:mars-account-nft".to_string(),
+        contract: "crates.io:fury-account-nft".to_string(),
         version: "4.4.5".to_string(),
     };
 
@@ -74,7 +74,7 @@ fn proper_migration() {
     let minter = "nft-minter-abc";
 
     let old_contract_version = ContractVersion {
-        contract: "crates.io:mars-account-nft".to_string(),
+        contract: "crates.io:fury-account-nft".to_string(),
         version: "1.0.0".to_string(),
     };
 
@@ -103,7 +103,7 @@ fn proper_migration() {
     v1_state::CONFIG
         .save(
             deps.as_mut().storage,
-            &mars_rover_old::adapters::account_nft::NftConfig {
+            &fury_rover_old::adapters::account_nft::NftConfig {
                 max_value_for_burn: old_max_value_for_burn,
                 proposed_new_minter: Some(Addr::unchecked("minter_1234")),
             },
@@ -115,7 +115,7 @@ fn proper_migration() {
     let res = migrate(deps.as_mut(), env.clone(), Empty {}).unwrap();
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-account-nft".to_string(),
+        contract: "crates.io:fury-account-nft".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);

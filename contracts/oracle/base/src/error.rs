@@ -2,8 +2,8 @@ use cosmwasm_std::{
     CheckedFromRatioError, CheckedMultiplyRatioError, ConversionOverflowError,
     DecimalRangeExceeded, DivideByZeroError, OverflowError, StdError,
 };
-use mars_owner::OwnerError;
-use mars_utils::error::ValidationError;
+use fury_owner::OwnerError;
+use fury_utils::error::ValidationError;
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]

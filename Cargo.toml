@@ -48,10 +48,10 @@ authors       = [
 ]
 edition       = "2021"
 license       = "GPL-3.0-or-later"
-repository    = "https://github.com/mars-protocol/red-bank"
+repository    = "https://github.com/fury-protocol/red-bank"
 homepage      = "https://marsprotocol.io"
 documentation = "https://docs.marsprotocol.io/"
-keywords      = ["mars", "cosmos", "cosmwasm"]
+keywords      = ["fury", "cosmos", "cosmwasm"]
 
 [workspace.dependencies]
 anyhow             = "1.0.75"
@@ -69,7 +69,7 @@ cw-utils           = "1.0.1"
 cw-vault-standard  = { version = "0.3.1", features = ["lockup", "force-unlock"] }
 ica-oracle         = { git = "https://github.com/Stride-Labs/ica-oracle", rev = "2fdf76f", features = ["library"] }
 itertools          = "0.11.0"
-mars-owner         = { version = "2.0.0", features = ["emergency-owner"] }
+fury-owner         = { version = "2.0.0", features = ["emergency-owner"] }
 # Use the latest Github main branch which includes a fix related to protobuf versioning:
 # https://github.com/neutron-org/neutron-sdk/commit/ef6351974099bf0d301edf2c689f0c920958331a
 neutron-sdk        = { git = "https://github.com/neutron-org/neutron-sdk", rev = "74fea05" }
@@ -94,45 +94,45 @@ proptest          = "1.2.0"
 test-case         = "3.2.1"
 
 # packages
-mars-health                = { path = "./packages/health" }
-mars-rover-health-computer = { path = "./packages/health-computer" }
-mars-interest-rate         = { path = "./packages/interest-rate" }
-mars-liquidation           = { path = "./packages/liquidation" }
-mars-osmosis               = { path = "./packages/chains/osmosis" }
-# Old rover types used for migration (https://github.com/mars-protocol/v2-fields-of-mars/releases/tag/v1.0.0)
-mars-rover-old             = { package = "mars-rover", git = "https://github.com/mars-protocol/v2-fields-of-mars", rev = "183e4c5" }
-mars-testing               = { path = "./packages/testing" }
-mars-types                 = { path = "./packages/types" }
-mars-utils                 = { path = "./packages/utils" }
+fury-health                = { path = "./packages/health" }
+fury-rover-health-computer = { path = "./packages/health-computer" }
+fury-interest-rate         = { path = "./packages/interest-rate" }
+fury-liquidation           = { path = "./packages/liquidation" }
+fury-osmosis               = { path = "./packages/chains/osmosis" }
+# Old rover types used for migration (https://github.com/fury-protocol/v2-fields-of-fury/releases/tag/v1.0.0)
+fury-rover-old             = { package = "fury-rover", git = "https://github.com/fury-protocol/v2-fields-of-fury", rev = "183e4c5" }
+fury-testing               = { path = "./packages/testing" }
+fury-types                 = { path = "./packages/types" }
+fury-utils                 = { path = "./packages/utils" }
 
 # contracts
-mars-account-nft               = { path = "./contracts/account-nft" }
-mars-address-provider          = { path = "./contracts/address-provider" }
-mars-incentives                = { path = "./contracts/incentives" }
-mars-mock-pyth                 = { path = "./contracts/mock-pyth" }
-mars-oracle-base               = { path = "./contracts/oracle/base" }
-mars-oracle-osmosis            = { path = "./contracts/oracle/osmosis" }
-mars-oracle-wasm               = { path = "./contracts/oracle/wasm" }
-mars-params                    = { path = "./contracts/params" }
-mars-red-bank                  = { path = "./contracts/red-bank" }
-mars-rewards-collector-base    = { path = "./contracts/rewards-collector/base" }
-mars-rewards-collector-neutron = { path = "./contracts/rewards-collector/neutron" }
-mars-rewards-collector-osmosis = { path = "./contracts/rewards-collector/osmosis" }
-mars-rover-health              = { path = "./contracts/health" }
-mars-swapper-astroport         = { path = "./contracts/swapper/astroport" }
-mars-swapper-base              = { path = "./contracts/swapper/base" }
-mars-swapper-osmosis           = { path = "./contracts/swapper/osmosis" }
-mars-zapper-base               = { path = "./contracts/v2-zapper/base" }
+fury-account-nft               = { path = "./contracts/account-nft" }
+fury-address-provider          = { path = "./contracts/address-provider" }
+fury-incentives                = { path = "./contracts/incentives" }
+fury-mock-pyth                 = { path = "./contracts/mock-pyth" }
+fury-oracle-base               = { path = "./contracts/oracle/base" }
+fury-oracle-osmosis            = { path = "./contracts/oracle/osmosis" }
+fury-oracle-wasm               = { path = "./contracts/oracle/wasm" }
+fury-params                    = { path = "./contracts/params" }
+fury-red-bank                  = { path = "./contracts/red-bank" }
+fury-rewards-collector-base    = { path = "./contracts/rewards-collector/base" }
+fury-rewards-collector-neutron = { path = "./contracts/rewards-collector/neutron" }
+fury-rewards-collector-osmosis = { path = "./contracts/rewards-collector/osmosis" }
+fury-rover-health              = { path = "./contracts/health" }
+fury-swapper-astroport         = { path = "./contracts/swapper/astroport" }
+fury-swapper-base              = { path = "./contracts/swapper/base" }
+fury-swapper-osmosis           = { path = "./contracts/swapper/osmosis" }
+fury-zapper-base               = { path = "./contracts/v2-zapper/base" }
 
 # mocks
-mars-mock-credit-manager = { path = "./contracts/mock-credit-manager" }
-mars-mock-incentives     = { path = "./contracts/mock-incentives" }
-mars-mock-oracle         = { path = "./contracts/mock-oracle" }
-mars-mock-red-bank       = { path = "./contracts/mock-red-bank" }
-mars-mock-vault          = { path = "./contracts/mock-vault" }
-mars-mock-rover-health   = { path = "./contracts/mock-health" }
-mars-swapper-mock        = { path = "./contracts/swapper/mock" }
-mars-zapper-mock         = { path = "./contracts/v2-zapper/mock" }
+fury-mock-credit-manager = { path = "./contracts/mock-credit-manager" }
+fury-mock-incentives     = { path = "./contracts/mock-incentives" }
+fury-mock-oracle         = { path = "./contracts/mock-oracle" }
+fury-mock-red-bank       = { path = "./contracts/mock-red-bank" }
+fury-mock-vault          = { path = "./contracts/mock-vault" }
+fury-mock-rover-health   = { path = "./contracts/mock-health" }
+fury-swapper-mock        = { path = "./contracts/swapper/mock" }
+fury-zapper-mock         = { path = "./contracts/v2-zapper/mock" }
 
 [profile.release]
 codegen-units    = 1

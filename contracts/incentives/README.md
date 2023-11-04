@@ -1,6 +1,6 @@
-# Mars Incentives
+# Fury Incentives
 
-A smart contract that manages MARS incentives for depositors.
+A smart contract that manages FURY incentives for depositors.
 
 ## License
 

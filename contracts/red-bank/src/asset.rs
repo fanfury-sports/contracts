@@ -1,11 +1,11 @@
 use cosmwasm_std::{Decimal, DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_types::{
+use fury_types::{
     address_provider,
-    address_provider::MarsAddressType,
-    error::MarsError,
+    address_provider::FuryAddressType,
+    error::FuryError,
     red_bank::{InitOrUpdateAssetParams, Market},
 };
-use mars_utils::helpers::validate_native_denom;
+use fury_utils::helpers::validate_native_denom;
 
 use crate::{
     error::ContractError,
@@ -53,7 +53,7 @@ pub fn create_market(
     let available = reserve_factor.is_some() && interest_rate_model.is_some();
 
     if !available {
-        return Err(MarsError::InstantiateParamsUnavailable {}.into());
+        return Err(FuryError::InstantiateParamsUnavailable {}.into());
     }
 
     let new_market = Market {
@@ -110,10 +110,10 @@ pub fn update_asset(
                 let addresses = address_provider::helpers::query_contract_addrs(
                     deps.as_ref(),
                     &config.address_provider,
-                    vec![MarsAddressType::Incentives, MarsAddressType::RewardsCollector],
+                    vec![FuryAddressType::Incentives, FuryAddressType::RewardsCollector],
                 )?;
-                let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-                let incentives_addr = &addresses[&MarsAddressType::Incentives];
+                let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+                let incentives_addr = &addresses[&FuryAddressType::Incentives];
 
                 response = apply_accumulated_interests(
                     deps.storage,

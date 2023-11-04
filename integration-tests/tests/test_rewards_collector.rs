@@ -1,8 +1,8 @@
 use cosmwasm_std::{coin, Decimal};
-use mars_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
-use mars_types::{
+use fury_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
+use fury_types::{
     address_provider::{
-        ExecuteMsg as ExecuteMsgAddr, InstantiateMsg as InstantiateAddr, MarsAddressType,
+        ExecuteMsg as ExecuteMsgAddr, InstantiateMsg as InstantiateAddr, FuryAddressType,
     },
     rewards_collector::{ExecuteMsg, InstantiateMsg as InstantiateRewards, UpdateConfig},
 };
@@ -19,9 +19,9 @@ use crate::{
 mod cosmos_bank;
 mod helpers;
 
-const OSMOSIS_ADDR_PROVIDER_CONTRACT_NAME: &str = "mars-address-provider";
-const OSMOSIS_REWARDS_CONTRACT_NAME: &str = "mars-rewards-collector-osmosis";
-const OSMOSIS_SWAPPER_CONTRACT_NAME: &str = "mars-swapper-osmosis";
+const OSMOSIS_ADDR_PROVIDER_CONTRACT_NAME: &str = "fury-address-provider";
+const OSMOSIS_REWARDS_CONTRACT_NAME: &str = "fury-rewards-collector-osmosis";
+const OSMOSIS_SWAPPER_CONTRACT_NAME: &str = "fury-swapper-osmosis";
 
 #[test]
 fn swapping_rewards() {
@@ -32,7 +32,7 @@ fn swapping_rewards() {
         .init_accounts(
             &[
                 coin(1_000_000_000_000, "uatom"),
-                coin(1_000_000_000_000, "umars"),
+                coin(1_000_000_000_000, "ufury"),
                 coin(1_000_000_000_000, "uusdc"),
                 coin(1_000_000_000_000, "uosmo"),
             ],
@@ -53,7 +53,7 @@ fn swapping_rewards() {
     );
 
     let safety_fund_denom = "uusdc";
-    let fee_collector_denom = "umars";
+    let fee_collector_denom = "ufury";
     let rewards_addr = instantiate_contract(
         &wasm,
         signer,
@@ -76,7 +76,7 @@ fn swapping_rewards() {
         &wasm,
         signer,
         OSMOSIS_SWAPPER_CONTRACT_NAME,
-        &mars_types::swapper::InstantiateMsg {
+        &fury_types::swapper::InstantiateMsg {
             owner: signer.address(),
         },
     );
@@ -84,8 +84,8 @@ fn swapping_rewards() {
     // Set swapper addr in address provider
     wasm.execute(
         &addr_provider_addr,
-        &mars_types::address_provider::ExecuteMsg::SetAddress {
-            address_type: MarsAddressType::Swapper,
+        &fury_types::address_provider::ExecuteMsg::SetAddress {
+            address_type: FuryAddressType::Swapper,
             address: swapper_addr.clone(),
         },
         &[],
@@ -94,8 +94,8 @@ fn swapping_rewards() {
     .unwrap();
 
     let gamm = Gamm::new(&app);
-    let pool_mars_osmo = gamm
-        .create_basic_pool(&[coin(2_000_000, "umars"), coin(6_000_000, "uosmo")], signer)
+    let pool_fury_osmo = gamm
+        .create_basic_pool(&[coin(2_000_000, "ufury"), coin(6_000_000, "uosmo")], signer)
         .unwrap()
         .data
         .pool_id;
@@ -115,8 +115,8 @@ fn swapping_rewards() {
     swap_to_create_twap_records(
         &app,
         signer,
-        pool_mars_osmo,
-        coin(5u128, "umars"),
+        pool_fury_osmo,
+        coin(5u128, "ufury"),
         "uosmo",
         600u64,
     );
@@ -142,7 +142,7 @@ fn swapping_rewards() {
     // set routes
     wasm.execute(
         &swapper_addr,
-        &mars_types::swapper::ExecuteMsg::SetRoute {
+        &fury_types::swapper::ExecuteMsg::SetRoute {
             denom_in: "uosmo".to_string(),
             denom_out: safety_fund_denom.to_string(),
             route: OsmosisRoute(vec![SwapAmountInRoute {
@@ -156,11 +156,11 @@ fn swapping_rewards() {
     .unwrap();
     wasm.execute(
         &swapper_addr,
-        &mars_types::swapper::ExecuteMsg::SetRoute {
+        &fury_types::swapper::ExecuteMsg::SetRoute {
             denom_in: "uosmo".to_string(),
             denom_out: fee_collector_denom.to_string(),
             route: OsmosisRoute(vec![SwapAmountInRoute {
-                pool_id: pool_mars_osmo,
+                pool_id: pool_fury_osmo,
                 token_out_denom: fee_collector_denom.to_string(),
             }]),
         },
@@ -170,7 +170,7 @@ fn swapping_rewards() {
     .unwrap();
     wasm.execute(
         &swapper_addr,
-        &mars_types::swapper::ExecuteMsg::SetRoute {
+        &fury_types::swapper::ExecuteMsg::SetRoute {
             denom_in: "uatom".to_string(),
             denom_out: safety_fund_denom.to_string(),
             route: OsmosisRoute(vec![
@@ -190,7 +190,7 @@ fn swapping_rewards() {
     .unwrap();
     wasm.execute(
         &swapper_addr,
-        &mars_types::swapper::ExecuteMsg::SetRoute {
+        &fury_types::swapper::ExecuteMsg::SetRoute {
             denom_in: "uatom".to_string(),
             denom_out: fee_collector_denom.to_string(),
             route: OsmosisRoute(vec![
@@ -199,7 +199,7 @@ fn swapping_rewards() {
                     token_out_denom: "uosmo".to_string(),
                 },
                 SwapAmountInRoute {
-                    pool_id: pool_mars_osmo,
+                    pool_id: pool_fury_osmo,
                     token_out_denom: fee_collector_denom.to_string(),
                 },
             ]),
@@ -270,7 +270,7 @@ fn distribute_rewards_if_ibc_channel_invalid() {
         .init_accounts(
             &[
                 coin(1_000_000_000_000, "uusdc"),
-                coin(1_000_000_000_000, "umars"),
+                coin(1_000_000_000_000, "ufury"),
                 coin(1_000_000_000_000, "uosmo"), // for gas
             ],
             2,
@@ -292,8 +292,8 @@ fn distribute_rewards_if_ibc_channel_invalid() {
     wasm.execute(
         &addr_provider_addr,
         &ExecuteMsgAddr::SetAddress {
-            address_type: MarsAddressType::FeeCollector,
-            address: "mars17xpfvakm2amg962yls6f84z3kell8c5ldy6e7x".to_string(),
+            address_type: FuryAddressType::FeeCollector,
+            address: "furya17xpfvakm2amg962yls6f84z3kell8c5llvck70".to_string(),
         },
         &[],
         signer,
@@ -302,8 +302,8 @@ fn distribute_rewards_if_ibc_channel_invalid() {
     wasm.execute(
         &addr_provider_addr,
         &ExecuteMsgAddr::SetAddress {
-            address_type: MarsAddressType::SafetyFund,
-            address: "mars1s4hgh56can3e33e0zqpnjxh0t5wdf7u3pze575".to_string(),
+            address_type: FuryAddressType::SafetyFund,
+            address: "furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a".to_string(),
         },
         &[],
         signer,
@@ -312,7 +312,7 @@ fn distribute_rewards_if_ibc_channel_invalid() {
 
     // setup rewards-collector contract
     let safety_fund_denom = "uusdc";
-    let fee_collector_denom = "umars";
+    let fee_collector_denom = "ufury";
     let rewards_addr = instantiate_contract(
         &wasm,
         signer,
@@ -333,13 +333,13 @@ fn distribute_rewards_if_ibc_channel_invalid() {
     // fund rewards-collector contract
     let bank = Bank::new(&app);
     let usdc_funded = 800_000_000u128;
-    let mars_funded = 50_000_000u128;
+    let fury_funded = 50_000_000u128;
     bank.send(user, &rewards_addr, &[coin(usdc_funded, "uusdc")]).unwrap();
-    bank.send(user, &rewards_addr, &[coin(mars_funded, "umars")]).unwrap();
+    bank.send(user, &rewards_addr, &[coin(fury_funded, "ufury")]).unwrap();
     let usdc_balance = bank.query_balance(&rewards_addr, "uusdc");
     assert_eq!(usdc_balance, usdc_funded);
-    let mars_balance = bank.query_balance(&rewards_addr, "umars");
-    assert_eq!(mars_balance, mars_balance);
+    let fury_balance = bank.query_balance(&rewards_addr, "ufury");
+    assert_eq!(fury_balance, fury_balance);
 
     // distribute usdc
     let res = wasm
@@ -375,12 +375,12 @@ fn distribute_rewards_if_ibc_channel_invalid() {
     )
     .unwrap();
 
-    // distribute mars
+    // distribute fury
     let res = wasm
         .execute(
             &rewards_addr,
             &ExecuteMsg::DistributeRewards {
-                denom: "umars".to_string(),
+                denom: "ufury".to_string(),
                 amount: None,
             },
             &[],

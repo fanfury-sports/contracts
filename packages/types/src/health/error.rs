@@ -1,5 +1,5 @@
 use cosmwasm_std::{CheckedFromRatioError, CheckedMultiplyFractionError, OverflowError, StdError};
-use mars_owner::OwnerError;
+use fury_owner::OwnerError;
 use thiserror::Error;
 
 pub type HealthResult<T> = Result<T, HealthError>;

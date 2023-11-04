@@ -1,5 +1,5 @@
 [package]
-name          = "mars-rewards-collector-neutron"
+name          = "fury-rewards-collector-neutron"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -21,6 +21,6 @@ library    = []
 [dependencies]
 cosmwasm-std                = { workspace = true, features = ["stargate"] }
 cw2                         = { workspace = true }
-mars-rewards-collector-base = { workspace = true }
-mars-types                  = { workspace = true }
+fury-rewards-collector-base = { workspace = true }
+fury-types                  = { workspace = true }
 neutron-sdk                 = { workspace = true }

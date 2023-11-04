@@ -1,8 +1,8 @@
 use cosmwasm_std::{Addr, Uint128};
 use cw_utils::Duration;
-use mars_credit_manager::error::ContractError;
-use mars_mock_vault::contract::STARTING_VAULT_SHARES;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_mock_vault::contract::STARTING_VAULT_SHARES;
+use fury_types::{
     adapters::vault::VaultError,
     credit_manager::{
         Action::{Deposit, EnterVault, ExitVaultUnlocked, RequestVaultUnlock},

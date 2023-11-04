@@ -1,4 +1,4 @@
-# Mars Osmosis
+# Fury Osmosis
 
 Helpers for the Osmosis chain.
 

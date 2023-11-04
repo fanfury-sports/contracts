@@ -1,5 +1,5 @@
 use cosmwasm_std::{Addr, Uint128};
-use mars_types::account_nft::NftConfigUpdates;
+use fury_types::account_nft::NftConfigUpdates;
 
 use super::helpers::MockEnv;
 

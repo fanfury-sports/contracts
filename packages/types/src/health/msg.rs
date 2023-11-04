@@ -1,5 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use mars_owner::{OwnerResponse, OwnerUpdate};
+use fury_owner::{OwnerResponse, OwnerUpdate};
 
 use super::AccountKind;
 use crate::oracle::ActionKind;

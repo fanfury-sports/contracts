@@ -1,7 +1,7 @@
 use cosmwasm_std::{DepsMut, MessageInfo, Response};
-use mars_owner::OwnerUpdate;
-use mars_types::red_bank::CreateOrUpdateConfig;
-use mars_utils::helpers::option_string_to_addr;
+use fury_owner::OwnerUpdate;
+use fury_types::red_bank::CreateOrUpdateConfig;
+use fury_utils::helpers::option_string_to_addr;
 
 use crate::{
     error::ContractError,

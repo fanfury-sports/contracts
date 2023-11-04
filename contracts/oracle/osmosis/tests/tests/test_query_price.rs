@@ -7,12 +7,12 @@ use cosmwasm_std::{
 };
 use helpers::prepare_query_balancer_pool_response;
 use ica_oracle::msg::RedemptionRateResponse;
-use mars_oracle_base::{pyth::scale_pyth_price, ContractError};
-use mars_oracle_osmosis::{
+use fury_oracle_base::{pyth::scale_pyth_price, ContractError};
+use fury_oracle_osmosis::{
     contract::entry, DowntimeDetector, OsmosisPriceSourceUnchecked, RedemptionRate, Twap, TwapKind,
 };
-use mars_testing::{mock_env_at_block_time, MarsMockQuerier};
-use mars_types::oracle::{PriceResponse, QueryMsg};
+use fury_testing::{mock_env_at_block_time, FuryMockQuerier};
+use fury_types::oracle::{PriceResponse, QueryMsg};
 use osmosis_std::types::osmosis::{
     downtimedetector::v1beta1::Downtime,
     poolmanager::v1beta1::SpotPriceResponse,
@@ -70,7 +70,7 @@ fn querying_spot_price() {
 
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::Spot {
             pool_id: 89,
         },
@@ -78,7 +78,7 @@ fn querying_spot_price() {
 
     deps.querier.set_spot_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         SpotPriceResponse {
             spot_price: Decimal::from_ratio(88888u128, 12345u128).to_string(),
@@ -88,7 +88,7 @@ fn querying_spot_price() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -101,7 +101,7 @@ fn querying_arithmetic_twap_price() {
 
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::ArithmeticTwap {
             pool_id: 89,
             window_size: 86400,
@@ -111,7 +111,7 @@ fn querying_arithmetic_twap_price() {
 
     deps.querier.set_arithmetic_twap_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         ArithmeticTwapToNowResponse {
             arithmetic_twap: Decimal::from_ratio(77777u128, 12345u128).to_string(),
@@ -121,7 +121,7 @@ fn querying_arithmetic_twap_price() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -138,7 +138,7 @@ fn querying_arithmetic_twap_price_with_downtime_detector() {
     };
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::ArithmeticTwap {
             pool_id: 89,
             window_size: 86400,
@@ -150,7 +150,7 @@ fn querying_arithmetic_twap_price_with_downtime_detector() {
     let res_err = helpers::query_err(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -164,7 +164,7 @@ fn querying_arithmetic_twap_price_with_downtime_detector() {
     deps.querier.set_downtime_detector(dd, true);
     deps.querier.set_arithmetic_twap_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         ArithmeticTwapToNowResponse {
             arithmetic_twap: Decimal::from_ratio(77777u128, 12345u128).to_string(),
@@ -173,7 +173,7 @@ fn querying_arithmetic_twap_price_with_downtime_detector() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -186,7 +186,7 @@ fn querying_geometric_twap_price() {
 
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::GeometricTwap {
             pool_id: 89,
             window_size: 86400,
@@ -196,7 +196,7 @@ fn querying_geometric_twap_price() {
 
     deps.querier.set_geometric_twap_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         GeometricTwapToNowResponse {
             geometric_twap: Decimal::from_ratio(66666u128, 12345u128).to_string(),
@@ -206,7 +206,7 @@ fn querying_geometric_twap_price() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -223,7 +223,7 @@ fn querying_geometric_twap_price_with_downtime_detector() {
     };
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::GeometricTwap {
             pool_id: 89,
             window_size: 86400,
@@ -235,7 +235,7 @@ fn querying_geometric_twap_price_with_downtime_detector() {
     let res_err = helpers::query_err(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -249,7 +249,7 @@ fn querying_geometric_twap_price_with_downtime_detector() {
     deps.querier.set_downtime_detector(dd, true);
     deps.querier.set_geometric_twap_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         GeometricTwapToNowResponse {
             geometric_twap: Decimal::from_ratio(77777u128, 12345u128).to_string(),
@@ -258,7 +258,7 @@ fn querying_geometric_twap_price_with_downtime_detector() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             kind: None,
         },
     );
@@ -354,7 +354,7 @@ fn querying_staked_geometric_twap_price_if_no_transitive_denom_price_source() {
     assert_eq!(
         res_err,
         ContractError::Std(StdError::not_found(
-            "mars_oracle_osmosis::price_source::OsmosisPriceSource<cosmwasm_std::addresses::Addr>"
+            "fury_oracle_osmosis::price_source::OsmosisPriceSource<cosmwasm_std::addresses::Addr>"
         ))
     );
 }
@@ -534,7 +534,7 @@ fn querying_lsd_price() {
 }
 
 fn setup_pyth_and_twap_for_lsd(
-    deps: &mut OwnedDeps<MockStorage, MockApi, MarsMockQuerier>,
+    deps: &mut OwnedDeps<MockStorage, MockApi, FuryMockQuerier>,
     publish_time: u64,
 ) -> (Decimal, Decimal, Decimal) {
     // setup pyth price: Atom/Usd
@@ -658,7 +658,7 @@ fn querying_lsd_price_if_no_transitive_denom_price_source() {
     assert_eq!(
         res_err,
         ContractError::Std(StdError::not_found(
-            "mars_oracle_osmosis::price_source::OsmosisPriceSource<cosmwasm_std::addresses::Addr>"
+            "fury_oracle_osmosis::price_source::OsmosisPriceSource<cosmwasm_std::addresses::Addr>"
         ))
     );
 }
@@ -906,7 +906,7 @@ fn querying_xyk_lp_price() {
         ),
     );
 
-    let assets = vec![coin(1, "umars"), coin(1, "uosmo")];
+    let assets = vec![coin(1, "ufury"), coin(1, "uosmo")];
     deps.querier.set_query_pool_response(
         10002,
         prepare_query_balancer_pool_response(
@@ -917,7 +917,7 @@ fn querying_xyk_lp_price() {
         ),
     );
 
-    let assets = vec![coin(10000, "uatom"), coin(885000, "umars")];
+    let assets = vec![coin(10000, "uatom"), coin(885000, "ufury")];
     deps.querier.set_query_pool_response(
         10003,
         prepare_query_balancer_pool_response(
@@ -939,21 +939,21 @@ fn querying_xyk_lp_price() {
     );
     deps.querier.set_oracle_price("uatom", uatom_price);
 
-    // set price source for umars
-    let umars_price = Decimal::one();
+    // set price source for ufury
+    let ufury_price = Decimal::one();
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::Fixed {
-            price: umars_price,
+            price: ufury_price,
         },
     );
-    deps.querier.set_oracle_price("umars", umars_price);
+    deps.querier.set_oracle_price("ufury", ufury_price);
 
     // set price source for xyk lp token
     helpers::set_price_source(
         deps.as_mut(),
-        "uatom_umars_lp",
+        "uatom_ufury_lp",
         OsmosisPriceSourceUnchecked::XykLiquidityToken {
             pool_id: 10003,
         },
@@ -961,14 +961,14 @@ fn querying_xyk_lp_price() {
 
     // Atom price: 88.5
     // Atom depth: 10000
-    // Mars price: 1
-    // Mars depth: 885000
+    // Fury price: 1
+    // Fury depth: 885000
     // pool value: 2 * sqrt((88.5 * 10000) * (1 * 885000)) = 1770000
     // LP token price: 1770000 / 10000 = 177
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "uatom_umars_lp".to_string(),
+            denom: "uatom_ufury_lp".to_string(),
             kind: None,
         },
     );
@@ -977,10 +977,10 @@ fn querying_xyk_lp_price() {
     // Now assume someone buys a large amount of Atom, skewing the pool depths. Let's see if
     // the oracle price of the LP token is affected.
     //
-    // Assume the attacker sells 500000 mars for atom
-    // Mars depth = 885000 + 500000 = 1385000
+    // Assume the attacker sells 500000 fury for atom
+    // Fury depth = 885000 + 500000 = 1385000
     // Atom depth = 10000 * 885000 / 1385000 = 6389
-    let assets = vec![coin(6389, "uatom"), coin(1385000, "umars")];
+    let assets = vec![coin(6389, "uatom"), coin(1385000, "ufury")];
     deps.querier.set_query_pool_response(
         10003,
         prepare_query_balancer_pool_response(
@@ -994,12 +994,12 @@ fn querying_xyk_lp_price() {
     let res: PriceResponse = helpers::query(
         deps.as_ref(),
         QueryMsg::Price {
-            denom: "uatom_umars_lp".to_string(),
+            denom: "uatom_ufury_lp".to_string(),
             kind: None,
         },
     );
     // Atom price: 88.5
-    // Mars price: 1
+    // Fury price: 1
     // pool value = 2 * sqrt((88.5 * 6389) * (1 * 1385000)) = 1769874
     //
     // Is slightly (<0.01%) off from the pre-manipulation value.
@@ -1026,7 +1026,7 @@ fn querying_all_prices() {
     );
     helpers::set_price_source(
         deps.as_mut(),
-        "umars",
+        "ufury",
         OsmosisPriceSourceUnchecked::Spot {
             pool_id: 89,
         },
@@ -1042,7 +1042,7 @@ fn querying_all_prices() {
     );
     deps.querier.set_spot_price(
         89,
-        "umars",
+        "ufury",
         "uosmo",
         SpotPriceResponse {
             spot_price: Decimal::from_ratio(88888u128, 12345u128).to_string(),
@@ -1066,7 +1066,7 @@ fn querying_all_prices() {
                 price: Decimal::from_ratio(77777u128, 12345u128),
             },
             PriceResponse {
-                denom: "umars".to_string(),
+                denom: "ufury".to_string(),
                 price: Decimal::from_ratio(88888u128, 12345u128),
             },
             PriceResponse {

@@ -1,5 +1,5 @@
 use cosmwasm_std::{Deps, StdResult, Uint128};
-use mars_types::{
+use fury_types::{
     red_bank::{Market, PaginatedUserCollateralResponse, UserCollateralResponse, UserDebtResponse},
     Metadata,
 };

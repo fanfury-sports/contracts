@@ -1,9 +1,9 @@
 use cw_storage_plus::{Item, Map};
-use mars_owner::Owner;
-use mars_types::address_provider::Config;
+use fury_owner::Owner;
+use fury_types::address_provider::Config;
 
-use crate::key::MarsAddressTypeKey;
+use crate::key::FuryAddressTypeKey;
 
 pub const OWNER: Owner = Owner::new("owner");
 pub const CONFIG: Item<Config> = Item::new("config");
-pub const ADDRESSES: Map<MarsAddressTypeKey, String> = Map::new("addresses");
+pub const ADDRESSES: Map<FuryAddressTypeKey, String> = Map::new("addresses");

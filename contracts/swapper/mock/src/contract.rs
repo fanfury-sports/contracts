@@ -2,7 +2,7 @@ use cosmwasm_std::{
     coins, to_binary, BankMsg, Binary, Coin, CosmosMsg, Decimal, Deps, DepsMut, Empty, Env,
     MessageInfo, Response, StdError, StdResult, Uint128,
 };
-use mars_types::swapper::{EstimateExactInSwapResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
+use fury_types::swapper::{EstimateExactInSwapResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
 
 pub const MOCK_SWAP_RESULT: Uint128 = Uint128::new(1337);
 

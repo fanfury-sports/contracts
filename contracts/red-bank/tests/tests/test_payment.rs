@@ -4,8 +4,8 @@ use cosmwasm_std::{
     Uint128,
 };
 use cw_utils::PaymentError;
-use mars_red_bank::contract;
-use mars_types::red_bank::ExecuteMsg;
+use fury_red_bank::contract;
+use fury_types::red_bank::ExecuteMsg;
 
 use super::helpers::th_setup;
 
@@ -39,7 +39,7 @@ fn rejecting_unexpected_payments() {
     let err = contract::execute(
         deps.as_mut(),
         mock_env(),
-        mock_info("larry", &coins(234, "umars")),
+        mock_info("larry", &coins(234, "ufury")),
         ExecuteMsg::Borrow {
             denom: "".into(),
             amount: Uint128::zero(),

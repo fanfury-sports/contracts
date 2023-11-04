@@ -1,5 +1,5 @@
 [package]
-name          = "mars-account-nft"
+name          = "fury-account-nft"
 version       = { workspace = true }
 authors       = { workspace = true }
 license       = { workspace = true }
@@ -25,15 +25,15 @@ cw2             = { workspace = true }
 cw721           = { workspace = true }
 cw721-base      = { workspace = true }
 cw-storage-plus = { workspace = true }
-mars-rover-old  = { workspace = true }
-mars-types      = { workspace = true }
+fury-rover-old  = { workspace = true }
+fury-types      = { workspace = true }
 thiserror       = { workspace = true }
 
 [dev-dependencies]
 anyhow                   = { workspace = true }
 cw721-base-v16           = { package = "cw721-base", version = "0.16.0" }
 cw-multi-test            = { workspace = true }
-mars-mock-credit-manager = { workspace = true }
-mars-mock-rover-health   = { workspace = true }
-mars-owner               = { workspace = true }
+fury-mock-credit-manager = { workspace = true }
+fury-mock-rover-health   = { workspace = true }
+fury-owner               = { workspace = true }
 serde_json               = { workspace = true }

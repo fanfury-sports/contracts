@@ -1,6 +1,6 @@
 use cw_it::{test_tube::Account, traits::CwItRunner};
-use mars_owner::OwnerUpdate;
-use mars_testing::{
+use fury_owner::OwnerUpdate;
+use fury_testing::{
     test_runner::get_test_runner,
     wasm_oracle::{get_contracts, WasmOracleTestRobot},
 };

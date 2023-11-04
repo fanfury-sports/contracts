@@ -2,14 +2,14 @@ use std::{collections::HashMap, str::FromStr};
 
 use cosmwasm_std::{attr, testing::mock_env, Addr, Decimal, Event, Order, StdResult};
 use cw2::{ContractVersion, VersionError};
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{
     contract::{entry::migrate, OsmosisOracle},
     migrations::v2_0_0::v1_state,
     DowntimeDetector, OsmosisPriceSourceChecked,
 };
-use mars_testing::mock_dependencies;
-use mars_types::oracle::{MigrateMsg, V2Updates};
+use fury_testing::mock_dependencies;
+use fury_types::oracle::{MigrateMsg, V2Updates};
 use osmosis_std::types::osmosis::downtimedetector::v1beta1::Downtime;
 use pyth_sdk_cw::PriceIdentifier;
 
@@ -30,7 +30,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-oracle-osmosis".to_string(),
+            expected: "crates.io:fury-oracle-osmosis".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -39,7 +39,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-oracle-osmosis".to_string(),
+            expected: "crates.io:fury-oracle-osmosis".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -48,7 +48,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-oracle-osmosis", "4.1.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-oracle-osmosis", "4.1.0")
         .unwrap();
 
     let err = migrate(
@@ -81,7 +81,7 @@ fn wrong_contract_version() {
 #[test]
 fn successful_migration_to_v2_0_0() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-oracle-osmosis", "1.1.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-oracle-osmosis", "1.1.0")
         .unwrap();
 
     let pyth_contract =
@@ -158,7 +158,7 @@ fn successful_migration_to_v2_0_0() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-oracle-osmosis".to_string(),
+        contract: "crates.io:fury-oracle-osmosis".to_string(),
         version: "2.0.1".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);
@@ -221,7 +221,7 @@ fn successful_migration_to_v2_0_0() {
 #[test]
 fn successful_migration_to_v2_0_1() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-oracle-osmosis", "2.0.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-oracle-osmosis", "2.0.0")
         .unwrap();
 
     let res = migrate(deps.as_mut(), mock_env(), MigrateMsg::V2_0_0ToV2_0_1 {}).unwrap();
@@ -235,7 +235,7 @@ fn successful_migration_to_v2_0_1() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-oracle-osmosis".to_string(),
+        contract: "crates.io:fury-oracle-osmosis".to_string(),
         version: "2.0.1".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);

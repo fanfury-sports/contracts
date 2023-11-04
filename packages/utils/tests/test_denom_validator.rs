@@ -1,4 +1,4 @@
-use mars_utils::{error::ValidationError::InvalidDenom, helpers::validate_native_denom};
+use fury_utils::{error::ValidationError::InvalidDenom, helpers::validate_native_denom};
 
 #[test]
 fn length_below_three() {
@@ -48,7 +48,7 @@ fn invalid_character() {
 
 #[test]
 fn correct_denom() {
-    let res = validate_native_denom("umars");
+    let res = validate_native_denom("ufury");
     assert_eq!(res, Ok(()));
 
     let res = validate_native_denom(

@@ -1,6 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Addr, Decimal, Uint128};
-use mars_owner::OwnerUpdate;
+use fury_owner::OwnerUpdate;
 
 /// Global configuration
 #[cw_serde]
@@ -10,8 +10,8 @@ pub struct Config {
     /// The maximum number of incentive denoms that can be whitelisted at any given time. This is
     /// a guard against accidentally whitelisting too many denoms, which could cause max gas errors.
     pub max_whitelisted_denoms: u8,
-    /// Mars Token Denom
-    pub mars_denom: String,
+    /// Fury Token Denom
+    pub fury_denom: String,
 }
 
 /// Incentive Metadata for a given incentive
@@ -89,8 +89,8 @@ pub struct InstantiateMsg {
     /// The maximum number of incentive denoms that can be whitelisted at any given time. This is
     /// a guard against accidentally whitelisting too many denoms, which could cause max gas errors.
     pub max_whitelisted_denoms: u8,
-    /// Mars Token Denom
-    pub mars_denom: String,
+    /// Fury Token Denom
+    pub fury_denom: String,
 }
 
 #[cw_serde]
@@ -139,7 +139,7 @@ pub enum ExecuteMsg {
         total_amount_scaled_before: Uint128,
     },
 
-    /// Claim rewards. MARS rewards accrued by the user will be staked into xMARS before
+    /// Claim rewards. FURY rewards accrued by the user will be staked into xFURY before
     /// being sent.
     ClaimRewards {
         /// Credit account id (Rover)

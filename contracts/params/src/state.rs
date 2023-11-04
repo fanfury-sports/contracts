@@ -1,7 +1,7 @@
 use cosmwasm_std::{Addr, Decimal};
 use cw_storage_plus::{Item, Map};
-use mars_owner::Owner;
-use mars_types::params::{AssetParams, VaultConfig};
+use fury_owner::Owner;
+use fury_types::params::{AssetParams, VaultConfig};
 
 pub const OWNER: Owner = Owner::new("owner");
 pub const ADDRESS_PROVIDER: Item<Addr> = Item::new("address_provider");

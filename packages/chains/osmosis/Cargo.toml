@@ -1,5 +1,5 @@
 [package]
-name          = "mars-osmosis"
+name          = "fury-osmosis"
 description   = "Helpers for the Osmosis chain"
 version       = { workspace = true }
 authors       = { workspace = true }

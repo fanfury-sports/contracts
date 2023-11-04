@@ -2,14 +2,14 @@ use std::{str::FromStr, time::SystemTime};
 
 use cosmwasm_std::{coin, to_binary, Coin, Decimal, Empty, Isqrt, Uint128};
 use helpers::osmosis::instantiate_stride_contract;
-use mars_oracle_base::ContractError;
-use mars_oracle_osmosis::{
+use fury_oracle_base::ContractError;
+use fury_oracle_osmosis::{
     msg::PriceSourceResponse, DowntimeDetector, OsmosisPriceSourceChecked,
     OsmosisPriceSourceUnchecked, RedemptionRate, Twap, TwapKind,
 };
-use mars_types::{
+use fury_types::{
     address_provider::{
-        ExecuteMsg::SetAddress, InstantiateMsg as InstantiateAddr, MarsAddressType,
+        ExecuteMsg::SetAddress, InstantiateMsg as InstantiateAddr, FuryAddressType,
     },
     incentives::InstantiateMsg as InstantiateIncentives,
     oracle::{ExecuteMsg, InstantiateMsg, PriceResponse, QueryMsg},
@@ -38,12 +38,12 @@ use crate::helpers::{
 
 mod helpers;
 
-const OSMOSIS_ORACLE_CONTRACT_NAME: &str = "mars-oracle-osmosis";
-const OSMOSIS_RED_BANK_CONTRACT_NAME: &str = "mars-red-bank";
-const OSMOSIS_ADDR_PROVIDER_CONTRACT_NAME: &str = "mars-address-provider";
-const OSMOSIS_REWARDS_CONTRACT_NAME: &str = "mars-rewards-collector-osmosis";
-const OSMOSIS_INCENTIVES_CONTRACT_NAME: &str = "mars-incentives";
-const OSMOSIS_PARAMS_CONTRACT_NAME: &str = "mars-params";
+const OSMOSIS_ORACLE_CONTRACT_NAME: &str = "fury-oracle-osmosis";
+const OSMOSIS_RED_BANK_CONTRACT_NAME: &str = "fury-red-bank";
+const OSMOSIS_ADDR_PROVIDER_CONTRACT_NAME: &str = "fury-address-provider";
+const OSMOSIS_REWARDS_CONTRACT_NAME: &str = "fury-rewards-collector-osmosis";
+const OSMOSIS_INCENTIVES_CONTRACT_NAME: &str = "fury-incentives";
+const OSMOSIS_PARAMS_CONTRACT_NAME: &str = "fury-params";
 
 #[test]
 fn querying_xyk_lp_price_if_no_price_for_tokens() {
@@ -53,7 +53,7 @@ fn querying_xyk_lp_price_if_no_price_for_tokens() {
     let signer = app
         .init_account(&[
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uatom"),
         ])
         .unwrap();
@@ -70,8 +70,8 @@ fn querying_xyk_lp_price_if_no_price_for_tokens() {
     );
 
     let gamm = Gamm::new(&app);
-    let pool_mars_atom = gamm
-        .create_basic_pool(&[coin(31_500_000, "umars"), coin(1_500_000, "uatom")], &signer)
+    let pool_fury_atom = gamm
+        .create_basic_pool(&[coin(31_500_000, "ufury"), coin(1_500_000, "uatom")], &signer)
         .unwrap()
         .data
         .pool_id;
@@ -79,9 +79,9 @@ fn querying_xyk_lp_price_if_no_price_for_tokens() {
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::<_, Empty>::SetPriceSource {
-            denom: "umars_uatom_lp".to_string(),
+            denom: "ufury_uatom_lp".to_string(),
             price_source: OsmosisPriceSourceUnchecked::XykLiquidityToken {
-                pool_id: pool_mars_atom,
+                pool_id: pool_fury_atom,
             },
         },
         &[],
@@ -89,11 +89,11 @@ fn querying_xyk_lp_price_if_no_price_for_tokens() {
     )
     .unwrap();
 
-    // Should fail - missing price for umars and uatom
+    // Should fail - missing price for ufury and uatom
     wasm.query::<QueryMsg, PriceResponse>(
         &contract_addr,
         &QueryMsg::Price {
-            denom: "umars_uatom_lp".to_string(),
+            denom: "ufury_uatom_lp".to_string(),
             kind: None,
         },
     )
@@ -108,7 +108,7 @@ fn querying_xyk_lp_price_success() {
     let signer = app
         .init_account(&[
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uatom"),
         ])
         .unwrap();
@@ -125,17 +125,17 @@ fn querying_xyk_lp_price_success() {
     );
 
     let gamm = Gamm::new(&app);
-    let pool_mars_atom = gamm
+    let pool_fury_atom = gamm
         .create_basic_pool(
-            &[coin(31_500_000, "umars"), coin(1_500_000, "uatom")], // 1 atom = 21 mars
+            &[coin(31_500_000, "ufury"), coin(1_500_000, "uatom")], // 1 atom = 21 fury
             &signer,
         )
         .unwrap()
         .data
         .pool_id;
-    let pool_mars_osmo = gamm
+    let pool_fury_osmo = gamm
         .create_basic_pool(
-            &[coin(6_000_000, "umars"), coin(1_500_000, "uosmo")], // 1 mars = 0.25 osmo
+            &[coin(6_000_000, "ufury"), coin(1_500_000, "uosmo")], // 1 fury = 0.25 osmo
             &signer,
         )
         .unwrap()
@@ -153,9 +153,9 @@ fn querying_xyk_lp_price_success() {
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::<_, Empty>::SetPriceSource {
-            denom: "umars_uatom_lp".to_string(),
+            denom: "ufury_uatom_lp".to_string(),
             price_source: OsmosisPriceSourceUnchecked::XykLiquidityToken {
-                pool_id: pool_mars_atom,
+                pool_id: pool_fury_atom,
             },
         },
         &[],
@@ -165,9 +165,9 @@ fn querying_xyk_lp_price_success() {
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::<_, Empty>::SetPriceSource {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             price_source: OsmosisPriceSourceUnchecked::Spot {
-                pool_id: pool_mars_osmo,
+                pool_id: pool_fury_osmo,
             },
         },
         &[],
@@ -187,25 +187,25 @@ fn querying_xyk_lp_price_success() {
     )
     .unwrap();
 
-    // Mars price: 0.25 osmo
-    // Mars depth: 31_500_000
+    // Fury price: 0.25 osmo
+    // Fury depth: 31_500_000
     // Atom price: 10 osmo
     // Atom depth: 1_500_000
     // pool value: 2 * sqrt((0.25 * 31_500_000) * (10 * 1_500_000))
     // LP token price: pool value / lp shares
-    let mars_price = Decimal::from_ratio(1u128, 4u128);
+    let fury_price = Decimal::from_ratio(1u128, 4u128);
     let atom_price = Decimal::from_ratio(10u128, 1u128);
-    let mars_value = Uint128::from(31_500_000u128) * mars_price;
+    let fury_value = Uint128::from(31_500_000u128) * fury_price;
     let atom_value = Uint128::from(1_500_000u128) * atom_price;
-    let pool_value = Uint128::from(2u8) * (mars_value * atom_value).isqrt();
-    let pool = gamm.query_pool(pool_mars_atom).unwrap();
-    let mars_atom_lp_shares = Uint128::from_str(&pool.total_shares.unwrap().amount).unwrap();
-    let lp_price = Decimal::from_ratio(pool_value, mars_atom_lp_shares);
+    let pool_value = Uint128::from(2u8) * (fury_value * atom_value).isqrt();
+    let pool = gamm.query_pool(pool_fury_atom).unwrap();
+    let fury_atom_lp_shares = Uint128::from_str(&pool.total_shares.unwrap().amount).unwrap();
+    let lp_price = Decimal::from_ratio(pool_value, fury_atom_lp_shares);
     let res: PriceResponse = wasm
         .query(
             &contract_addr,
             &QueryMsg::Price {
-                denom: "umars_uatom_lp".to_string(),
+                denom: "ufury_uatom_lp".to_string(),
                 kind: None,
             },
         )
@@ -346,7 +346,7 @@ fn incorrect_pool_for_spot() {
         .execute(
             &oracle_addr,
             &ExecuteMsg::<_, Empty>::SetPriceSource {
-                denom: "umars".to_string(),
+                denom: "ufury".to_string(),
                 price_source: OsmosisPriceSourceUnchecked::Spot {
                     pool_id,
                 },
@@ -359,7 +359,7 @@ fn incorrect_pool_for_spot() {
     assert_err(
         res,
         ContractError::InvalidPriceSource {
-            reason: "pool 1 does not contain umars".to_string(),
+            reason: "pool 1 does not contain ufury".to_string(),
         },
     )
 }
@@ -1152,7 +1152,7 @@ fn redbank_should_fail_if_no_price() {
     wasm.execute(
         &red_bank_addr,
         &Borrow {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             amount: Uint128::new(10_000),
             recipient: None,
         },
@@ -1268,7 +1268,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
             address_provider: addr_provider_addr.clone(),
             epoch_duration: 604800, // 1 week in seconds
             max_whitelisted_denoms: 10,
-            mars_denom: "umars".to_string(),
+            fury_denom: "ufury".to_string(),
         },
     );
 
@@ -1293,7 +1293,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
         wasm,
         signer,
         OSMOSIS_PARAMS_CONTRACT_NAME,
-        &mars_types::params::InstantiateMsg {
+        &fury_types::params::InstantiateMsg {
             owner: (signer.address()),
             address_provider: addr_provider_addr.clone(),
             target_health_factor: Decimal::from_str("1.05").unwrap(),
@@ -1303,7 +1303,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::RedBank,
+            address_type: FuryAddressType::RedBank,
             address: red_bank_addr.clone(),
         },
         &[],
@@ -1314,7 +1314,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::Incentives,
+            address_type: FuryAddressType::Incentives,
             address: incentives_addr,
         },
         &[],
@@ -1325,7 +1325,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::Oracle,
+            address_type: FuryAddressType::Oracle,
             address: oracle_addr.clone(),
         },
         &[],
@@ -1336,7 +1336,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::RewardsCollector,
+            address_type: FuryAddressType::RewardsCollector,
             address: rewards_addr,
         },
         &[],
@@ -1347,7 +1347,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::Params,
+            address_type: FuryAddressType::Params,
             address: params_addr.clone(),
         },
         &[],
@@ -1359,7 +1359,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     wasm.execute(
         &addr_provider_addr,
         &SetAddress {
-            address_type: MarsAddressType::CreditManager,
+            address_type: FuryAddressType::CreditManager,
             address: params_addr.clone(),
         },
         &[],
@@ -1381,7 +1381,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
     .unwrap();
     wasm.execute(
         &params_addr,
-        &mars_types::params::ExecuteMsg::UpdateAssetParams(AssetParamsUpdate::AddOrUpdate {
+        &fury_types::params::ExecuteMsg::UpdateAssetParams(AssetParamsUpdate::AddOrUpdate {
             params: asset_params.into(),
         }),
         &[],
@@ -1404,7 +1404,7 @@ fn setup_redbank(wasm: &Wasm<OsmosisTestApp>, signer: &SigningAccount) -> (Strin
 
     wasm.execute(
         &params_addr,
-        &mars_types::params::ExecuteMsg::UpdateAssetParams(AssetParamsUpdate::AddOrUpdate {
+        &fury_types::params::ExecuteMsg::UpdateAssetParams(AssetParamsUpdate::AddOrUpdate {
             params: asset_params.into(),
         }),
         &[],

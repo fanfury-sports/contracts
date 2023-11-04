@@ -1,5 +1,5 @@
 use cosmwasm_std::{Deps, StdResult};
-use mars_types::{
+use fury_types::{
     credit_manager::{ConfigResponse, Positions},
     health::AccountKind,
 };

@@ -6,18 +6,18 @@ use cosmwasm_std::{
     to_binary, Addr, Decimal, OwnedDeps, StdError, SubMsg, Uint128, WasmMsg,
 };
 use cw_utils::PaymentError;
-use mars_interest_rate::{
+use fury_interest_rate::{
     compute_scaled_amount, get_underlying_liquidity_amount, ScalingOperation, SCALING_FACTOR,
 };
-use mars_red_bank::{
+use fury_red_bank::{
     contract::execute,
     error::ContractError,
     state::{COLLATERALS, MARKETS},
 };
-use mars_testing::{mock_env_at_block_time, MarsMockQuerier};
-use mars_types::{
-    address_provider::MarsAddressType,
-    error::MarsError,
+use fury_testing::{mock_env_at_block_time, FuryMockQuerier};
+use fury_types::{
+    address_provider::FuryAddressType,
+    error::FuryError,
     incentives,
     keys::{UserId, UserIdKey},
     params::{AssetParams, CmSettings, LiquidationBonus, RedBankSettings},
@@ -31,7 +31,7 @@ use super::helpers::{
 };
 
 struct TestSuite {
-    deps: OwnedDeps<MockStorage, MockApi, MarsMockQuerier>,
+    deps: OwnedDeps<MockStorage, MockApi, FuryMockQuerier>,
     denom: &'static str,
     depositor_addr: Addr,
     initial_market: Market,
@@ -313,7 +313,7 @@ fn depositing_without_existing_position() {
     assert_eq!(
         res.messages,
         vec![SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                 user_addr: depositor_addr.clone(),
                 account_id: None,
@@ -407,7 +407,7 @@ fn depositing_with_existing_position() {
     assert_eq!(
         res.messages,
         vec![SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                 user_addr: depositor_addr.clone(),
                 account_id: None,
@@ -482,9 +482,9 @@ fn depositing_on_behalf_of() {
         res.messages,
         vec![
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                    user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                    user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                     account_id: None,
                     denom: initial_market.denom.clone(),
                     user_amount_scaled_before: Uint128::zero(),
@@ -494,7 +494,7 @@ fn depositing_on_behalf_of() {
                 funds: vec![]
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: MarsAddressType::Incentives.to_string(),
+                contract_addr: FuryAddressType::Incentives.to_string(),
                 msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                     user_addr: on_behalf_of_addr.clone(),
                     account_id: None,
@@ -618,7 +618,7 @@ fn depositing_on_behalf_of_credit_manager() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Mars(MarsError::Unauthorized {}));
+    assert_eq!(err, ContractError::Fury(FuryError::Unauthorized {}));
 }
 
 #[test]
@@ -641,7 +641,7 @@ fn depositing_with_account_id_by_non_credit_manager_user() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Mars(MarsError::Unauthorized {}));
+    assert_eq!(err, ContractError::Fury(FuryError::Unauthorized {}));
 
     // non-credit-manager user cannot deposit with account_id
     let err = execute(
@@ -654,5 +654,5 @@ fn depositing_with_account_id_by_non_credit_manager_user() {
         },
     )
     .unwrap_err();
-    assert_eq!(err, ContractError::Mars(MarsError::Unauthorized {}));
+    assert_eq!(err, ContractError::Fury(FuryError::Unauthorized {}));
 }

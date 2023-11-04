@@ -1,9 +1,9 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{coins, Addr, Coin, Decimal, OverflowError, OverflowOperation::Sub, Uint128};
-use mars_credit_manager::error::ContractError;
-use mars_swapper_mock::contract::MOCK_SWAP_RESULT;
-use mars_types::credit_manager::{
+use fury_credit_manager::error::ContractError;
+use fury_swapper_mock::contract::MOCK_SWAP_RESULT;
+use fury_types::credit_manager::{
     Action::{Deposit, SwapExactIn},
     ActionAmount, ActionCoin,
 };
@@ -24,7 +24,7 @@ fn only_token_owner_can_swap_for_account() {
         &another_user,
         vec![SwapExactIn {
             coin_in: ActionCoin {
-                denom: "mars".to_string(),
+                denom: "fury".to_string(),
                 amount: ActionAmount::Exact(Uint128::new(12)),
             },
             denom_out: "osmo".to_string(),

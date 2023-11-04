@@ -1,11 +1,11 @@
 use cosmwasm_std::{attr, testing::mock_env, Addr, Empty, Event};
 use cw2::{ContractVersion, VersionError};
-use mars_swapper_base::ContractError;
-use mars_swapper_osmosis::{
+use fury_swapper_base::ContractError;
+use fury_swapper_osmosis::{
     contract::{migrate, OsmosisSwap},
     migrations::v2_0_0::v1_state::{self, OwnerSetNoneProposed},
 };
-use mars_testing::mock_dependencies;
+use fury_testing::mock_dependencies;
 
 #[test]
 fn wrong_contract_name() {
@@ -17,7 +17,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:mars-swapper-osmosis".to_string(),
+            expected: "crates.io:fury-swapper-osmosis".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -26,7 +26,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-swapper-osmosis", "4.1.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-swapper-osmosis", "4.1.0")
         .unwrap();
 
     let err = migrate(deps.as_mut(), mock_env(), Empty {}).unwrap_err();
@@ -43,7 +43,7 @@ fn wrong_contract_version() {
 #[test]
 fn successful_migration() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-swapper-osmosis", "1.0.0")
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-swapper-osmosis", "1.0.0")
         .unwrap();
 
     let old_owner = "spiderman_246";
@@ -67,7 +67,7 @@ fn successful_migration() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:mars-swapper-osmosis".to_string(),
+        contract: "crates.io:fury-swapper-osmosis".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);

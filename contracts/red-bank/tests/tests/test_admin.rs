@@ -1,22 +1,22 @@
 use cosmwasm_std::{attr, coin, from_binary, testing::mock_info, Addr, Decimal, Event, Uint128};
-use mars_interest_rate::{compute_scaled_amount, compute_underlying_amount, ScalingOperation};
-use mars_owner::OwnerError::NotOwner;
-use mars_red_bank::{
+use fury_interest_rate::{compute_scaled_amount, compute_underlying_amount, ScalingOperation};
+use fury_owner::OwnerError::NotOwner;
+use fury_red_bank::{
     contract::{execute, instantiate, query},
     error::ContractError,
     state::{COLLATERALS, MARKETS},
 };
-use mars_testing::{mock_dependencies, mock_env, mock_env_at_block_time, MockEnvParams};
-use mars_types::{
-    address_provider::MarsAddressType,
-    error::MarsError,
+use fury_testing::{mock_dependencies, mock_env, mock_env_at_block_time, MockEnvParams};
+use fury_types::{
+    address_provider::FuryAddressType,
+    error::FuryError,
     keys::{UserId, UserIdKey},
     red_bank::{
         ConfigResponse, CreateOrUpdateConfig, ExecuteMsg, InitOrUpdateAssetParams, InstantiateMsg,
         InterestRateModel, Market, QueryMsg,
     },
 };
-use mars_utils::error::ValidationError;
+use fury_utils::error::ValidationError;
 
 use super::helpers::{th_get_expected_indices, th_init_market, th_setup};
 
@@ -42,7 +42,7 @@ fn proper_initialization() {
     };
     let info = mock_info("owner", &[]);
     let error_res = instantiate(deps.as_mut(), env.clone(), info, msg).unwrap_err();
-    assert_eq!(error_res, MarsError::InstantiateParamsUnavailable {}.into());
+    assert_eq!(error_res, FuryError::InstantiateParamsUnavailable {}.into());
 
     // *
     // init config with valid params
@@ -218,7 +218,7 @@ fn init_asset() {
         };
         let info = mock_info("owner", &[]);
         let error_res = execute(deps.as_mut(), env.clone(), info, msg).unwrap_err();
-        assert_eq!(error_res, MarsError::InstantiateParamsUnavailable {}.into());
+        assert_eq!(error_res, FuryError::InstantiateParamsUnavailable {}.into());
     }
 
     // init asset with reserve_factor equal to 1
@@ -675,7 +675,7 @@ fn update_asset_new_reserve_factor_accrues_interest_rate() {
     .unwrap();
 
     let user_id = UserId::credit_manager(
-        Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+        Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
         "".to_string(),
     );
     let user_id_key: UserIdKey = user_id.try_into().unwrap();

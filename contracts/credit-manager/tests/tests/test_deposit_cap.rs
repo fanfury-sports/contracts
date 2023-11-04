@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{Addr, Coin, Coins, Decimal, StdResult, Uint128};
-use mars_credit_manager::error::ContractError;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_types::{
     credit_manager::{Action, ActionAmount, ActionCoin},
     params::{AssetParams, AssetParamsUpdate},
 };

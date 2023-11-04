@@ -1,7 +1,7 @@
 use cosmwasm_std::{coin, coins, Addr, Uint128};
 use cw_utils::PaymentError;
-use mars_credit_manager::error::ContractError;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_types::{
     credit_manager::Action::{Borrow, Deposit},
     params::AssetParamsUpdate::AddOrUpdate,
 };

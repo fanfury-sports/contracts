@@ -1,6 +1,6 @@
 use cosmwasm_std::{Addr, StdError};
-use mars_owner::OwnerError::NotOwner;
-use mars_types::health::{
+use fury_owner::OwnerError::NotOwner;
+use fury_types::health::{
     HealthError,
     HealthError::{Owner, Std},
 };

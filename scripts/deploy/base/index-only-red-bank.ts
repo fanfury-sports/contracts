@@ -14,16 +14,16 @@ export const taskRunner = async ({ config, label }: TaskRunnerProps) => {
     await deployer.assertDeployerBalance()
 
     // Upload contracts
-    await deployer.upload('redBank', 'mars_red_bank.wasm')
-    await deployer.upload('addressProvider', 'mars_address_provider.wasm')
-    await deployer.upload('incentives', 'mars_incentives.wasm')
-    await deployer.upload('oracle', `mars_oracle_${config.oracle.name}.wasm`)
+    await deployer.upload('redBank', 'fury_red_bank.wasm')
+    await deployer.upload('addressProvider', 'fury_address_provider.wasm')
+    await deployer.upload('incentives', 'fury_incentives.wasm')
+    await deployer.upload('oracle', `fury_oracle_${config.oracle.name}.wasm`)
     await deployer.upload(
       'rewardsCollector',
-      `mars_rewards_collector_${config.rewardsCollector.name}.wasm`,
+      `fury_rewards_collector_${config.rewardsCollector.name}.wasm`,
     )
-    await deployer.upload('swapper', `mars_swapper_${config.swapper.name}.wasm`)
-    await deployer.upload('params', `mars_params.wasm`)
+    await deployer.upload('swapper', `fury_swapper_${config.swapper.name}.wasm`)
+    await deployer.upload('params', `fury_params.wasm`)
 
     // Instantiate contracts
     await deployer.instantiateAddressProvider()

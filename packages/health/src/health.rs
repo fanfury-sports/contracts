@@ -1,9 +1,9 @@
 use std::{collections::HashMap, fmt};
 
 use cosmwasm_std::{Addr, Coin, Decimal, Fraction, QuerierWrapper, StdResult, Uint128};
-use mars_types::{health::HealthValuesResponse, params::AssetParams};
+use fury_types::{health::HealthValuesResponse, params::AssetParams};
 
-use crate::{error::HealthError, query::MarsQuerier};
+use crate::{error::HealthError, query::FuryQuerier};
 
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
 pub struct Position {
@@ -68,7 +68,7 @@ impl Health {
         collateral: &[Coin],
         debt: &[Coin],
     ) -> Result<Health, HealthError> {
-        let querier = MarsQuerier::new(querier, oracle_addr, red_bank_addr);
+        let querier = FuryQuerier::new(querier, oracle_addr, red_bank_addr);
         let positions = Self::positions_from_coins(&querier, collateral, debt)?;
 
         Self::compute_health(&positions.into_values().collect::<Vec<_>>())
@@ -124,7 +124,7 @@ impl Health {
 
     /// Convert a collection of coins (Collateral and debts) to a map of `Position`
     pub fn positions_from_coins(
-        querier: &MarsQuerier,
+        querier: &FuryQuerier,
         collateral: &[Coin],
         debt: &[Coin],
     ) -> StdResult<HashMap<String, Position>> {

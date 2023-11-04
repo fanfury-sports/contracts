@@ -2,7 +2,7 @@ use cosmwasm_std::{
     Addr, BalanceResponse, BankQuery, Coin, Decimal, DepsMut, Env, QuerierWrapper, QueryRequest,
     Response, StdResult,
 };
-use mars_types::credit_manager::ChangeExpected;
+use fury_types::credit_manager::ChangeExpected;
 
 use crate::{
     error::{ContractError::BalanceChange, ContractResult},

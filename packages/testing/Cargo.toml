@@ -1,6 +1,6 @@
 [package]
-name          = "mars-testing"
-description   = "Utilities for testing Mars red-bank contracts"
+name          = "fury-testing"
+description   = "Utilities for testing Fury red-bank contracts"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -26,18 +26,18 @@ cosmwasm-std                   = { workspace = true }
 cosmwasm-schema                = { workspace = true }
 ica-oracle                     = { workspace = true }
 osmosis-std                    = { workspace = true }
-mars-address-provider          = { workspace = true }
-mars-incentives                = { workspace = true }
-mars-mock-pyth                 = { workspace = true }
-mars-oracle-osmosis            = { workspace = true }
-mars-oracle-wasm               = { workspace = true }
-mars-osmosis                   = { workspace = true }
-mars-owner                     = { workspace = true }
-mars-params                    = { workspace = true }
-mars-red-bank                  = { workspace = true }
-mars-rewards-collector-osmosis = { workspace = true }
-mars-swapper-astroport         = { workspace = true }
-mars-types                     = { workspace = true }
+fury-address-provider          = { workspace = true }
+fury-incentives                = { workspace = true }
+fury-mock-pyth                 = { workspace = true }
+fury-oracle-osmosis            = { workspace = true }
+fury-oracle-wasm               = { workspace = true }
+fury-osmosis                   = { workspace = true }
+fury-owner                     = { workspace = true }
+fury-params                    = { workspace = true }
+fury-red-bank                  = { workspace = true }
+fury-rewards-collector-osmosis = { workspace = true }
+fury-swapper-astroport         = { workspace = true }
+fury-types                     = { workspace = true }
 prost                          = { workspace = true }
 pyth-sdk-cw                    = { workspace = true }
 

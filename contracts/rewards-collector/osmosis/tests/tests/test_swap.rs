@@ -1,9 +1,9 @@
 use cosmwasm_std::{
     coin, testing::mock_env, to_binary, CosmosMsg, Decimal, Empty, SubMsg, Uint128, WasmMsg,
 };
-use mars_rewards_collector_osmosis::entry::execute;
-use mars_testing::mock_info;
-use mars_types::{
+use fury_rewards_collector_osmosis::entry::execute;
+use fury_testing::mock_info;
+use fury_types::{
     rewards_collector::{ConfigResponse, ExecuteMsg, QueryMsg},
     swapper,
 };
@@ -33,13 +33,13 @@ fn swapping_asset() {
             arithmetic_twap: uosmo_uusdc_price.to_string(),
         },
     );
-    let uosmo_umars_price = Decimal::from_ratio(5u128, 10u128);
+    let uosmo_ufury_price = Decimal::from_ratio(5u128, 10u128);
     deps.querier.set_arithmetic_twap_price(
         420,
         "uosmo",
-        "umars",
+        "ufury",
         ArithmeticTwapToNowResponse {
-            arithmetic_twap: uosmo_umars_price.to_string(),
+            arithmetic_twap: uosmo_ufury_price.to_string(),
         },
     );
 
@@ -92,18 +92,18 @@ fn swapping_asset() {
 ///
 /// For example, for the Osmosis outpost, we plan to set
 ///
-/// - fee_collector_denom = MARS
+/// - fee_collector_denom = FURY
 /// - safety_fund_denom = axlUSDC
 ///
 /// For protocol revenue collected in axlUSDC, we want half to be swapped to
-/// MARS and sent to the fee collector, and the other half _not swapped_ and
+/// FURY and sent to the fee collector, and the other half _not swapped_ and
 /// sent to safety fund.
 ///
 /// In this test, we make sure the safety fund part of the swap is properly
 /// skipped.
 ///
 /// See this issue for more explanation:
-/// https://github.com/mars-protocol/red-bank/issues/166
+/// https://github.com/fury-protocol/red-bank/issues/166
 #[test]
 fn skipping_swap_if_denom_matches() {
     let mut deps = helpers::setup_test();
@@ -117,13 +117,13 @@ fn skipping_swap_if_denom_matches() {
             arithmetic_twap: uusdc_uosmo_price.to_string(),
         },
     );
-    let uosmo_umars_price = Decimal::from_ratio(5u128, 10u128);
+    let uosmo_ufury_price = Decimal::from_ratio(5u128, 10u128);
     deps.querier.set_arithmetic_twap_price(
         420,
         "uosmo",
-        "umars",
+        "ufury",
         ArithmeticTwapToNowResponse {
-            arithmetic_twap: uosmo_umars_price.to_string(),
+            arithmetic_twap: uosmo_ufury_price.to_string(),
         },
     );
 
@@ -138,7 +138,7 @@ fn skipping_swap_if_denom_matches() {
     )
     .unwrap();
 
-    // the response should only contain one swap message, from USDC to MARS, for
+    // the response should only contain one swap message, from USDC to FURY, for
     // the fee collector.
     //
     // the USDC --> USDC swap for safety fund should be skipped.
@@ -150,14 +150,14 @@ fn skipping_swap_if_denom_matches() {
     // amount for fee collector: 1234 - 308 = 926
     //
     // 1 uusdc = 0.1 uosmo
-    // 1 uosmo = 0.5 umars
+    // 1 uosmo = 0.5 ufury
     // slippage tolerance: 3%
     // min out amount: 926 * 0.1 * 0.5 * (1 - 0.03) = 44
     let swap_msg: CosmosMsg = WasmMsg::Execute {
         contract_addr: "swapper".to_string(),
         msg: to_binary(&swapper::ExecuteMsg::<Empty>::SwapExactIn {
             coin_in: coin(926u128, "uusdc"),
-            denom_out: "umars".to_string(),
+            denom_out: "ufury".to_string(),
             slippage: mock_instantiate_msg().slippage_tolerance,
         })
         .unwrap(),

@@ -11,22 +11,22 @@ fn main() -> std::io::Result<()> {
     println!("Done");
 
     let contracts = vec![
-        "mars-account-nft",
-        "mars-address-provider",
-        "mars-credit-manager",
-        "mars-incentives",
-        "mars-mock-vault",
-        "mars-red-bank",
-        "mars-rewards-collector-base",
-        "mars-params",
-        "mars-rover-health",
-        "mars-rover-health-computer",
-        "mars-swapper-base",
-        "mars-swapper-osmosis",
-        "mars-swapper-astroport",
-        "mars-oracle-osmosis",
-        "mars-oracle-wasm",
-        "mars-zapper-base",
+        "fury-account-nft",
+        "fury-address-provider",
+        "fury-credit-manager",
+        "fury-incentives",
+        "fury-mock-vault",
+        "fury-red-bank",
+        "fury-rewards-collector-base",
+        "fury-params",
+        "fury-rover-health",
+        "fury-rover-health-computer",
+        "fury-swapper-base",
+        "fury-swapper-osmosis",
+        "fury-swapper-astroport",
+        "fury-oracle-osmosis",
+        "fury-oracle-wasm",
+        "fury-zapper-base",
     ];
 
     for contract in contracts {

@@ -1,7 +1,7 @@
 use cosmwasm_std::{Coin, Deps, Env, Order, StdResult};
 use cw_paginate::paginate_map;
 use cw_storage_plus::Bound;
-use mars_types::{
+use fury_types::{
     adapters::vault::{VaultBase, VaultPosition, VaultPositionValue, VaultUnchecked},
     credit_manager::{
         Account, CoinBalanceResponseItem, ConfigResponse, DebtAmount, DebtShares, Positions,

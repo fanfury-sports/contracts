@@ -2,9 +2,9 @@ extern crate core;
 
 use cosmwasm_std::{Addr, Uint128};
 use cw_multi_test::Executor;
-use mars_credit_manager::error::ContractError;
-use mars_owner::OwnerError::NotOwner;
-use mars_types::account_nft::{ExecuteMsg, NftConfigUpdates};
+use fury_credit_manager::error::ContractError;
+use fury_owner::OwnerError::NotOwner;
+use fury_types::account_nft::{ExecuteMsg, NftConfigUpdates};
 
 use super::helpers::{assert_err, MockEnv};
 

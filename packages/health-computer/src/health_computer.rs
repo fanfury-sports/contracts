@@ -2,7 +2,7 @@ use std::cmp::min;
 
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Coin, Decimal, Uint128};
-use mars_types::{
+use fury_types::{
     credit_manager::Positions,
     health::{
         AccountKind, BorrowTarget, Health,

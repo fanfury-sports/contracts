@@ -1,6 +1,6 @@
 [package]
-name          = "mars-utils"
-description   = "Helpers for Mars smart contracts"
+name          = "fury-utils"
+description   = "Helpers for Fury smart contracts"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }

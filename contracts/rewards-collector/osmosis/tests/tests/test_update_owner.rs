@@ -1,8 +1,8 @@
 use cosmwasm_std::testing::{mock_env, mock_info};
-use mars_owner::{OwnerError::NotOwner, OwnerUpdate};
-use mars_rewards_collector_base::ContractError;
-use mars_rewards_collector_osmosis::entry::execute;
-use mars_types::rewards_collector::{ConfigResponse, ExecuteMsg, QueryMsg};
+use fury_owner::{OwnerError::NotOwner, OwnerUpdate};
+use fury_rewards_collector_base::ContractError;
+use fury_rewards_collector_osmosis::entry::execute;
+use fury_types::rewards_collector::{ConfigResponse, ExecuteMsg, QueryMsg};
 
 use super::helpers::{query, setup_test};
 

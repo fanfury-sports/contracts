@@ -1,9 +1,9 @@
 use cosmwasm_std::{coin, StdError};
 use cw_it::osmosis_test_tube::{Gamm, Module, OsmosisTestApp, Wasm};
-use mars_owner::OwnerError;
-use mars_swapper_base::ContractError;
-use mars_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
-use mars_types::swapper::{ExecuteMsg, QueryMsg, RouteResponse};
+use fury_owner::OwnerError;
+use fury_swapper_base::ContractError;
+use fury_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
+use fury_types::swapper::{ExecuteMsg, QueryMsg, RouteResponse};
 
 use super::helpers::{assert_err, instantiate_contract};
 
@@ -22,7 +22,7 @@ fn only_owner_can_set_routes() {
         .execute(
             &contract_addr,
             &ExecuteMsg::SetRoute {
-                denom_in: "mars".to_string(),
+                denom_in: "fury".to_string(),
                 denom_out: "weth".to_string(),
                 route: OsmosisRoute(vec![
                     SwapAmountInRoute {
@@ -56,7 +56,7 @@ fn must_pass_at_least_one_step() {
         .execute(
             &contract_addr,
             &ExecuteMsg::SetRoute {
-                denom_in: "mars".to_string(),
+                denom_in: "fury".to_string(),
                 denom_out: "weth".to_string(),
                 route: OsmosisRoute(vec![]),
             },
@@ -86,7 +86,7 @@ fn must_be_available_in_osmosis() {
         .execute(
             &contract_addr,
             &ExecuteMsg::SetRoute {
-                denom_in: "mars".to_string(),
+                denom_in: "fury".to_string(),
                 denom_out: "weth".to_string(),
                 route: OsmosisRoute(vec![SwapAmountInRoute {
                     pool_id: 1,
@@ -123,7 +123,7 @@ fn step_does_not_contain_input_denom() {
         .execute(
             &contract_addr,
             &ExecuteMsg::SetRoute {
-                denom_in: "umars".to_string(),
+                denom_in: "ufury".to_string(),
                 denom_out: "uweth".to_string(),
                 route: OsmosisRoute(vec![SwapAmountInRoute {
                     pool_id: pool_atom_osmo,
@@ -138,7 +138,7 @@ fn step_does_not_contain_input_denom() {
     assert_err(
         res_err,
         ContractError::InvalidRoute {
-            reason: format!("step 1: pool {pool_atom_osmo} does not contain input denom umars",),
+            reason: format!("step 1: pool {pool_atom_osmo} does not contain input denom ufury",),
         },
     );
 }
@@ -149,14 +149,14 @@ fn step_does_not_contain_output_denom() {
     let wasm = Wasm::new(&app);
 
     let signer = app
-        .init_account(&[coin(1_000_000_000_000, "umars"), coin(1_000_000_000_000, "uosmo")])
+        .init_account(&[coin(1_000_000_000_000, "ufury"), coin(1_000_000_000_000, "uosmo")])
         .unwrap();
 
     let contract_addr = instantiate_contract(&wasm, &signer);
 
     let gamm = Gamm::new(&app);
-    let pool_mars_osmo = gamm
-        .create_basic_pool(&[coin(6_000_000, "umars"), coin(1_500_000, "uosmo")], &signer)
+    let pool_fury_osmo = gamm
+        .create_basic_pool(&[coin(6_000_000, "ufury"), coin(1_500_000, "uosmo")], &signer)
         .unwrap()
         .data
         .pool_id;
@@ -165,10 +165,10 @@ fn step_does_not_contain_output_denom() {
         .execute(
             &contract_addr,
             &ExecuteMsg::SetRoute {
-                denom_in: "umars".to_string(),
+                denom_in: "ufury".to_string(),
                 denom_out: "uweth".to_string(),
                 route: OsmosisRoute(vec![SwapAmountInRoute {
-                    pool_id: pool_mars_osmo,
+                    pool_id: pool_fury_osmo,
                     token_out_denom: "uweth".to_string(),
                 }]),
             },
@@ -180,7 +180,7 @@ fn step_does_not_contain_output_denom() {
     assert_err(
         res_err,
         ContractError::InvalidRoute {
-            reason: format!("step 1: pool {pool_mars_osmo} does not contain output denom uweth"),
+            reason: format!("step 1: pool {pool_fury_osmo} does not contain output denom uweth"),
         },
     );
 }
@@ -194,7 +194,7 @@ fn steps_do_not_loop() {
         .init_account(&[
             coin(1_000_000_000_000, "uatom"),
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uusdc"),
         ])
         .unwrap();
@@ -212,8 +212,8 @@ fn steps_do_not_loop() {
         .unwrap()
         .data
         .pool_id;
-    let pool_osmo_mars = gamm
-        .create_basic_pool(&[coin(6_000_000, "uosmo"), coin(1_500_000, "umars")], &signer)
+    let pool_osmo_fury = gamm
+        .create_basic_pool(&[coin(6_000_000, "uosmo"), coin(1_500_000, "ufury")], &signer)
         .unwrap()
         .data
         .pool_id;
@@ -223,7 +223,7 @@ fn steps_do_not_loop() {
             &contract_addr,
             &ExecuteMsg::SetRoute {
                 denom_in: "uatom".to_string(),
-                denom_out: "umars".to_string(),
+                denom_out: "ufury".to_string(),
                 route: OsmosisRoute(vec![
                     SwapAmountInRoute {
                         pool_id: pool_atom_osmo,
@@ -238,8 +238,8 @@ fn steps_do_not_loop() {
                         token_out_denom: "uosmo".to_string(),
                     },
                     SwapAmountInRoute {
-                        pool_id: pool_osmo_mars,
-                        token_out_denom: "umars".to_string(),
+                        pool_id: pool_osmo_fury,
+                        token_out_denom: "ufury".to_string(),
                     },
                 ]),
             },
@@ -249,7 +249,7 @@ fn steps_do_not_loop() {
         .unwrap_err();
 
     // invalid - route contains a loop
-    // this example: ATOM -> OSMO -> USDC -> OSMO -> MARS
+    // this example: ATOM -> OSMO -> USDC -> OSMO -> FURY
     assert_err(
         res_err,
         ContractError::InvalidRoute {
@@ -281,7 +281,7 @@ fn step_output_does_not_match() {
             &contract_addr,
             &ExecuteMsg::SetRoute {
                 denom_in: "uatom".to_string(),
-                denom_out: "umars".to_string(),
+                denom_out: "ufury".to_string(),
                 route: OsmosisRoute(vec![SwapAmountInRoute {
                     pool_id: pool_atom_osmo,
                     token_out_denom: "uosmo".to_string(),
@@ -295,7 +295,7 @@ fn step_output_does_not_match() {
     assert_err(
         res_err,
         ContractError::InvalidRoute {
-            reason: "the route's output denom uosmo does not match the desired output umars"
+            reason: "the route's output denom uosmo does not match the desired output ufury"
                 .to_string(),
         },
     );
@@ -309,7 +309,7 @@ fn set_route_success() {
     let signer = app
         .init_account(&[
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uweth"),
         ])
         .unwrap();
@@ -317,8 +317,8 @@ fn set_route_success() {
     let contract_addr = instantiate_contract(&wasm, &signer);
 
     let gamm = Gamm::new(&app);
-    let pool_mars_osmo = gamm
-        .create_basic_pool(&[coin(6_000_000, "umars"), coin(1_500_000, "uosmo")], &signer)
+    let pool_fury_osmo = gamm
+        .create_basic_pool(&[coin(6_000_000, "ufury"), coin(1_500_000, "uosmo")], &signer)
         .unwrap()
         .data
         .pool_id;
@@ -331,11 +331,11 @@ fn set_route_success() {
     wasm.execute(
         &contract_addr,
         &ExecuteMsg::SetRoute {
-            denom_in: "umars".to_string(),
+            denom_in: "ufury".to_string(),
             denom_out: "uweth".to_string(),
             route: OsmosisRoute(vec![
                 SwapAmountInRoute {
-                    pool_id: pool_mars_osmo,
+                    pool_id: pool_fury_osmo,
                     token_out_denom: "uosmo".to_string(),
                 },
                 SwapAmountInRoute {
@@ -353,13 +353,13 @@ fn set_route_success() {
         .query(
             &contract_addr,
             &QueryMsg::Route {
-                denom_in: "umars".to_string(),
+                denom_in: "ufury".to_string(),
                 denom_out: "uweth".to_string(),
             },
         )
         .unwrap();
 
-    assert_eq!(res.denom_in, "umars".to_string());
+    assert_eq!(res.denom_in, "ufury".to_string());
     assert_eq!(res.denom_out, "uweth".to_string());
-    assert_eq!(res.route.to_string(), format!("{pool_mars_osmo}:uosmo|{pool_weth_osmo}:uweth"));
+    assert_eq!(res.route.to_string(), format!("{pool_fury_osmo}:uosmo|{pool_weth_osmo}:uweth"));
 }

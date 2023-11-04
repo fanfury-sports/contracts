@@ -3,7 +3,7 @@ use cosmwasm_std::entry_point;
 use cosmwasm_std::{
     to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
-use mars_types::health::{AccountKind, HealthResult, HealthValuesResponse, QueryMsg};
+use fury_types::health::{AccountKind, HealthResult, HealthValuesResponse, QueryMsg};
 
 use crate::{msg::ExecuteMsg, state::HEALTH_RESPONSES};
 

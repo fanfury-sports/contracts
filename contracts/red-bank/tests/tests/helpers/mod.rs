@@ -10,17 +10,17 @@ use cosmwasm_std::{
     Addr, Coin, Decimal, Deps, DepsMut, Event, OwnedDeps, Uint128,
 };
 use cw_multi_test::AppResponse;
-use mars_interest_rate::{
+use fury_interest_rate::{
     calculate_applied_linear_interest_rate, compute_scaled_amount, compute_underlying_amount,
     ScalingOperation,
 };
-use mars_red_bank::{
+use fury_red_bank::{
     contract::{instantiate, query},
     error::ContractError,
     state::{COLLATERALS, DEBTS, MARKETS},
 };
-use mars_testing::{mock_dependencies, mock_env, mock_info, MarsMockQuerier, MockEnvParams};
-use mars_types::{
+use fury_testing::{mock_dependencies, mock_env, mock_info, FuryMockQuerier, MockEnvParams};
+use fury_types::{
     keys::{UserId, UserIdKey},
     params::{AssetParams, CmSettings, LiquidationBonus, RedBankSettings},
     red_bank::{
@@ -89,7 +89,7 @@ pub fn has_collateral_enabled(deps: Deps, user_addr: &Addr, denom: &str) -> bool
         .unwrap_or(false)
 }
 
-pub fn th_setup(contract_balances: &[Coin]) -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn th_setup(contract_balances: &[Coin]) -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = mock_dependencies(contract_balances);
     let env = mock_env(MockEnvParams::default());
     let info = mock_info("owner");

@@ -1,10 +1,10 @@
 use cosmwasm_std::{testing::mock_env, Decimal};
-use mars_owner::OwnerError::NotOwner;
-use mars_rewards_collector_base::ContractError;
-use mars_rewards_collector_osmosis::entry::{execute, instantiate};
-use mars_testing::mock_info;
-use mars_types::rewards_collector::{ConfigResponse, ExecuteMsg, QueryMsg, UpdateConfig};
-use mars_utils::error::ValidationError;
+use fury_owner::OwnerError::NotOwner;
+use fury_rewards_collector_base::ContractError;
+use fury_rewards_collector_osmosis::entry::{execute, instantiate};
+use fury_testing::mock_info;
+use fury_types::rewards_collector::{ConfigResponse, ExecuteMsg, QueryMsg, UpdateConfig};
+use fury_utils::error::ValidationError;
 
 use super::{
     helpers,

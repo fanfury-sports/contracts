@@ -1,5 +1,5 @@
 [package]
-name          = "mars-health"
+name          = "fury-health"
 description   = "Helper functions to compute the health factor"
 version       = { workspace = true }
 authors       = { workspace = true }
@@ -20,8 +20,8 @@ backtraces = ["cosmwasm-std/backtraces"]
 
 [dependencies]
 cosmwasm-std = { workspace = true }
-mars-types   = { workspace = true }
+fury-types   = { workspace = true }
 thiserror    = { workspace = true }
 
 [dev-dependencies]
-mars-testing = { workspace = true }
+fury-testing = { workspace = true }

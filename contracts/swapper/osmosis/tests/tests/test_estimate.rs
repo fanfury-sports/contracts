@@ -1,7 +1,7 @@
 use cosmwasm_std::{coin, Uint128};
 use cw_it::osmosis_test_tube::{Gamm, Module, OsmosisTestApp, RunnerResult, Wasm};
-use mars_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
-use mars_types::swapper::{EstimateExactInSwapResponse, ExecuteMsg, QueryMsg};
+use fury_swapper_osmosis::route::{OsmosisRoute, SwapAmountInRoute};
+use fury_types::swapper::{EstimateExactInSwapResponse, ExecuteMsg, QueryMsg};
 
 use super::helpers::{
     assert_err, instantiate_contract, query_price_from_pool, swap_to_create_twap_records,
@@ -19,12 +19,12 @@ fn error_on_route_not_found() {
         &contract_addr,
         &QueryMsg::EstimateExactInSwap {
             coin_in: coin(1000, "jake"),
-            denom_out: "mars".to_string(),
+            denom_out: "fury".to_string(),
         },
     );
     let err = res.unwrap_err();
 
-    assert_err(err, "No route found from jake to mars");
+    assert_err(err, "No route found from jake to fury");
 }
 
 #[test]
@@ -87,7 +87,7 @@ fn estimate_swap_multi_step() {
         .init_account(&[
             coin(1_000_000_000_000, "uatom"),
             coin(1_000_000_000_000, "uosmo"),
-            coin(1_000_000_000_000, "umars"),
+            coin(1_000_000_000_000, "ufury"),
             coin(1_000_000_000_000, "uusdc"),
         ])
         .unwrap();
@@ -100,8 +100,8 @@ fn estimate_swap_multi_step() {
         .unwrap()
         .data
         .pool_id;
-    let pool_osmo_mars = gamm
-        .create_basic_pool(&[coin(100_000, "uosmo"), coin(1_000_000, "umars")], &signer)
+    let pool_osmo_fury = gamm
+        .create_basic_pool(&[coin(100_000, "uosmo"), coin(1_000_000, "ufury")], &signer)
         .unwrap()
         .data
         .pool_id;
@@ -117,15 +117,15 @@ fn estimate_swap_multi_step() {
         &contract_addr,
         &ExecuteMsg::SetRoute {
             denom_in: "uatom".to_string(),
-            denom_out: "umars".to_string(),
+            denom_out: "ufury".to_string(),
             route: OsmosisRoute(vec![
                 SwapAmountInRoute {
                     pool_id: pool_atom_osmo,
                     token_out_denom: "uosmo".to_string(),
                 },
                 SwapAmountInRoute {
-                    pool_id: pool_osmo_mars,
-                    token_out_denom: "umars".to_string(),
+                    pool_id: pool_osmo_fury,
+                    token_out_denom: "ufury".to_string(),
                 },
             ]),
         },

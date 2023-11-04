@@ -1,10 +1,10 @@
 use cosmwasm_std::{coins, Addr, Coin, Decimal, OverflowError, OverflowOperation, Uint128};
-use mars_credit_manager::error::{
+use fury_credit_manager::error::{
     ContractError,
     ContractError::{AboveMaxLTV, LiquidationNotProfitable, NotLiquidatable},
 };
-use mars_mock_oracle::msg::CoinPrice;
-use mars_types::{
+use fury_mock_oracle::msg::CoinPrice;
+use fury_types::{
     credit_manager::{
         Action::{Borrow, Deposit, EnterVault, Liquidate, Withdraw},
         LiquidateRequest,

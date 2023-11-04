@@ -1,6 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Addr, Coin, Decimal, Uint128};
-use mars_owner::OwnerUpdate;
+use fury_owner::OwnerUpdate;
 
 #[cw_serde]
 pub struct InstantiateMsg {
@@ -39,7 +39,7 @@ pub enum ExecuteMsg<Route> {
 #[derive(QueryResponses)]
 pub enum QueryMsg {
     /// Query contract owner config
-    #[returns(mars_owner::OwnerResponse)]
+    #[returns(fury_owner::OwnerResponse)]
     Owner {},
     /// Get route for swapping an input denom into an output denom
     #[returns(RouteResponse<cosmwasm_std::Empty>)]
@@ -54,7 +54,7 @@ pub enum QueryMsg {
         limit: Option<u32>,
     },
     /// Return current spot price swapping In for Out
-    /// Warning: Do not use this as an oracle price feed. Use Mars-Oracle for pricing.
+    /// Warning: Do not use this as an oracle price feed. Use Fury-Oracle for pricing.
     #[returns(EstimateExactInSwapResponse)]
     EstimateExactInSwap {
         coin_in: Coin,

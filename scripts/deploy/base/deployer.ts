@@ -12,35 +12,35 @@ import { printBlue, printGray, printGreen, printRed, printYellow } from '../../u
 import { ARTIFACTS_PATH, Storage } from './storage'
 import fs from 'fs'
 import { InstantiateMsgs } from '../../types/msgs'
-import { InstantiateMsg as NftInstantiateMsg } from '../../types/generated/mars-account-nft/MarsAccountNft.types'
-import { InstantiateMsg as VaultInstantiateMsg } from '../../types/generated/mars-mock-vault/MarsMockVault.types'
-import { InstantiateMsg as HealthInstantiateMsg } from '../../types/generated/mars-rover-health/MarsRoverHealth.types'
-import { InstantiateMsg as ZapperInstantiateMsg } from '../../types/generated/mars-zapper-base/MarsZapperBase.types'
+import { InstantiateMsg as NftInstantiateMsg } from '../../types/generated/fury-account-nft/FuryAccountNft.types'
+import { InstantiateMsg as VaultInstantiateMsg } from '../../types/generated/fury-mock-vault/FuryMockVault.types'
+import { InstantiateMsg as HealthInstantiateMsg } from '../../types/generated/fury-rover-health/FuryRoverHealth.types'
+import { InstantiateMsg as ZapperInstantiateMsg } from '../../types/generated/fury-zapper-base/FuryZapperBase.types'
 import {
   ExecuteMsg as CreditManagerExecute,
   InstantiateMsg as RoverInstantiateMsg,
-} from '../../types/generated/mars-credit-manager/MarsCreditManager.types'
-import { InstantiateMsg as AstroportSwapperInstantiateMsg } from '../../types/generated/mars-swapper-astroport/MarsSwapperAstroport.types'
-import { InstantiateMsg as OsmosisSwapperInstantiateMsg } from '../../types/generated/mars-swapper-osmosis/MarsSwapperOsmosis.types'
-import { InstantiateMsg as ParamsInstantiateMsg } from '../../types/generated/mars-params/MarsParams.types'
-import { ExecuteMsg as ParamsExecuteMsg } from '../../types/generated/mars-params/MarsParams.types'
+} from '../../types/generated/fury-credit-manager/FuryCreditManager.types'
+import { InstantiateMsg as AstroportSwapperInstantiateMsg } from '../../types/generated/fury-swapper-astroport/FurySwapperAstroport.types'
+import { InstantiateMsg as OsmosisSwapperInstantiateMsg } from '../../types/generated/fury-swapper-osmosis/FurySwapperOsmosis.types'
+import { InstantiateMsg as ParamsInstantiateMsg } from '../../types/generated/fury-params/FuryParams.types'
+import { ExecuteMsg as ParamsExecuteMsg } from '../../types/generated/fury-params/FuryParams.types'
 import {
   InstantiateMsg as RedBankInstantiateMsg,
   ExecuteMsg as RedBankExecuteMsg,
   QueryMsg as RedBankQueryMsg,
-} from '../../types/generated/mars-red-bank/MarsRedBank.types'
+} from '../../types/generated/fury-red-bank/FuryRedBank.types'
 import {
   AddressResponseItem,
   InstantiateMsg as AddressProviderInstantiateMsg,
-} from '../../types/generated/mars-address-provider/MarsAddressProvider.types'
-import { InstantiateMsg as IncentivesInstantiateMsg } from '../../types/generated/mars-incentives/MarsIncentives.types'
-import { InstantiateMsg as RewardsInstantiateMsg } from '../../types/generated/mars-rewards-collector-base/MarsRewardsCollectorBase.types'
+} from '../../types/generated/fury-address-provider/FuryAddressProvider.types'
+import { InstantiateMsg as IncentivesInstantiateMsg } from '../../types/generated/fury-incentives/FuryIncentives.types'
+import { InstantiateMsg as RewardsInstantiateMsg } from '../../types/generated/fury-rewards-collector-base/FuryRewardsCollectorBase.types'
 import {
   WasmOracleCustomInitParams,
   InstantiateMsg as WasmOracleInstantiateMsg,
-} from '../../types/generated/mars-oracle-wasm/MarsOracleWasm.types'
-import { InstantiateMsg as OsmosisOracleInstantiateMsg } from '../../types/generated/mars-oracle-osmosis/MarsOracleOsmosis.types'
-import { ExecuteMsg as WasmOracleExecuteMsg } from '../../types/generated/mars-oracle-wasm/MarsOracleWasm.types'
+} from '../../types/generated/fury-oracle-wasm/FuryOracleWasm.types'
+import { InstantiateMsg as OsmosisOracleInstantiateMsg } from '../../types/generated/fury-oracle-osmosis/FuryOracleOsmosis.types'
+import { ExecuteMsg as WasmOracleExecuteMsg } from '../../types/generated/fury-oracle-wasm/FuryOracleWasm.types'
 import { Rover } from './test-actions-credit-manager'
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import { getAddress, getWallet, setupClient } from './setup-deployer'
@@ -49,13 +49,13 @@ import { Coin } from '@cosmjs/amino'
 import { writeFile } from 'fs/promises'
 import { join, resolve } from 'path'
 import assert from 'assert'
-import { MarsAccountNftClient } from '../../types/generated/mars-account-nft/MarsAccountNft.client'
+import { FuryAccountNftClient } from '../../types/generated/fury-account-nft/FuryAccountNft.client'
 import {
-  MarsCreditManagerClient,
-  MarsCreditManagerQueryClient,
-} from '../../types/generated/mars-credit-manager/MarsCreditManager.client'
+  FuryCreditManagerClient,
+  FuryCreditManagerQueryClient,
+} from '../../types/generated/fury-credit-manager/FuryCreditManager.client'
 import { kebabCase } from 'lodash'
-import { MarsRoverHealthClient } from '../../types/generated/mars-rover-health/MarsRoverHealth.client'
+import { FuryRoverHealthClient } from '../../types/generated/fury-rover-health/FuryRoverHealth.client'
 
 type SwapperInstantiateMsg = AstroportSwapperInstantiateMsg | OsmosisSwapperInstantiateMsg
 type OracleInstantiateMsg = WasmOracleInstantiateMsg | OsmosisOracleInstantiateMsg
@@ -109,7 +109,7 @@ export class Deployer {
       this.deployerAddr,
       codeId,
       msg,
-      `mars-${kebabCase(name)}`,
+      `fury-${kebabCase(name)}`,
       'auto',
       { admin: this.config.multisigAddr ? this.config.multisigAddr : this.deployerAddr },
     )
@@ -129,7 +129,7 @@ export class Deployer {
     if (this.storage.actions.healthContractConfigUpdate) {
       printGray('health contract config already updated')
     } else {
-      const hExec = new MarsRoverHealthClient(
+      const hExec = new FuryRoverHealthClient(
         this.cwClient,
         this.deployerAddr,
         this.storage.addresses.health!,
@@ -206,7 +206,7 @@ export class Deployer {
     if (this.storage.actions.creditManagerContractConfigUpdate) {
       printGray('credit manager contract config already updated')
     } else {
-      const hExec = new MarsCreditManagerClient(
+      const hExec = new FuryCreditManagerClient(
         this.cwClient,
         this.deployerAddr,
         this.storage.addresses.creditManager!,
@@ -234,7 +234,7 @@ export class Deployer {
 
   async transferNftContractOwnership() {
     if (!this.storage.actions.proposedNewOwner) {
-      const nftClient = new MarsAccountNftClient(
+      const nftClient = new FuryAccountNftClient(
         this.cwClient,
         this.deployerAddr,
         this.storage.addresses.accountNft!,
@@ -251,7 +251,7 @@ export class Deployer {
     }
 
     if (!this.storage.actions.acceptedOwnership) {
-      const client = new MarsCreditManagerClient(
+      const client = new FuryCreditManagerClient(
         this.cwClient,
         this.deployerAddr,
         this.storage.addresses.creditManager!,
@@ -327,7 +327,7 @@ export class Deployer {
     )
     printGreen('Owner updated to Multisig for Credit Manager Contract')
 
-    const cmQuery = new MarsCreditManagerQueryClient(
+    const cmQuery = new FuryCreditManagerQueryClient(
       this.cwClient,
       this.storage.addresses.creditManager!,
     )
@@ -338,7 +338,7 @@ export class Deployer {
   async updateHealthOwner() {
     if (!this.config.multisigAddr) throw new Error('No multisig addresses to transfer ownership to')
 
-    const hExec = new MarsRoverHealthClient(
+    const hExec = new FuryRoverHealthClient(
       this.cwClient,
       this.deployerAddr,
       this.storage.addresses.health!,
@@ -398,7 +398,7 @@ export class Deployer {
       address_provider: this.storage.addresses['addressProvider']!,
       epoch_duration: this.config.incentives.epochDuration,
       max_whitelisted_denoms: this.config.incentives.maxWhitelistedIncentiveDenoms,
-      mars_denom: this.config.marsDenom,
+      fury_denom: this.config.furyDenom,
     }
     await this.instantiate('incentives', this.storage.codeIds.incentives!, msg)
   }

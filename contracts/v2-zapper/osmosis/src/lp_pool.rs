@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use cosmwasm_std::Deps;
 use cw_dex::{osmosis::OsmosisPool, traits::Pool, CwDexError};
-use mars_zapper_base::LpPool;
+use fury_zapper_base::LpPool;
 
 pub struct OsmosisLpPool {}
 

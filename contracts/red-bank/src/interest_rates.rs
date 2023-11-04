@@ -1,11 +1,11 @@
 use std::str;
 
 use cosmwasm_std::{Addr, Decimal, Env, Event, Response, Storage, Uint128};
-use mars_interest_rate::{
+use fury_interest_rate::{
     calculate_applied_linear_interest_rate, compute_scaled_amount, compute_underlying_amount,
     get_underlying_debt_amount, get_underlying_liquidity_amount, ScalingOperation,
 };
-use mars_types::red_bank::Market;
+use fury_types::red_bank::Market;
 
 use crate::{error::ContractError, user::User};
 

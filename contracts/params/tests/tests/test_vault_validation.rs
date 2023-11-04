@@ -1,12 +1,12 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{Decimal, StdError::GenericErr};
-use mars_params::error::ContractError;
-use mars_types::{
-    error::MarsError::{Std, Validation},
+use fury_params::error::ContractError;
+use fury_types::{
+    error::FuryError::{Std, Validation},
     params::{HlsParamsUnchecked, VaultConfigUpdate},
 };
-use mars_utils::error::ValidationError::InvalidParam;
+use fury_utils::error::ValidationError::InvalidParam;
 
 use super::helpers::{assert_err, default_vault_config, MockEnv};
 
@@ -22,7 +22,7 @@ fn vault_addr_must_be_valid() {
     );
     assert_err(
         res,
-        ContractError::Mars(Std(GenericErr { msg: "Invalid input: human address too short for this mock implementation (must be >= 3).".to_string() })),
+        ContractError::Fury(Std(GenericErr { msg: "Invalid input: human address too short for this mock implementation (must be >= 3).".to_string() })),
     );
 }
 
@@ -40,7 +40,7 @@ fn vault_max_ltv_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "max_loan_to_value".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -62,7 +62,7 @@ fn vault_liquidation_threshold_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "liquidation_threshold".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -85,7 +85,7 @@ fn vault_liq_threshold_gt_max_ltv() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "liquidation_threshold".to_string(),
             invalid_value: "0.5".to_string(),
             predicate: "> 0.6 (max LTV)".to_string(),
@@ -111,7 +111,7 @@ fn vault_hls_max_ltv_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_max_loan_to_value".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -137,7 +137,7 @@ fn vault_hls_liquidation_threshold_less_than_or_equal_to_one() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_liquidation_threshold".to_string(),
             invalid_value: "1.1235".to_string(),
             predicate: "<= 1".to_string(),
@@ -163,7 +163,7 @@ fn vault_hls_liq_threshold_gt_max_ltv() {
     );
     assert_err(
         res,
-        ContractError::Mars(Validation(InvalidParam {
+        ContractError::Fury(Validation(InvalidParam {
             param_name: "hls_liquidation_threshold".to_string(),
             invalid_value: "0.5".to_string(),
             predicate: "> 0.6 (hls max LTV)".to_string(),

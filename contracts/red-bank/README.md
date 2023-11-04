@@ -1,4 +1,4 @@
-# Mars Red Bank
+# Fury Red Bank
 
 A smart contract that manages asset deposit, borrowing, and liquidations.
 

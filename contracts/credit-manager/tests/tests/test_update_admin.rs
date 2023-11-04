@@ -1,6 +1,6 @@
 use cosmwasm_std::Addr;
-use mars_credit_manager::error::ContractError::Owner;
-use mars_owner::{
+use fury_credit_manager::error::ContractError::Owner;
+use fury_owner::{
     OwnerError::{NotOwner, NotProposedOwner, StateTransitionError},
     OwnerUpdate,
 };

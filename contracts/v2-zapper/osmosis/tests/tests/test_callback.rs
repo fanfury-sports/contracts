@@ -1,6 +1,6 @@
 use cosmwasm_std::{coin, Addr, Coin};
-use mars_types::zapper::{CallbackMsg, ExecuteMsg};
-use mars_zapper_base::ContractError;
+use fury_types::zapper::{CallbackMsg, ExecuteMsg};
+use fury_zapper_base::ContractError;
 use osmosis_test_tube::{Account, Module, OsmosisTestApp, Wasm};
 
 use super::helpers::{assert_err, instantiate_contract};

@@ -11,9 +11,9 @@ use crate::adapters::{
 pub struct InstantiateMsg {
     /// The address with privileged access to update config
     pub owner: String,
-    /// The Mars Protocol money market contract where we borrow assets from
+    /// The Fury Protocol money market contract where we borrow assets from
     pub red_bank: RedBankUnchecked,
-    /// The Mars Protocol oracle contract. We read prices of assets here.
+    /// The Fury Protocol oracle contract. We read prices of assets here.
     pub oracle: OracleUnchecked,
     /// The maximum number of unlocking positions an account can have simultaneously
     /// Note: As health checking requires looping through each, this number must not be too large.
@@ -46,6 +46,6 @@ pub struct ConfigUpdates {
     pub swapper: Option<SwapperUnchecked>,
     pub zapper: Option<ZapperUnchecked>,
     pub health_contract: Option<HealthContractUnchecked>,
-    /// The Mars Protocol rewards-collector contract. We collect protocol fee for its account.
+    /// The Fury Protocol rewards-collector contract. We collect protocol fee for its account.
     pub rewards_collector: Option<String>,
 }

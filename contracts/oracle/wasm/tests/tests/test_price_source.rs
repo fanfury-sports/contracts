@@ -16,19 +16,19 @@ use cw_it::{
     traits::CwItRunner,
 };
 use cw_storage_plus::Map;
-use mars_oracle_base::{ContractError, PriceSourceUnchecked};
-use mars_oracle_wasm::{
+use fury_oracle_base::{ContractError, PriceSourceUnchecked};
+use fury_oracle_wasm::{
     contract::entry::{self, execute},
     WasmPriceSource, WasmPriceSourceChecked, WasmPriceSourceUnchecked,
 };
-use mars_types::oracle::{ExecuteMsg, PriceResponse, QueryMsg};
+use fury_types::oracle::{ExecuteMsg, PriceResponse, QueryMsg};
 use pyth_sdk_cw::PriceIdentifier;
 
 const ONE: Decimal = Decimal::one();
 const TWO: Decimal = Decimal::new(Uint128::new(2_000_000_000_000_000_000u128));
 const DEFAULT_LIQ: [u128; 2] = [10000000000000000000000u128, 1000000000000000000000u128];
 
-use mars_testing::{
+use fury_testing::{
     mock_env_at_block_time, mock_info,
     test_runner::get_test_runner,
     wasm_oracle::{
@@ -288,8 +288,8 @@ fn test_query_astroport_twap_price_with_only_one_snapshot() {
 
     let err = robot
         .wasm()
-        .query::<_, mars_types::oracle::PriceResponse>(
-            &robot.mars_oracle_contract_addr,
+        .query::<_, fury_types::oracle::PriceResponse>(
+            &robot.fury_oracle_contract_addr,
             &QueryMsg::Price {
                 denom: "uatom".to_string(),
                 kind: None,
@@ -746,11 +746,11 @@ fn twap_window_size_not_gt_tolerance() {
     };
 
     let wasm = Wasm::new(&runner);
-    let msg = mars_types::oracle::ExecuteMsg::<_, Empty>::SetPriceSource {
+    let msg = fury_types::oracle::ExecuteMsg::<_, Empty>::SetPriceSource {
         denom: "uatom".to_string(),
         price_source,
     };
-    let err = wasm.execute(&robot.mars_oracle_contract_addr, &msg, &[], admin).unwrap_err();
+    let err = wasm.execute(&robot.fury_oracle_contract_addr, &msg, &[], admin).unwrap_err();
 
     println!("{:?}", err);
     assert!(err.to_string().contains("tolerance must be less than window size"));

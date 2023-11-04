@@ -1,8 +1,8 @@
-# Mars Params Contract
+# Fury Params Contract
 
-The Mars Params Contract is published to [Crates.io](https://crates.io/crates/mars-params)
+The Fury Params Contract is published to [Crates.io](https://crates.io/crates/fury-params)
 
-This contract holds the following values for all the assets in Mars Protocol: 
+This contract holds the following values for all the assets in Fury Protocol: 
 
 - **Max Loan To Value:** Max percentage of collateral that can be borrowed
 - **Liquidation Threshold:** LTV at which the loan is defined as under collateralized and can be liquidated

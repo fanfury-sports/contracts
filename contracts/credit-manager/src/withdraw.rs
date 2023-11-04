@@ -1,5 +1,5 @@
 use cosmwasm_std::{Addr, BankMsg, Coin, CosmosMsg, Deps, DepsMut, Response};
-use mars_types::credit_manager::{ActionAmount, ActionCoin};
+use fury_types::credit_manager::{ActionAmount, ActionCoin};
 
 use crate::{
     error::{ContractError, ContractResult},

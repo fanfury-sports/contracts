@@ -1,5 +1,5 @@
 use cosmwasm_std::{coin, Addr, Decimal};
-use mars_types::params::VaultConfig;
+use fury_types::params::VaultConfig;
 
 pub fn osmo_atom_1_config() -> VaultConfig {
     VaultConfig {

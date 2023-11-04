@@ -1,5 +1,5 @@
 use cosmwasm_std::{Addr, Deps, QuerierWrapper, StdError, StdResult};
-use mars_types::{
+use fury_types::{
     adapters::{oracle::Oracle, params::Params, vault::Vault},
     credit_manager::{ConfigResponse, Positions, QueryMsg as CmQueryMsg},
     health::HealthResult,

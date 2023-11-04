@@ -3,7 +3,7 @@ use cosmwasm_std::{
     Addr, BlockInfo, Coin, ContractInfo, Env, MessageInfo, OwnedDeps, Timestamp, TransactionInfo,
 };
 
-use super::mars_mock_querier::MarsMockQuerier;
+use super::fury_mock_querier::FuryMockQuerier;
 
 pub struct MockEnvParams {
     pub block_time: Timestamp,
@@ -61,10 +61,10 @@ pub fn mock_info(sender: &str) -> MessageInfo {
 /// mock_dependencies replacement for cosmwasm_std::testing::mock_dependencies
 pub fn mock_dependencies(
     contract_balance: &[Coin],
-) -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+) -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let contract_addr = Addr::unchecked(MOCK_CONTRACT_ADDR);
-    let custom_querier: MarsMockQuerier =
-        MarsMockQuerier::new(MockQuerier::new(&[(contract_addr.as_ref(), contract_balance)]));
+    let custom_querier: FuryMockQuerier =
+        FuryMockQuerier::new(MockQuerier::new(&[(contract_addr.as_ref(), contract_balance)]));
 
     OwnedDeps {
         storage: MockStorage::default(),

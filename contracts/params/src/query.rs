@@ -1,8 +1,8 @@
 use cosmwasm_std::{Addr, Deps, Env, Order, StdResult, Uint128};
 use cw_storage_plus::Bound;
-use mars_interest_rate::get_underlying_liquidity_amount;
-use mars_types::{
-    address_provider::{self, MarsAddressType},
+use fury_interest_rate::get_underlying_liquidity_amount;
+use fury_types::{
+    address_provider::{self, FuryAddressType},
     params::{AssetParams, ConfigResponse, TotalDepositResponse, VaultConfig},
     red_bank::{self, Market, UserDebtResponse},
 };
@@ -90,10 +90,10 @@ pub fn query_total_deposit(
     let addresses = address_provider::helpers::query_contract_addrs(
         deps,
         &address_provider_addr,
-        vec![MarsAddressType::RedBank, MarsAddressType::CreditManager],
+        vec![FuryAddressType::RedBank, FuryAddressType::CreditManager],
     )?;
-    let credit_manager_addr = &addresses[&MarsAddressType::CreditManager];
-    let red_bank_addr = &addresses[&MarsAddressType::RedBank];
+    let credit_manager_addr = &addresses[&FuryAddressType::CreditManager];
+    let red_bank_addr = &addresses[&FuryAddressType::RedBank];
 
     // amount of this asset deposited into Red Bank
     // if the market doesn't exist on RB, we default to zero

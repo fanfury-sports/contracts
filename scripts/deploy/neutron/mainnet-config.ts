@@ -1,13 +1,13 @@
 import { DeploymentConfig, AssetConfig, OracleConfig } from '../../types/config'
-import { NeutronIbcConfig } from '../../types/generated/mars-rewards-collector-base/MarsRewardsCollectorBase.types'
+import { NeutronIbcConfig } from '../../types/generated/fury-rewards-collector-base/FuryRewardsCollectorBase.types'
 
 const axlUsdcDenom = 'ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349'
 const atomDenom = 'ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9'
-const marsDenom = 'ibc/9598CDEB7C6DB7FC21E746C8E0250B30CD5154F39CA111A9D4948A4362F638BD'
+const furyDenom = 'ibc/9598CDEB7C6DB7FC21E746C8E0250B30CD5154F39CA111A9D4948A4362F638BD'
 
 const protocolAdminAddr = 'neutron1ltzuv25ltw9mkwuvvmt7e54a6ene283hfj7l0c'
 
-const marsNeutronChannelId = 'channel-16'
+const furyNeutronChannelId = 'channel-16'
 const chainId = 'neutron-1'
 const rpcEndpoint =
   'https://neutron.rpc.p2p.world:443/qgrnU6PsQZA8F9S5Fb8Fn3tV3kXmMBl2M9bcc9jWLjQy8p'
@@ -16,11 +16,11 @@ const rpcEndpoint =
 const astroportFactory = 'neutron1hptk0k5kng7hjy35vmh009qd5m6l33609nypgf2yc6nqnewduqasxplt4e'
 const astroportRouter = 'neutron1eeyntmsq448c68ez06jsy6h2mtjke5tpuplnwtjfwcdznqmw72kswnlmm0'
 const astroportNtrnAtomPair = 'neutron1e22zh5p8meddxjclevuhjmfj69jxfsa8uu3jvht72rv9d8lkhves6t8veq'
-const astroportMarsUsdcPair = 'neutron165m0r6rkhqxs30wch00t7mkykxxvgve9yyu254wknwhhjn34rmqsh6vfcj'
+const astroportFuryUsdcPair = 'neutron165m0r6rkhqxs30wch00t7mkykxxvgve9yyu254wknwhhjn34rmqsh6vfcj'
 
-// note the following three addresses are all 'mars' bech32 prefix
-const safetyFundAddr = 'mars1s4hgh56can3e33e0zqpnjxh0t5wdf7u3pze575'
-const feeCollectorAddr = 'mars17xpfvakm2amg962yls6f84z3kell8c5ldy6e7x'
+// note the following three addresses are all 'fury' bech32 prefix
+const safetyFundAddr = 'furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a'
+const feeCollectorAddr = 'furya17xpfvakm2amg962yls6f84z3kell8c5llvck70'
 
 // Pyth configuration
 const pythAddr = 'neutron1m2emc93m9gpwgsrsf2vylv9xvgqh654630v7dfrhrkmr5slly53spg85wv'
@@ -45,13 +45,13 @@ export const neutronIbcConfig: NeutronIbcConfig = {
 }
 
 // Oracle configurations
-export const marsOracle: OracleConfig = {
-  denom: marsDenom,
+export const furyOracle: OracleConfig = {
+  denom: furyDenom,
   price_source: {
     astroport_twap: {
       window_size: 1800, // 30 minutes
       tolerance: 120, // 2 minutes
-      pair_address: astroportMarsUsdcPair,
+      pair_address: astroportFuryUsdcPair,
     },
   },
 }
@@ -157,9 +157,9 @@ export const ntrnUsdcRoute = {
   },
 }
 
-export const atomMarsRoute = {
+export const atomFuryRoute = {
   denom_in: atomDenom,
-  denom_out: marsDenom,
+  denom_out: furyDenom,
   route: {
     factory: astroportFactory,
     operations: [
@@ -181,7 +181,7 @@ export const atomMarsRoute = {
         astro_swap: {
           ask_asset_info: {
             native_token: {
-              denom: marsDenom,
+              denom: furyDenom,
             },
           },
           offer_asset_info: {
@@ -197,9 +197,9 @@ export const atomMarsRoute = {
   },
 }
 
-export const ntrnMarsRoute = {
+export const ntrnFuryRoute = {
   denom_in: 'untrn',
-  denom_out: marsDenom,
+  denom_out: furyDenom,
   route: {
     factory: astroportFactory,
     operations: [
@@ -221,7 +221,7 @@ export const ntrnMarsRoute = {
         astro_swap: {
           ask_asset_info: {
             native_token: {
-              denom: marsDenom,
+              denom: furyDenom,
             },
           },
           offer_asset_info: {
@@ -237,9 +237,9 @@ export const ntrnMarsRoute = {
   },
 }
 
-export const usdcMarsRoute = {
+export const usdcFuryRoute = {
   denom_in: axlUsdcDenom,
-  denom_out: marsDenom,
+  denom_out: furyDenom,
   route: {
     factory: astroportFactory,
     operations: [
@@ -247,7 +247,7 @@ export const usdcMarsRoute = {
         astro_swap: {
           ask_asset_info: {
             native_token: {
-              denom: marsDenom,
+              denom: furyDenom,
             },
           },
           offer_asset_info: {
@@ -358,7 +358,7 @@ export const neutronMainnetConfig: DeploymentConfig = {
   mainnet: true,
   deployerMnemonic: 'TO BE INSERTED AT TIME OF DEPLOYMENT',
   multisigAddr: protocolAdminAddr,
-  marsDenom: marsDenom,
+  furyDenom: furyDenom,
   atomDenom: atomDenom,
   safetyFundAddr: safetyFundAddr,
   protocolAdminAddr: protocolAdminAddr,
@@ -380,9 +380,9 @@ export const neutronMainnetConfig: DeploymentConfig = {
   rewardsCollector: {
     name: 'neutron',
     timeoutSeconds: 600,
-    channelId: marsNeutronChannelId,
+    channelId: furyNeutronChannelId,
     safetyFundFeeShare: '0.5',
-    feeCollectorDenom: marsDenom,
+    feeCollectorDenom: furyDenom,
     safetyFundDenom: axlUsdcDenom,
     slippageTolerance: '0.01',
     neutronIbcConfig: neutronIbcConfig,
@@ -393,16 +393,16 @@ export const neutronMainnetConfig: DeploymentConfig = {
   },
   swapper: {
     name: 'astroport',
-    routes: [atomUsdcRoute, atomMarsRoute, ntrnUsdcRoute, ntrnMarsRoute, usdcMarsRoute],
+    routes: [atomUsdcRoute, atomFuryRoute, ntrnUsdcRoute, ntrnFuryRoute, usdcFuryRoute],
   },
   targetHealthFactor: '1.05',
   creditLineCoins: [],
   maxValueForBurn: '10000',
   maxUnlockingPositions: '1',
   maxSlippage: '0.2',
-  zapperContractName: 'mars_zapper_osmosis',
+  zapperContractName: 'fury_zapper_osmosis',
   runTests: false,
   assets: [ntrnAsset, atomAsset, axlUSDCAsset],
   vaults: [],
-  oracleConfigs: [usdOracle, axlUSDCOracle, marsOracle, atomOracle, ntrnOracle],
+  oracleConfigs: [usdOracle, axlUSDCOracle, furyOracle, atomOracle, ntrnOracle],
 }

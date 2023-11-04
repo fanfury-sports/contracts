@@ -1,18 +1,18 @@
-import { Positions } from '../types/generated/mars-credit-manager/MarsCreditManager.types'
-import { MarsCreditManagerQueryClient } from '../types/generated/mars-credit-manager/MarsCreditManager.client'
+import { Positions } from '../types/generated/fury-credit-manager/FuryCreditManager.types'
+import { FuryCreditManagerQueryClient } from '../types/generated/fury-credit-manager/FuryCreditManager.client'
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate/build/cosmwasmclient'
 import {
   AccountKind,
   HealthValuesResponse,
-} from '../types/generated/mars-rover-health/MarsRoverHealth.types'
+} from '../types/generated/fury-rover-health/FuryRoverHealth.types'
 import {
   DenomsData,
   HealthComputer,
   VaultsData,
-} from '../types/generated/mars-rover-health-computer/MarsRoverHealthComputer.types'
-import { MarsOracleOsmosisQueryClient } from '../types/generated/mars-oracle-osmosis/MarsOracleOsmosis.client'
-import { MarsMockVaultQueryClient } from '../types/generated/mars-mock-vault/MarsMockVault.client'
-import { MarsParamsQueryClient } from '../types/generated/mars-params/MarsParams.client'
+} from '../types/generated/fury-rover-health-computer/FuryRoverHealthComputer.types'
+import { FuryOracleOsmosisQueryClient } from '../types/generated/fury-oracle-osmosis/FuryOracleOsmosis.client'
+import { FuryMockVaultQueryClient } from '../types/generated/fury-mock-vault/FuryMockVault.client'
+import { FuryParamsQueryClient } from '../types/generated/fury-params/FuryParams.client'
 import {
   BorrowTarget,
   compute_health_js,
@@ -36,12 +36,12 @@ export class DataFetcher {
   }
 
   fetchPositions = async (accountId: string): Promise<Positions> => {
-    const cmQuery = new MarsCreditManagerQueryClient(await this.getClient(), this.creditManagerAddr)
+    const cmQuery = new FuryCreditManagerQueryClient(await this.getClient(), this.creditManagerAddr)
     return await cmQuery.positions({ accountId })
   }
 
   fetchParams = async (denoms: string[]): Promise<DenomsData['params']> => {
-    const pQuery = new MarsParamsQueryClient(await this.getClient(), this.paramsAddr)
+    const pQuery = new FuryParamsQueryClient(await this.getClient(), this.paramsAddr)
     const promises = denoms.map(async (denom) => ({
       denom: denom,
       params: await pQuery.assetParams({ denom }),
@@ -57,7 +57,7 @@ export class DataFetcher {
   }
 
   fetchPrices = async (denoms: string[]): Promise<DenomsData['prices']> => {
-    const oQuery = new MarsOracleOsmosisQueryClient(await this.getClient(), this.oracleAddr)
+    const oQuery = new FuryOracleOsmosisQueryClient(await this.getClient(), this.oracleAddr)
     const promises = denoms.map(async (denom) => await oQuery.price({ denom }))
     const responses = await Promise.all(promises)
     return responses.reduce(
@@ -74,7 +74,7 @@ export class DataFetcher {
     const debtDenoms = positions.debts.map((c) => c.denom)
     const vaultBaseTokenDenoms = await Promise.all(
       positions.vaults.map(async (v) => {
-        const vQuery = new MarsMockVaultQueryClient(await this.getClient(), v.vault.address)
+        const vQuery = new FuryMockVaultQueryClient(await this.getClient(), v.vault.address)
         const info = await vQuery.info()
         return info.base_token
       }),
@@ -90,8 +90,8 @@ export class DataFetcher {
 
   fetchVaultsData = async (positions: Positions): Promise<VaultsData> => {
     const vaultsData = { vault_values: {}, vault_configs: {} } as VaultsData
-    const cmQuery = new MarsCreditManagerQueryClient(await this.getClient(), this.creditManagerAddr)
-    const pQuery = new MarsParamsQueryClient(await this.getClient(), this.paramsAddr)
+    const cmQuery = new FuryCreditManagerQueryClient(await this.getClient(), this.creditManagerAddr)
+    const pQuery = new FuryParamsQueryClient(await this.getClient(), this.paramsAddr)
     await Promise.all(
       positions.vaults.map(async (v) => {
         vaultsData.vault_values[v.vault.address] = await cmQuery.vaultPositionValue({

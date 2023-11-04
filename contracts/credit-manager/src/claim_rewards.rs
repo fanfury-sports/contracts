@@ -2,7 +2,7 @@ use cosmwasm_std::{
     to_binary, Addr, BankMsg, Coin, CosmosMsg, DepsMut, Env, QuerierWrapper, Response, StdResult,
     WasmMsg,
 };
-use mars_types::{
+use fury_types::{
     credit_manager::{CallbackMsg, ExecuteMsg},
     traits::Denoms,
 };

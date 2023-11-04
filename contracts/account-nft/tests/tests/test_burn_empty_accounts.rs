@@ -1,6 +1,6 @@
 use cosmwasm_std::{Addr, StdError};
-use mars_account_nft::error::{ContractError, ContractError::HealthContractNotSet};
-use mars_types::{
+use fury_account_nft::error::{ContractError, ContractError::HealthContractNotSet};
+use fury_types::{
     account_nft::QueryMsg::{AllTokens, NumTokens, Tokens},
     health::AccountKind,
 };

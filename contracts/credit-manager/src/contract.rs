@@ -2,7 +2,7 @@ use cosmwasm_std::{
     entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response,
 };
 use cw2::set_contract_version;
-use mars_types::{
+use fury_types::{
     adapters::vault::VAULT_REQUEST_REPLY_ID,
     credit_manager::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg},
 };

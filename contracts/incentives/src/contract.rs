@@ -6,17 +6,17 @@ use cosmwasm_std::{
 };
 use cw2::set_contract_version;
 use cw_storage_plus::Bound;
-use mars_owner::{OwnerInit::SetInitialOwner, OwnerUpdate};
-use mars_types::{
-    address_provider::{self, MarsAddressType},
-    error::MarsError,
+use furya_owner::{OwnerInit::SetInitialOwner, OwnerUpdate};
+use furya_types::{
+    address_provider::{self, FuryAddressType},
+    error::FuryError,
     incentives::{
         ActiveEmission, Config, ConfigResponse, EmissionResponse, ExecuteMsg, IncentiveState,
         IncentiveStateResponse, InstantiateMsg, MigrateMsg, QueryMsg, WhitelistEntry,
     },
     keys::{UserId, UserIdKey},
 };
-use mars_utils::helpers::{option_string_to_addr, validate_native_denom};
+use furya_utils::helpers::{option_string_to_addr, validate_native_denom};
 
 use crate::{
     error::ContractError,
@@ -60,7 +60,7 @@ pub fn instantiate(
     let config = Config {
         address_provider: deps.api.addr_validate(&msg.address_provider)?,
         max_whitelisted_denoms: msg.max_whitelisted_denoms,
-        mars_denom: msg.mars_denom,
+        furya_denom: msg.furya_denom,
     };
     CONFIG.save(deps.storage, &config)?;
 
@@ -252,7 +252,7 @@ pub fn execute_update_whitelist(
         WHITELIST_COUNT.save(deps.storage, &whitelist_count)?;
     }
 
-    let mut event = Event::new("mars/incentives/update_whitelist");
+    let mut event = Event::new("fury/incentives/update_whitelist");
     event = event.add_attribute("add_denoms", format!("{:?}", add_denoms));
     event = event.add_attribute("remove_denoms", format!("{:?}", remove_denoms));
 
@@ -361,7 +361,7 @@ pub fn execute_balance_change(
     // this method can only be invoked by the Red Bank contract
     let red_bank_addr = query_red_bank_address(deps.as_ref())?;
     if info.sender != red_bank_addr {
-        return Err(MarsError::Unauthorized {}.into());
+        return Err(FuryError::Unauthorized {}.into());
     }
 
     let acc_id = account_id.clone().unwrap_or("".to_string());
@@ -369,7 +369,7 @@ pub fn execute_balance_change(
     let user_id = UserId::credit_manager(user_addr.clone(), acc_id.clone());
     let user_id_key: UserIdKey = user_id.try_into()?;
 
-    let base_event = Event::new("mars/incentives/balance_change")
+    let base_event = Event::new("fury/incentives/balance_change")
         .add_attribute("action", "balance_change")
         .add_attribute("denom", collateral_denom.clone())
         .add_attribute("user", user_addr.to_string());
@@ -427,7 +427,7 @@ pub fn execute_balance_change(
         }
 
         events.push(
-            Event::new("mars/incentives/balance_change/reward_accrued")
+            Event::new("fury/incentives/balance_change/reward_accrued")
                 .add_attribute("incentive_denom", incentive_denom)
                 .add_attribute("rewards_accrued", accrued_rewards)
                 .add_attribute("asset_index", incentive_state.index.to_string()),
@@ -454,7 +454,7 @@ pub fn execute_claim_rewards(
     let red_bank_addr = query_red_bank_address(deps.as_ref())?;
 
     let mut response = Response::new();
-    let base_event = Event::new("mars/incentives/claim_rewards")
+    let base_event = Event::new("fury/incentives/claim_rewards")
         .add_attribute("action", "claim_rewards")
         .add_attribute("user", user_addr.to_string());
     let base_event = if account_id.is_some() {
@@ -502,7 +502,7 @@ pub fn execute_claim_rewards(
     if !total_unclaimed_rewards.is_empty() {
         response = response
             .add_event(
-                Event::new("mars/incentives/claim_rewards/claimed_rewards")
+                Event::new("fury/incentives/claim_rewards/claimed_rewards")
                     .add_attribute("coins", total_unclaimed_rewards.to_string()),
             )
             .add_message(BankMsg::Send {
@@ -719,7 +719,7 @@ fn query_red_bank_address(deps: Deps) -> StdResult<Addr> {
     address_provider::helpers::query_contract_addr(
         deps,
         &config.address_provider,
-        MarsAddressType::RedBank,
+        FuryAddressType::RedBank,
     )
 }
 

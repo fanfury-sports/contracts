@@ -1,5 +1,5 @@
 use cosmwasm_std::{Deps, Response};
-use mars_types::{
+use fury_types::{
     health::{HealthState, HealthValuesResponse},
     oracle::ActionKind,
 };

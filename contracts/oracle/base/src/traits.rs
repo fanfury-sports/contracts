@@ -2,7 +2,7 @@ use std::fmt::{Debug, Display};
 
 use cosmwasm_std::{CustomQuery, Decimal, Deps, Env};
 use cw_storage_plus::Map;
-use mars_types::oracle::{ActionKind, Config};
+use fury_types::oracle::{ActionKind, Config};
 use schemars::JsonSchema;
 use serde::{de::DeserializeOwned, Serialize};
 

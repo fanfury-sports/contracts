@@ -1,7 +1,7 @@
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response, Uint128};
-use mars_interest_rate::{get_scaled_liquidity_amount, get_underlying_liquidity_amount};
-use mars_types::{address_provider, address_provider::MarsAddressType, error::MarsError};
-use mars_utils::helpers::build_send_asset_msg;
+use fury_interest_rate::{get_scaled_liquidity_amount, get_underlying_liquidity_amount};
+use fury_types::{address_provider, address_provider::FuryAddressType, error::FuryError};
+use fury_utils::helpers::build_send_asset_msg;
 
 use crate::{
     error::ContractError,
@@ -27,24 +27,24 @@ pub fn withdraw(
         deps.as_ref(),
         &config.address_provider,
         vec![
-            MarsAddressType::Oracle,
-            MarsAddressType::Incentives,
-            MarsAddressType::RewardsCollector,
-            MarsAddressType::Params,
-            MarsAddressType::CreditManager,
+            FuryAddressType::Oracle,
+            FuryAddressType::Incentives,
+            FuryAddressType::RewardsCollector,
+            FuryAddressType::Params,
+            FuryAddressType::CreditManager,
         ],
     )?;
-    let rewards_collector_addr = &addresses[&MarsAddressType::RewardsCollector];
-    let incentives_addr = &addresses[&MarsAddressType::Incentives];
-    let oracle_addr = &addresses[&MarsAddressType::Oracle];
-    let params_addr = &addresses[&MarsAddressType::Params];
-    let credit_manager_addr = &addresses[&MarsAddressType::CreditManager];
+    let rewards_collector_addr = &addresses[&FuryAddressType::RewardsCollector];
+    let incentives_addr = &addresses[&FuryAddressType::Incentives];
+    let oracle_addr = &addresses[&FuryAddressType::Oracle];
+    let params_addr = &addresses[&FuryAddressType::Params];
+    let credit_manager_addr = &addresses[&FuryAddressType::CreditManager];
 
     // Don't allow red-bank users to create alternative account ids.
     // Only allow credit-manager contract to create them.
     // Even if account_id contains empty string we won't allow it.
     if account_id.is_some() && info.sender != credit_manager_addr {
-        return Err(ContractError::Mars(MarsError::Unauthorized {}));
+        return Err(ContractError::Fury(FuryError::Unauthorized {}));
     }
 
     let withdrawer = User(&info.sender);

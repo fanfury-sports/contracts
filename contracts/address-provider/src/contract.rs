@@ -7,16 +7,16 @@ use cosmwasm_std::{
 };
 use cw2::set_contract_version;
 use cw_storage_plus::Bound;
-use mars_owner::{OwnerInit::SetInitialOwner, OwnerUpdate};
-use mars_types::address_provider::{
-    AddressResponseItem, Config, ConfigResponse, ExecuteMsg, InstantiateMsg, MarsAddressType,
+use fury_owner::{OwnerInit::SetInitialOwner, OwnerUpdate};
+use fury_types::address_provider::{
+    AddressResponseItem, Config, ConfigResponse, ExecuteMsg, InstantiateMsg, FuryAddressType,
     QueryMsg,
 };
 
 use crate::{
     error::ContractError,
     helpers::{assert_valid_addr, assert_valid_prefix},
-    key::MarsAddressTypeKey,
+    key::FuryAddressTypeKey,
     migrations,
     state::{ADDRESSES, CONFIG, OWNER},
 };
@@ -79,7 +79,7 @@ pub fn execute(
 fn set_address(
     deps: DepsMut,
     sender: Addr,
-    address_type: MarsAddressType,
+    address_type: FuryAddressType,
     address: String,
 ) -> Result<Response, ContractError> {
     OWNER.assert_owner(deps.storage, &sender)?;
@@ -128,7 +128,7 @@ fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
     })
 }
 
-fn query_address(deps: Deps, address_type: MarsAddressType) -> StdResult<AddressResponseItem> {
+fn query_address(deps: Deps, address_type: FuryAddressType) -> StdResult<AddressResponseItem> {
     Ok(AddressResponseItem {
         address_type,
         address: ADDRESSES.load(deps.storage, address_type.into())?,
@@ -137,7 +137,7 @@ fn query_address(deps: Deps, address_type: MarsAddressType) -> StdResult<Address
 
 fn query_addresses(
     deps: Deps,
-    address_types: Vec<MarsAddressType>,
+    address_types: Vec<FuryAddressType>,
 ) -> StdResult<Vec<AddressResponseItem>> {
     address_types
         .into_iter()
@@ -147,10 +147,10 @@ fn query_addresses(
 
 fn query_all_addresses(
     deps: Deps,
-    start_after: Option<MarsAddressType>,
+    start_after: Option<FuryAddressType>,
     limit: Option<u32>,
 ) -> StdResult<Vec<AddressResponseItem>> {
-    let start = start_after.map(MarsAddressTypeKey::from).map(Bound::exclusive);
+    let start = start_after.map(FuryAddressTypeKey::from).map(Bound::exclusive);
     let limit = limit.unwrap_or(DEFAULT_LIMIT).min(MAX_LIMIT) as usize;
 
     ADDRESSES

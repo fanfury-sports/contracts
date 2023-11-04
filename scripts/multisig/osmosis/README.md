@@ -89,7 +89,7 @@ $OSMO_MULTI
    For address-provider, incentives, oracle, red-bank, rewards-collector contracts:
 
    ```bash
-   git clone https://github.com/mars-protocol/red-bank.git
+   git clone https://github.com/fury-protocol/red-bank.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -97,7 +97,7 @@ $OSMO_MULTI
    For liquidation-filterer contract
 
    ```bash
-   git clone https://github.com/mars-protocol/liquidation-helpers
+   git clone https://github.com/fury-protocol/liquidation-helpers
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -326,7 +326,7 @@ _Note: The multisig must have at least one tx against it for the address to exis
 9. Verify the new contract.
 
    ```bash
-   git clone https://github.com/mars-protocol/red-bank.git
+   git clone https://github.com/fury-protocol/red-bank.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```

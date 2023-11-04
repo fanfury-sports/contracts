@@ -1,6 +1,6 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::{assert_contract_version, set_contract_version};
-use mars_owner::OwnerInit;
+use fury_owner::OwnerInit;
 
 use crate::{
     contract::{CONTRACT_NAME, CONTRACT_VERSION},

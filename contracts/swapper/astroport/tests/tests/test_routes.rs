@@ -1,9 +1,9 @@
 use astroport::{asset::AssetInfo, router::SwapOperation};
 use cosmwasm_std::coin;
 use cw_it::{astroport::robot::AstroportTestRobot, robot::TestRobot, traits::CwItRunner};
-use mars_swapper_astroport::route::AstroportRoute;
-use mars_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
-use mars_types::swapper::RouteResponse;
+use fury_swapper_astroport::route::AstroportRoute;
+use fury_testing::{astroport_swapper::AstroportSwapperRobot, test_runner::get_test_runner};
+use fury_types::swapper::RouteResponse;
 use test_case::test_case;
 
 fn to_native_swap_operation((denom_in, denom_out): (&str, &str)) -> SwapOperation {
@@ -101,7 +101,7 @@ fn query_non_existing_route() {
         .wasm()
         .query::<_, RouteResponse<AstroportRoute>>(
             &robot.swapper,
-            &mars_types::swapper::QueryMsg::Route {
+            &fury_types::swapper::QueryMsg::Route {
                 denom_in: denom_in.into(),
                 denom_out: denom_out.into(),
             },
@@ -141,7 +141,7 @@ fn query_routes() {
             operations: operations_1,
             router: robot.astroport_contracts().router.address.clone(),
             factory: robot.astroport_contracts().factory.address.clone(),
-            oracle: robot.oracle_robot.mars_oracle_contract_addr.clone(),
+            oracle: robot.oracle_robot.fury_oracle_contract_addr.clone(),
         },
     }));
     assert!(routes.contains(&RouteResponse {
@@ -151,7 +151,7 @@ fn query_routes() {
             operations: operations_2,
             router: robot.astroport_contracts().router.address.clone(),
             factory: robot.astroport_contracts().factory.address.clone(),
-            oracle: robot.oracle_robot.mars_oracle_contract_addr,
+            oracle: robot.oracle_robot.fury_oracle_contract_addr,
         },
     }));
 }

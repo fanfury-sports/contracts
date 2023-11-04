@@ -1,7 +1,7 @@
 use cosmwasm_std::{to_binary, CosmosMsg, DepsMut, Env, MessageInfo, Response, WasmMsg};
 use cw721_base::Action;
-use mars_owner::OwnerUpdate;
-use mars_types::{
+use fury_owner::OwnerUpdate;
+use fury_types::{
     account_nft::{ExecuteMsg as NftExecuteMsg, NftConfigUpdates},
     adapters::rewards_collector::RewardsCollector,
     credit_manager::ConfigUpdates,

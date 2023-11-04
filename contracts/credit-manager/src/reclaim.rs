@@ -1,7 +1,7 @@
 use std::cmp::min;
 
 use cosmwasm_std::{Coin, DepsMut, Response, Uint128};
-use mars_types::credit_manager::ActionCoin;
+use fury_types::credit_manager::ActionCoin;
 
 use crate::{
     error::{ContractError::NoneLent, ContractResult},

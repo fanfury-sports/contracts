@@ -1,7 +1,7 @@
 use cosmwasm_std::{DecimalRangeExceeded, StdError};
-use mars_owner::OwnerError;
-use mars_types::error::MarsError;
-use mars_utils::error::ValidationError;
+use fury_owner::OwnerError;
+use fury_types::error::FuryError;
+use fury_utils::error::ValidationError;
 use thiserror::Error;
 
 pub type ContractResult<T> = Result<T, ContractError>;
@@ -21,5 +21,5 @@ pub enum ContractError {
     Validation(#[from] ValidationError),
 
     #[error("{0}")]
-    Mars(#[from] MarsError),
+    Fury(#[from] FuryError),
 }

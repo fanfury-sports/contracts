@@ -1,7 +1,7 @@
 use cosmwasm_std::{Decimal, Timestamp, Uint128};
-use mars_incentives::state::{EMISSIONS, INCENTIVE_STATES};
-use mars_testing::{mock_env, MockEnvParams};
-use mars_types::incentives::{
+use fury_incentives::state::{EMISSIONS, INCENTIVE_STATES};
+use fury_testing::{mock_env, MockEnvParams};
+use fury_types::incentives::{
     ActiveEmission, EmissionResponse, IncentiveState, IncentiveStateResponse, QueryMsg,
 };
 use test_case::test_case;
@@ -17,28 +17,28 @@ fn query_incentive_state() {
         index: Decimal::one(),
         last_updated: 150,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uosmo", "umars"), &uosmo_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uosmo", "ufury"), &uosmo_incentive).unwrap();
     let uatom_incentive = IncentiveState {
         index: Decimal::one(),
         last_updated: 1000,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uatom", "umars"), &uatom_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uatom", "ufury"), &uatom_incentive).unwrap();
     let uusdc_incentive = IncentiveState {
         index: Decimal::from_ratio(120u128, 50u128),
         last_updated: 120000,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uusdc", "umars"), &uusdc_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uusdc", "ufury"), &uusdc_incentive).unwrap();
 
     let res: IncentiveStateResponse = th_query(
         deps.as_ref(),
         QueryMsg::IncentiveState {
             collateral_denom: "uatom".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
         },
     );
     assert_eq!(
         res,
-        IncentiveStateResponse::from("uatom".to_string(), "umars".to_string(), uatom_incentive)
+        IncentiveStateResponse::from("uatom".to_string(), "ufury".to_string(), uatom_incentive)
     );
 }
 
@@ -51,17 +51,17 @@ fn query_incentive_states() {
         index: Decimal::one(),
         last_updated: 150,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uosmo", "umars"), &uosmo_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uosmo", "ufury"), &uosmo_incentive).unwrap();
     let uatom_incentive = IncentiveState {
         index: Decimal::one(),
         last_updated: 1000,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uatom", "umars"), &uatom_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uatom", "ufury"), &uatom_incentive).unwrap();
     let uusdc_incentive = IncentiveState {
         index: Decimal::from_ratio(120u128, 50u128),
         last_updated: 120000,
     };
-    INCENTIVE_STATES.save(deps.as_mut().storage, ("uusdc", "umars"), &uusdc_incentive).unwrap();
+    INCENTIVE_STATES.save(deps.as_mut().storage, ("uusdc", "ufury"), &uusdc_incentive).unwrap();
 
     // NOTE: responses are ordered alphabetically by denom
     let res: Vec<IncentiveStateResponse> = th_query(
@@ -75,13 +75,13 @@ fn query_incentive_states() {
     assert_eq!(
         res,
         vec![
-            IncentiveStateResponse::from("uatom".to_string(), "umars".to_string(), uatom_incentive),
+            IncentiveStateResponse::from("uatom".to_string(), "ufury".to_string(), uatom_incentive),
             IncentiveStateResponse::from(
                 "uosmo".to_string(),
-                "umars".to_string(),
+                "ufury".to_string(),
                 uosmo_incentive.clone()
             ),
-            IncentiveStateResponse::from("uusdc".to_string(), "umars".to_string(), uusdc_incentive),
+            IncentiveStateResponse::from("uusdc".to_string(), "ufury".to_string(), uusdc_incentive),
         ]
     );
 
@@ -98,7 +98,7 @@ fn query_incentive_states() {
         res,
         vec![IncentiveStateResponse::from(
             "uosmo".to_string(),
-            "umars".to_string(),
+            "ufury".to_string(),
             uosmo_incentive
         )]
     );
@@ -108,9 +108,9 @@ fn query_incentive_states() {
 fn query_emission() {
     let mut deps = th_setup();
 
-    EMISSIONS.save(deps.as_mut().storage, ("uosmo", "umars", 604800), &Uint128::new(100)).unwrap();
+    EMISSIONS.save(deps.as_mut().storage, ("uosmo", "ufury", 604800), &Uint128::new(100)).unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, ("uosmo", "umars", 604800 * 2), &Uint128::new(50))
+        .save(deps.as_mut().storage, ("uosmo", "ufury", 604800 * 2), &Uint128::new(50))
         .unwrap();
 
     // Query before emission start
@@ -118,7 +118,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 0,
         },
     );
@@ -129,7 +129,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800,
         },
     );
@@ -140,7 +140,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800 * 2,
         },
     );
@@ -151,7 +151,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800 * 2 - 1,
         },
     );
@@ -162,7 +162,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800 * 2 + 100,
         },
     );
@@ -173,7 +173,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800 * 3 - 1,
         },
     );
@@ -184,7 +184,7 @@ fn query_emission() {
         deps.as_ref(),
         QueryMsg::Emission {
             collateral_denom: "uosmo".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             timestamp: 604800 * 3,
         },
     );
@@ -195,17 +195,17 @@ fn query_emission() {
 fn query_emissions() {
     let mut deps = th_setup();
 
-    EMISSIONS.save(deps.as_mut().storage, ("uusdc", "umars", 0), &Uint128::new(200)).unwrap();
-    EMISSIONS.save(deps.as_mut().storage, ("uusdc", "umars", 604800), &Uint128::new(100)).unwrap();
+    EMISSIONS.save(deps.as_mut().storage, ("uusdc", "ufury", 0), &Uint128::new(200)).unwrap();
+    EMISSIONS.save(deps.as_mut().storage, ("uusdc", "ufury", 604800), &Uint128::new(100)).unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, ("uusdc", "umars", 604800 * 2), &Uint128::new(50))
+        .save(deps.as_mut().storage, ("uusdc", "ufury", 604800 * 2), &Uint128::new(50))
         .unwrap();
 
     let res: Vec<EmissionResponse> = th_query(
         deps.as_ref(),
         QueryMsg::Emissions {
             collateral_denom: "uusdc".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             start_after_timestamp: None,
             limit: None,
         },
@@ -223,7 +223,7 @@ fn query_emissions() {
         deps.as_ref(),
         QueryMsg::Emissions {
             collateral_denom: "uusdc".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             start_after_timestamp: Some(100),
             limit: None,
         },
@@ -240,7 +240,7 @@ fn query_emissions() {
         deps.as_ref(),
         QueryMsg::Emissions {
             collateral_denom: "uusdc".to_string(),
-            incentive_denom: "umars".to_string(),
+            incentive_denom: "ufury".to_string(),
             start_after_timestamp: Some(604800),
             limit: Some(1),
         },
@@ -252,11 +252,11 @@ fn query_emissions() {
 #[test_case(604800 => vec![("uosmo".to_string(), 100u128.into())] ; "query at emission start time")]
 #[test_case(604800 + 100 => vec![("uosmo".to_string(), 100u128.into())] ; "query during first emission")]
 #[test_case(604800 * 2 => vec![
-        ("umars".to_string(), 50u128.into()),
+        ("ufury".to_string(), 50u128.into()),
         ("uosmo".to_string(), 100u128.into())
     ]; "query at second emission start time")]
 #[test_case(604800 * 2 + 100 => vec![
-        ("umars".to_string(), 50u128.into()),
+        ("ufury".to_string(), 50u128.into()),
         ("uosmo".to_string(), 100u128.into())
     ]; "query during second emission")]
 #[test_case(604800 * 3 => Vec::<(String, Uint128)>::new() ; "query at emission end time")]
@@ -278,7 +278,7 @@ fn query_active_emissions(query_at_time: u64) -> Vec<(String, Uint128)> {
     INCENTIVE_STATES
         .save(
             deps.as_mut().storage,
-            ("uusdc", "umars"),
+            ("uusdc", "ufury"),
             &IncentiveState {
                 index: Decimal::zero(),
                 last_updated: 0,
@@ -289,7 +289,7 @@ fn query_active_emissions(query_at_time: u64) -> Vec<(String, Uint128)> {
     // Setup emissions
     EMISSIONS.save(deps.as_mut().storage, ("uusdc", "uosmo", 604800), &Uint128::new(100)).unwrap();
     EMISSIONS
-        .save(deps.as_mut().storage, ("uusdc", "umars", 604800 * 2), &Uint128::new(50))
+        .save(deps.as_mut().storage, ("uusdc", "ufury", 604800 * 2), &Uint128::new(50))
         .unwrap();
     EMISSIONS
         .save(deps.as_mut().storage, ("uusdc", "uosmo", 604800 * 2), &Uint128::new(100))

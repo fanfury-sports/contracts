@@ -9,8 +9,8 @@ use cosmwasm_std::{
     WasmQuery,
 };
 use cw_storage_plus::Map;
-use mars_oracle_base::{ContractError, ContractResult, PriceSourceChecked};
-use mars_types::oracle::{ActionKind, AstroportTwapSnapshot, Config};
+use fury_oracle_base::{ContractError, ContractResult, PriceSourceChecked};
+use fury_types::oracle::{ActionKind, AstroportTwapSnapshot, Config};
 
 use crate::WasmPriceSourceChecked;
 

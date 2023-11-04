@@ -1,6 +1,6 @@
 use cosmwasm_std::Addr;
-use mars_owner::{OwnerError, OwnerUpdate};
-use mars_params::error::ContractError::Owner;
+use fury_owner::{OwnerError, OwnerUpdate};
+use fury_params::error::ContractError::Owner;
 
 use super::helpers::{assert_err, MockEnv};
 

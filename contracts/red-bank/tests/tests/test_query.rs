@@ -1,10 +1,10 @@
 use cosmwasm_std::{testing::mock_env, Addr, Decimal, Uint128};
-use mars_interest_rate::{get_scaled_debt_amount, get_underlying_debt_amount, SCALING_FACTOR};
-use mars_red_bank::{
+use fury_interest_rate::{get_scaled_debt_amount, get_underlying_debt_amount, SCALING_FACTOR};
+use fury_red_bank::{
     query::{query_user_collaterals, query_user_collaterals_v2, query_user_debt, query_user_debts},
     state::DEBTS,
 };
-use mars_types::red_bank::{Debt, Market, UserCollateralResponse, UserDebtResponse};
+use fury_types::red_bank::{Debt, Market, UserCollateralResponse, UserDebtResponse};
 
 use super::helpers::{set_collateral, th_init_market, th_setup};
 

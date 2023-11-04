@@ -1,5 +1,5 @@
 [package]
-name          = "mars-oracle-wasm"
+name          = "fury-oracle-wasm"
 description   = "A smart contract that provides prices for generic CosmWasm chains"
 version       = { workspace = true }
 authors       = { workspace = true }
@@ -18,7 +18,7 @@ doctest    = false
 # for more explicit tests, cargo test --features=backtraces
 backtraces       = ["cosmwasm-std/backtraces"]
 library          = []
-osmosis-test-app = ["cw-it/osmosis-test-tube", "mars-testing/osmosis-test-tube"]
+osmosis-test-app = ["cw-it/osmosis-test-tube", "fury-testing/osmosis-test-tube"]
 
 [dependencies]
 astroport        = { workspace = true }
@@ -26,14 +26,14 @@ cosmwasm-schema  = { workspace = true }
 cosmwasm-std     = { workspace = true }
 cw2              = { workspace = true }
 cw-storage-plus  = { workspace = true }
-mars-oracle-base = { workspace = true }
-mars-types       = { workspace = true }
+fury-oracle-base = { workspace = true }
+fury-types       = { workspace = true }
 pyth-sdk-cw      = { workspace = true }
 
 [dev-dependencies]
 cosmwasm-schema  = { workspace = true }
 cw-it            = { workspace = true, features = ["astroport", "astroport-multi-test"] }
-mars-owner       = { workspace = true }
-mars-testing     = { workspace = true, features = ["astroport"] }
+fury-owner       = { workspace = true }
+fury-testing     = { workspace = true, features = ["astroport"] }
 proptest         = { workspace = true }
 test-case        = { workspace = true }

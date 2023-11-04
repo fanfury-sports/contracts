@@ -6,7 +6,7 @@ use cosmwasm_std::{
 };
 use cw721::OwnerOfResponse;
 use cw721_base::QueryMsg;
-use mars_types::{
+use fury_types::{
     credit_manager::{CallbackMsg, ChangeExpected, ExecuteMsg},
     health::AccountKind,
 };

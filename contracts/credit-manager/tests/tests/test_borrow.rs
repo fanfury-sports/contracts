@@ -1,8 +1,8 @@
 use std::ops::{Mul, Sub};
 
 use cosmwasm_std::{coin, coins, Addr, Uint128};
-use mars_credit_manager::{borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED, error::ContractError};
-use mars_types::credit_manager::Action::{Borrow, Deposit};
+use fury_credit_manager::{borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED, error::ContractError};
+use fury_types::credit_manager::Action::{Borrow, Deposit};
 
 use super::helpers::{
     assert_err, blacklisted_coin, uosmo_info, AccountToFund, MockEnv, DEFAULT_RED_BANK_COIN_BALANCE,

@@ -1,5 +1,5 @@
 {
-  "name": "mars-rover-health-computer",
+  "name": "fury-rover-health-computer",
   "collaborators": [
     "Gabe R. <gabe.r@delphilabs.io>",
     "Larry Engineer <larry@delphidigital.io>",
@@ -15,7 +15,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "keywords": [
-    "mars",
+    "fury",
     "cosmos",
     "cosmwasm"
   ]

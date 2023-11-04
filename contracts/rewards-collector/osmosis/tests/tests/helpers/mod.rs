@@ -5,10 +5,10 @@ use cosmwasm_std::{
     testing::{mock_env, MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR},
     Coin, Decimal, Deps, OwnedDeps,
 };
-use mars_osmosis::BalancerPool;
-use mars_rewards_collector_osmosis::entry;
-use mars_testing::{mock_info, MarsMockQuerier};
-use mars_types::rewards_collector::{Config, InstantiateMsg, QueryMsg};
+use fury_osmosis::BalancerPool;
+use fury_rewards_collector_osmosis::entry;
+use fury_testing::{mock_info, FuryMockQuerier};
+use fury_types::rewards_collector::{Config, InstantiateMsg, QueryMsg};
 use osmosis_std::types::osmosis::{gamm::v1beta1::PoolAsset, poolmanager::v1beta1::PoolResponse};
 
 pub fn mock_instantiate_msg() -> InstantiateMsg {
@@ -17,7 +17,7 @@ pub fn mock_instantiate_msg() -> InstantiateMsg {
         address_provider: "address_provider".to_string(),
         safety_tax_rate: Decimal::percent(25),
         safety_fund_denom: "uusdc".to_string(),
-        fee_collector_denom: "umars".to_string(),
+        fee_collector_denom: "ufury".to_string(),
         channel_id: "channel-69".to_string(),
         timeout_seconds: 300,
         slippage_tolerance: Decimal::percent(3),
@@ -29,13 +29,13 @@ pub fn mock_config(api: MockApi, msg: InstantiateMsg) -> Config {
     Config::checked(&api, msg).unwrap()
 }
 
-pub fn setup_test() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+pub fn setup_test() -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = OwnedDeps::<_, _, _> {
         storage: MockStorage::default(),
         api: MockApi::default(),
-        querier: MarsMockQuerier::new(MockQuerier::new(&[(
+        querier: FuryMockQuerier::new(MockQuerier::new(&[(
             MOCK_CONTRACT_ADDR,
-            &[coin(88888, "uatom"), coin(1234, "uusdc"), coin(8964, "umars")],
+            &[coin(88888, "uatom"), coin(1234, "uusdc"), coin(8964, "ufury")],
         )])),
         custom_query_type: Default::default(),
     };
@@ -72,7 +72,7 @@ pub fn setup_test() -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
         420,
         prepare_query_pool_response(
             420,
-            &[coin(1, "uosmo"), coin(1, "umars")],
+            &[coin(1, "uosmo"), coin(1, "ufury")],
             &[5000u64, 5000u64],
             &coin(1, "uLP"),
         ),

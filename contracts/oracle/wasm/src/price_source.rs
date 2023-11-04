@@ -4,11 +4,11 @@ use astroport::{factory::PairType, pair::TWAP_PRECISION, querier::simulate};
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Decimal, Deps, Empty, Env, Uint128};
 use cw_storage_plus::Map;
-use mars_oracle_base::{
+use fury_oracle_base::{
     ContractError::{self},
     ContractResult, PriceSourceChecked, PriceSourceUnchecked,
 };
-use mars_types::oracle::{ActionKind, AstroportTwapSnapshot, Config};
+use fury_types::oracle::{ActionKind, AstroportTwapSnapshot, Config};
 use pyth_sdk_cw::PriceIdentifier;
 
 use crate::{
@@ -201,8 +201,8 @@ impl PriceSourceUnchecked<WasmPriceSourceChecked, Empty> for WasmPriceSourceUnch
                 max_deviation,
                 denom_decimals,
             } => {
-                mars_oracle_base::pyth::assert_pyth(max_confidence, max_deviation, denom_decimals)?;
-                mars_oracle_base::pyth::assert_usd_price_source(deps, price_sources)?;
+                fury_oracle_base::pyth::assert_pyth(max_confidence, max_deviation, denom_decimals)?;
+                fury_oracle_base::pyth::assert_usd_price_source(deps, price_sources)?;
                 Ok(WasmPriceSourceChecked::Pyth {
                     contract_addr: deps.api.addr_validate(&contract_addr)?,
                     price_feed_id,
@@ -264,7 +264,7 @@ impl PriceSourceChecked<Empty> for WasmPriceSourceChecked {
                 max_confidence,
                 max_deviation,
                 denom_decimals,
-            } => mars_oracle_base::pyth::query_pyth_price(
+            } => fury_oracle_base::pyth::query_pyth_price(
                 deps,
                 env,
                 contract_addr.clone(),

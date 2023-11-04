@@ -4,16 +4,16 @@ use cosmwasm_std::{
     coin, coins, testing::MockQuerier, Addr, CheckedMultiplyRatioError, Decimal, QuerierWrapper,
     Uint128,
 };
-use mars_health::{error::HealthError, health::Health};
-use mars_testing::MarsMockQuerier;
-use mars_types::{
+use fury_health::{error::HealthError, health::Health};
+use fury_testing::FuryMockQuerier;
+use fury_types::{
     params::{AssetParams, CmSettings, LiquidationBonus, RedBankSettings},
     red_bank::Market,
 };
 
 #[test]
 fn health_success_from_coins() {
-    let mut mock_querier = MarsMockQuerier::new(MockQuerier::new(&[]));
+    let mut mock_querier = FuryMockQuerier::new(MockQuerier::new(&[]));
 
     // Set Markets
     let osmo_market = Market {
@@ -110,7 +110,7 @@ fn health_success_from_coins() {
 
 #[test]
 fn health_error_from_coins() {
-    let mut mock_querier = MarsMockQuerier::new(MockQuerier::new(&[]));
+    let mut mock_querier = FuryMockQuerier::new(MockQuerier::new(&[]));
 
     // Set Markets
     let osmo_market = Market {

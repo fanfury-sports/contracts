@@ -1,5 +1,5 @@
 use cosmwasm_std::{DepsMut, Response, StdResult};
-use mars_types::{credit_manager::Positions, health::AccountKind};
+use fury_types::{credit_manager::Positions, health::AccountKind};
 
 use crate::state::{ACCOUNT_KINDS, POSITION_RESPONSES};
 

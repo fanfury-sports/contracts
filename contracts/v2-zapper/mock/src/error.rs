@@ -1,6 +1,6 @@
 use cosmwasm_std::{CheckedMultiplyRatioError, StdError};
 use cw_utils::PaymentError;
-use mars_types::adapters::oracle::OracleError;
+use fury_types::adapters::oracle::OracleError;
 use thiserror::Error;
 
 pub type ContractResult<T> = Result<T, ContractError>;

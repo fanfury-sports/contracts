@@ -1,6 +1,6 @@
 use cosmwasm_std::{Addr, Uint128};
-use mars_credit_manager::error::ContractError;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_types::{
     credit_manager::Action::{Borrow, ClaimRewards, Deposit},
     params::{AssetParamsUpdate::AddOrUpdate, HlsAssetType},
 };

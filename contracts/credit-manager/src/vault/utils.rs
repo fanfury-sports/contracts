@@ -1,5 +1,5 @@
 use cosmwasm_std::{Addr, Coin, Deps, DepsMut, StdResult, Storage, Uint128};
-use mars_types::{
+use fury_types::{
     adapters::vault::{
         LockingVaultAmount, UnlockingPositions, Vault, VaultAmount, VaultPosition,
         VaultPositionAmount, VaultPositionUpdate,

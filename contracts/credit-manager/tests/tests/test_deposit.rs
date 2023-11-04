@@ -1,8 +1,8 @@
 use cosmwasm_std::{coin, coins, Addr, Coin, Coins, Uint128};
-use mars_credit_manager::error::ContractError::{
+use fury_credit_manager::error::ContractError::{
     ExtraFundsReceived, FundsMismatch, NotTokenOwner, NotWhitelisted,
 };
-use mars_types::credit_manager::{Action, Positions};
+use fury_types::credit_manager::{Action, Positions};
 
 use super::helpers::{
     assert_err, blacklisted_coin, uatom_info, ujake_info, uosmo_info, AccountToFund, CoinInfo,

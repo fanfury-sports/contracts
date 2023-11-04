@@ -1,8 +1,8 @@
 use std::ops::Div;
 
 use cosmwasm_std::{Addr, Uint128};
-use mars_mock_vault::contract::STARTING_VAULT_SHARES;
-use mars_types::{
+use fury_mock_vault::contract::STARTING_VAULT_SHARES;
+use fury_types::{
     adapters::vault::{Vault, VaultAmount, VaultPosition, VaultPositionAmount},
     credit_manager::Action::{Deposit, EnterVault, RequestVaultUnlock},
 };

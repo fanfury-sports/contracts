@@ -1,6 +1,6 @@
 use cosmwasm_std::{coin, Decimal};
 use cw_utils::Duration;
-use mars_types::params::LiquidationBonus;
+use fury_types::params::LiquidationBonus;
 
 use super::{lp_token_info, CoinInfo, VaultTestInfo};
 

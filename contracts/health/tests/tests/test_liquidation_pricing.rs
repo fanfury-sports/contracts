@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{Coin, Decimal, StdError, Uint128};
-use mars_types::{
+use fury_types::{
     credit_manager::{DebtAmount, Positions},
     health::AccountKind,
     oracle::ActionKind,
@@ -17,12 +17,12 @@ use super::helpers::MockEnv;
 fn uses_liquidation_pricing() {
     let mut mock = MockEnv::new().build().unwrap();
 
-    let umars = "umars";
-    mock.set_price(umars, Decimal::one(), ActionKind::Liquidation);
+    let ufury = "ufury";
+    mock.set_price(ufury, Decimal::one(), ActionKind::Liquidation);
 
     let update = AddOrUpdate {
         params: AssetParamsUnchecked {
-            denom: umars.to_string(),
+            denom: ufury.to_string(),
             credit_manager: CmSettings {
                 whitelisted: false,
                 hls: Some(HlsParamsUnchecked {
@@ -56,11 +56,11 @@ fn uses_liquidation_pricing() {
         &Positions {
             account_id: account_id.to_string(),
             deposits: vec![Coin {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 amount: Uint128::new(30),
             }],
             debts: vec![DebtAmount {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 shares: Default::default(),
                 amount: Uint128::new(2),
             }],

@@ -1,6 +1,6 @@
 use cosmwasm_std::{DepsMut, Env};
-use mars_owner::OwnerInit::SetInitialOwner;
-use mars_types::credit_manager::InstantiateMsg;
+use fury_owner::OwnerInit::SetInitialOwner;
+use fury_types::credit_manager::InstantiateMsg;
 
 use crate::{
     error::ContractResult,

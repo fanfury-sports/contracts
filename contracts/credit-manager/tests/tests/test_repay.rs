@@ -1,8 +1,8 @@
 use std::ops::{Add, Mul, Sub};
 
 use cosmwasm_std::{coin, coins, Addr, Decimal, OverflowError, OverflowOperation, Uint128};
-use mars_credit_manager::{borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED, error::ContractError};
-use mars_types::{
+use fury_credit_manager::{borrow::DEFAULT_DEBT_SHARES_PER_COIN_BORROWED, error::ContractError};
+use fury_types::{
     credit_manager::Action::{Borrow, Deposit, Repay, Withdraw},
     params::LiquidationBonus,
 };

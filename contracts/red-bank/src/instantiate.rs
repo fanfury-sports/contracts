@@ -1,11 +1,11 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::set_contract_version;
-use mars_owner::OwnerInit::SetInitialOwner;
-use mars_types::{
-    error::MarsError,
+use fury_owner::OwnerInit::SetInitialOwner;
+use fury_types::{
+    error::FuryError,
     red_bank::{Config, CreateOrUpdateConfig, InstantiateMsg},
 };
-use mars_utils::helpers::{option_string_to_addr, zero_address};
+use fury_utils::helpers::{option_string_to_addr, zero_address};
 
 use crate::{
     contract::{CONTRACT_NAME, CONTRACT_VERSION},
@@ -23,7 +23,7 @@ pub fn instantiate(deps: DepsMut, msg: InstantiateMsg) -> Result<Response, Contr
     } = msg.config;
 
     if address_provider.is_none() {
-        return Err(MarsError::InstantiateParamsUnavailable {}.into());
+        return Err(FuryError::InstantiateParamsUnavailable {}.into());
     };
 
     let config = Config {

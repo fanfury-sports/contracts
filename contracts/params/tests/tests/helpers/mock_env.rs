@@ -3,8 +3,8 @@ use std::{mem::take, str::FromStr};
 use anyhow::Result as AnyResult;
 use cosmwasm_std::{Addr, Decimal};
 use cw_multi_test::{App, AppResponse, BasicApp, Executor};
-use mars_owner::{OwnerResponse, OwnerUpdate};
-use mars_types::params::{
+use fury_owner::{OwnerResponse, OwnerUpdate};
+use fury_types::params::{
     AssetParams, AssetParamsUpdate, ConfigResponse, EmergencyUpdate, ExecuteMsg, InstantiateMsg,
     QueryMsg, VaultConfig, VaultConfigUpdate,
 };

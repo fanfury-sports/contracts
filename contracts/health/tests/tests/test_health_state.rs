@@ -1,5 +1,5 @@
 use cosmwasm_std::{Coin, Decimal, Uint128};
-use mars_types::{
+use fury_types::{
     credit_manager::{DebtAmount, Positions},
     health::{AccountKind, HealthState},
     oracle::ActionKind,
@@ -37,10 +37,10 @@ fn zero_debts_results_in_healthy_state() {
 fn computing_health_when_healthy() {
     let mut mock = MockEnv::new().build().unwrap();
 
-    let umars = "umars";
-    mock.set_price(umars, Decimal::one(), ActionKind::Default);
+    let ufury = "ufury";
+    mock.set_price(ufury, Decimal::one(), ActionKind::Default);
     mock.update_asset_params(AddOrUpdate {
-        params: default_asset_params(umars),
+        params: default_asset_params(ufury),
     });
 
     let account_id = "123";
@@ -49,11 +49,11 @@ fn computing_health_when_healthy() {
         &Positions {
             account_id: account_id.to_string(),
             deposits: vec![Coin {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 amount: Uint128::new(100),
             }],
             debts: vec![DebtAmount {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 shares: Default::default(),
                 amount: Uint128::new(30),
             }],
@@ -71,10 +71,10 @@ fn computing_health_when_healthy() {
 fn computing_health_when_unhealthy() {
     let mut mock = MockEnv::new().build().unwrap();
 
-    let umars = "umars";
-    mock.set_price(umars, Decimal::one(), ActionKind::Default);
+    let ufury = "ufury";
+    mock.set_price(ufury, Decimal::one(), ActionKind::Default);
     mock.update_asset_params(AddOrUpdate {
-        params: default_asset_params(umars),
+        params: default_asset_params(ufury),
     });
 
     let account_id = "123";
@@ -83,11 +83,11 @@ fn computing_health_when_unhealthy() {
         &Positions {
             account_id: account_id.to_string(),
             deposits: vec![Coin {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 amount: Uint128::new(100),
             }],
             debts: vec![DebtAmount {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 shares: Default::default(),
                 amount: Uint128::new(250),
             }],

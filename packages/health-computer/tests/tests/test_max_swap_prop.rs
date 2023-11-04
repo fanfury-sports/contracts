@@ -1,4 +1,4 @@
-use mars_types::health::SwapKind;
+use fury_types::health::SwapKind;
 
 use super::helpers::max_swap_prop_test_runner;
 

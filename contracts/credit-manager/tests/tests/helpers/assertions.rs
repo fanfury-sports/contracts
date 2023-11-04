@@ -2,7 +2,7 @@ use std::hash::Hash;
 
 use anyhow::Result as AnyResult;
 use cw_multi_test::AppResponse;
-use mars_credit_manager::{error::ContractError, utils::contents_equal};
+use fury_credit_manager::{error::ContractError, utils::contents_equal};
 
 pub fn assert_err(res: AnyResult<AppResponse>, err: ContractError) {
     match res {

@@ -2,13 +2,13 @@ use cosmwasm_std::{
     testing::{mock_env, mock_info},
     Addr, SubMsg,
 };
-use mars_incentives::{
+use fury_incentives::{
     contract::{execute, instantiate},
     ContractError,
 };
-use mars_owner::OwnerError::NotOwner;
-use mars_testing::mock_dependencies;
-use mars_types::incentives::{ConfigResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
+use fury_owner::OwnerError::NotOwner;
+use fury_testing::mock_dependencies;
+use fury_types::incentives::{ConfigResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
 
 use super::helpers::{th_query, th_setup};
 
@@ -22,7 +22,7 @@ fn proper_initialization() {
         address_provider: String::from("address_provider"),
         epoch_duration: 604800, // 1 week in seconds
         max_whitelisted_denoms: 10,
-        mars_denom: "umars".to_string(),
+        fury_denom: "ufury".to_string(),
     };
 
     let res = instantiate(deps.as_mut(), mock_env(), info, msg).unwrap();
@@ -48,7 +48,7 @@ fn cant_instantiate_with_too_short_epoch_duration() {
         address_provider: String::from("address_provider"),
         epoch_duration: 604800 - 1,
         max_whitelisted_denoms: 10,
-        mars_denom: "umars".to_string(),
+        fury_denom: "ufury".to_string(),
     };
 
     let res = instantiate(deps.as_mut(), mock_env(), info, msg);

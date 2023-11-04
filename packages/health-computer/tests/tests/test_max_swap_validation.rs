@@ -1,8 +1,8 @@
 use std::{collections::HashMap, str::FromStr};
 
 use cosmwasm_std::{coin, Addr, Decimal, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     adapters::vault::{
         CoinValue, Vault, VaultAmount, VaultPosition, VaultPositionAmount, VaultPositionValue,
     },
@@ -11,17 +11,17 @@ use mars_types::{
     params::{HlsParams, VaultConfig},
 };
 
-use super::helpers::{uatom_info, udai_info, umars_info, ustars_info};
+use super::helpers::{uatom_info, udai_info, ufury_info, ustars_info};
 
 #[test]
 fn missing_price_data() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -35,7 +35,7 @@ fn missing_price_data() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -43,7 +43,7 @@ fn missing_price_data() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -56,18 +56,18 @@ fn missing_price_data() {
     };
 
     let err: HealthError =
-        h.max_swap_amount_estimate(&udai.denom, &umars.denom, &SwapKind::Default).unwrap_err();
+        h.max_swap_amount_estimate(&udai.denom, &ufury.denom, &SwapKind::Default).unwrap_err();
     assert_eq!(err, HealthError::MissingPrice(udai.denom));
 }
 
 #[test]
 fn missing_params() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([(udai.denom.clone(), udai.params.clone())]),
@@ -82,7 +82,7 @@ fn missing_params() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -90,7 +90,7 @@ fn missing_params() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -103,8 +103,8 @@ fn missing_params() {
     };
 
     let err: HealthError =
-        h.max_swap_amount_estimate(&umars.denom, &udai.denom, &SwapKind::Default).unwrap_err();
-    assert_eq!(err, HealthError::MissingParams(umars.denom));
+        h.max_swap_amount_estimate(&ufury.denom, &udai.denom, &SwapKind::Default).unwrap_err();
+    assert_eq!(err, HealthError::MissingParams(ufury.denom));
 }
 
 #[test]
@@ -141,16 +141,16 @@ fn deposit_not_present() {
 
 #[test]
 fn zero_when_unhealthy() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -164,7 +164,7 @@ fn zero_when_unhealthy() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -172,7 +172,7 @@ fn zero_when_unhealthy() {
                     amount: Uint128::new(2500),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -187,23 +187,23 @@ fn zero_when_unhealthy() {
     let health = h.compute_health().unwrap();
     assert!(health.max_ltv_health_factor < Some(Decimal::one()));
     let max_swap_amount =
-        h.max_swap_amount_estimate(&udai.denom, &umars.denom, &SwapKind::Default).unwrap();
+        h.max_swap_amount_estimate(&udai.denom, &ufury.denom, &SwapKind::Default).unwrap();
     assert_eq!(Uint128::zero(), max_swap_amount);
 }
 
 #[test]
 fn no_debts() {
     let ustars = ustars_info();
-    let umars = umars_info();
+    let ufury = ufury_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
             (ustars.denom.clone(), ustars.price),
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
         ]),
         params: HashMap::from([
             (ustars.denom.clone(), ustars.params.clone()),
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
         ]),
     };
 
@@ -227,22 +227,22 @@ fn no_debts() {
     };
 
     let max_swap_amount =
-        h.max_swap_amount_estimate(&ustars.denom, &umars.denom, &SwapKind::Default).unwrap();
+        h.max_swap_amount_estimate(&ustars.denom, &ufury.denom, &SwapKind::Default).unwrap();
     assert_eq!(deposit_amount, max_swap_amount);
 }
 
 #[test]
 fn should_allow_max_swap() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -257,7 +257,7 @@ fn should_allow_max_swap() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(deposit_amount.u128(), &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(deposit_amount.u128(), &udai.denom)],
             debts: vec![DebtAmount {
                 denom: udai.denom.clone(),
                 shares: Default::default(),
@@ -272,7 +272,7 @@ fn should_allow_max_swap() {
 
     // Max when debt value is smaller than collateral value - withdraw denom value
     let max_swap_amount =
-        h.max_swap_amount_estimate(&udai.denom, &umars.denom, &SwapKind::Default).unwrap();
+        h.max_swap_amount_estimate(&udai.denom, &ufury.denom, &SwapKind::Default).unwrap();
     assert_eq!(deposit_amount, max_swap_amount);
 }
 

@@ -1,10 +1,10 @@
 use cosmwasm_std::{
     coin, testing::mock_env, CosmosMsg, IbcMsg, IbcTimeout, SubMsg, Timestamp, Uint128,
 };
-use mars_rewards_collector_base::ContractError;
-use mars_rewards_collector_osmosis::entry::execute;
-use mars_testing::{mock_env as mock_env_at_height_and_time, mock_info, MockEnvParams};
-use mars_types::rewards_collector::ExecuteMsg;
+use fury_rewards_collector_base::ContractError;
+use fury_rewards_collector_osmosis::entry::execute;
+use fury_testing::{mock_env as mock_env_at_height_and_time, mock_info, MockEnvParams};
+use fury_types::rewards_collector::ExecuteMsg;
 
 use super::helpers;
 
@@ -39,13 +39,13 @@ fn distributing_rewards() {
         }))
     );
 
-    // distribute umars to fee collector
+    // distribute ufury to fee collector
     let res = execute(
         deps.as_mut(),
         env,
         mock_info("jake"),
         ExecuteMsg::DistributeRewards {
-            denom: "umars".to_string(),
+            denom: "ufury".to_string(),
             amount: None,
         },
     )
@@ -56,7 +56,7 @@ fn distributing_rewards() {
         SubMsg::new(CosmosMsg::Ibc(IbcMsg::Transfer {
             channel_id: "channel-69".to_string(),
             to_address: "fee_collector".to_string(),
-            amount: coin(8964, "umars"),
+            amount: coin(8964, "ufury"),
             timeout: IbcTimeout::with_timestamp(Timestamp::from_seconds(17000300))
         }))
     );

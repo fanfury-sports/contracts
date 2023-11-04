@@ -1,7 +1,7 @@
 use std::{any::type_name, str::FromStr};
 
 use cosmwasm_std::{Coin, Decimal, StdError, Uint128};
-use mars_types::{
+use fury_types::{
     adapters::vault::{
         LockingVaultAmount, UnlockingPositions, Vault, VaultAmount, VaultPosition,
         VaultPositionAmount, VaultUnlockingPosition,
@@ -162,9 +162,9 @@ fn adds_vault_base_denoms_to_oracle_and_red_bank() {
 fn whitelisted_coins_work() {
     let mut mock = MockEnv::new().build().unwrap();
 
-    let umars = "umars";
+    let ufury = "ufury";
 
-    mock.set_price(umars, Decimal::one(), ActionKind::Default);
+    mock.set_price(ufury, Decimal::one(), ActionKind::Default);
 
     let max_loan_to_value = Decimal::from_atomics(4523u128, 4).unwrap();
     let liquidation_threshold = Decimal::from_atomics(5u128, 1).unwrap();
@@ -176,7 +176,7 @@ fn whitelisted_coins_work() {
     };
 
     let mut asset_params = AssetParamsUnchecked {
-        denom: umars.to_string(),
+        denom: ufury.to_string(),
         credit_manager: CmSettings {
             whitelisted: false,
             hls: Some(HlsParamsUnchecked {
@@ -210,7 +210,7 @@ fn whitelisted_coins_work() {
         &Positions {
             account_id: account_id.to_string(),
             deposits: vec![Coin {
-                denom: umars.to_string(),
+                denom: ufury.to_string(),
                 amount: deposit_amount,
             }],
             debts: vec![],

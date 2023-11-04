@@ -1,9 +1,9 @@
 use cosmwasm_std::{
     Addr, Decimal, OverflowError, OverflowOperation::Sub, StdError::NotFound, Uint128,
 };
-use mars_credit_manager::error::ContractError;
-use mars_mock_oracle::msg::CoinPrice;
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_mock_oracle::msg::CoinPrice;
+use fury_types::{
     adapters::vault::{VaultBase, VaultError, VaultPositionType},
     credit_manager::{
         Action::{Borrow, Deposit, EnterVault, Liquidate, RequestVaultUnlock},
@@ -68,7 +68,7 @@ fn liquidatee_must_have_the_request_vault_position() {
     assert_err(
         res,
         ContractError::Std(NotFound {
-            kind: "mars_types::adapters::vault::amount::VaultPositionAmount".to_string(),
+            kind: "fury_types::adapters::vault::amount::VaultPositionAmount".to_string(),
         }),
     )
 }

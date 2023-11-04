@@ -6,13 +6,13 @@ use cosmwasm_std::{
     to_binary, Addr, Decimal, SubMsg, Uint128, WasmMsg,
 };
 use cw_utils::PaymentError;
-use mars_red_bank::{contract::execute, error::ContractError};
-use mars_testing::{
+use fury_red_bank::{contract::execute, error::ContractError};
+use fury_testing::{
     integration::mock_env::{MockEnv, MockEnvBuilder},
     mock_env_at_block_time,
 };
-use mars_types::{
-    address_provider::MarsAddressType,
+use fury_types::{
+    address_provider::FuryAddressType,
     incentives,
     params::{AssetParams, CmSettings, LiquidationBonus, RedBankSettings},
     red_bank::{
@@ -1080,7 +1080,7 @@ fn response_verification() {
     assert_eq!(debt_market_after.borrow_index, expected_debt_rates.borrow_index);
     assert_eq!(debt_market_after.liquidity_index, expected_debt_rates.liquidity_index);
 
-    mars_testing::assert_eq_vec(
+    fury_testing::assert_eq_vec(
         res.attributes,
         vec![
             attr("action", "liquidate"),
@@ -1166,7 +1166,7 @@ fn expected_messages(
     // asset's utilization rate, it's interest rate does not need to be updated.
     vec![
         SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                 user_addr: user_addr.clone(),
                 account_id: None,
@@ -1178,7 +1178,7 @@ fn expected_messages(
             funds: vec![],
         }),
         SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
                 user_addr: recipient_addr.clone(),
                 account_id: None,
@@ -1190,9 +1190,9 @@ fn expected_messages(
             funds: vec![],
         }),
         SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                 account_id: None,
                 denom: collateral_market.denom.clone(),
                 user_amount_scaled_before: Uint128::zero(),
@@ -1202,9 +1202,9 @@ fn expected_messages(
             funds: vec![],
         }),
         SubMsg::new(WasmMsg::Execute {
-            contract_addr: MarsAddressType::Incentives.to_string(),
+            contract_addr: FuryAddressType::Incentives.to_string(),
             msg: to_binary(&incentives::ExecuteMsg::BalanceChange {
-                user_addr: Addr::unchecked(MarsAddressType::RewardsCollector.to_string()),
+                user_addr: Addr::unchecked(FuryAddressType::RewardsCollector.to_string()),
                 account_id: None,
                 denom: debt_market.denom.clone(),
                 user_amount_scaled_before: Uint128::zero(),

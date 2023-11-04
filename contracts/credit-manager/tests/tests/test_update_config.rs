@@ -1,8 +1,8 @@
 use cosmwasm_std::{Addr, Decimal, Empty, Uint128};
 use cw_multi_test::{BasicApp, Executor};
-use mars_credit_manager::error::ContractError;
-use mars_mock_oracle::msg::{CoinPrice, InstantiateMsg as OracleInstantiateMsg};
-use mars_types::{
+use fury_credit_manager::error::ContractError;
+use fury_mock_oracle::msg::{CoinPrice, InstantiateMsg as OracleInstantiateMsg};
+use fury_types::{
     adapters::{
         health::HealthContractUnchecked, incentives::IncentivesUnchecked, oracle::OracleUnchecked,
         red_bank::RedBankUnchecked, rewards_collector::RewardsCollector, swapper::SwapperBase,

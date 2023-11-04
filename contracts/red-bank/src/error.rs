@@ -2,11 +2,11 @@ use cosmwasm_std::{
     CheckedFromRatioError, CheckedMultiplyFractionError, DivideByZeroError, OverflowError, StdError,
 };
 use cw_utils::PaymentError;
-use mars_health::error::HealthError;
-use mars_liquidation::error::LiquidationError;
-use mars_owner::OwnerError;
-use mars_types::error::MarsError;
-use mars_utils::error::{GuardError, ValidationError};
+use fury_health::error::HealthError;
+use fury_liquidation::error::LiquidationError;
+use fury_owner::OwnerError;
+use fury_types::error::FuryError;
+use fury_utils::error::{GuardError, ValidationError};
 use thiserror::Error;
 
 pub type ContractResult<T> = Result<T, ContractError>;
@@ -17,7 +17,7 @@ pub enum ContractError {
     Std(#[from] StdError),
 
     #[error("{0}")]
-    Mars(#[from] MarsError),
+    Fury(#[from] FuryError),
 
     #[error("{0}")]
     Validation(#[from] ValidationError),

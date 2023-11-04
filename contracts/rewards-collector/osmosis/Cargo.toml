@@ -1,5 +1,5 @@
 [package]
-name          = "mars-rewards-collector-osmosis"
+name          = "fury-rewards-collector-osmosis"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -23,14 +23,14 @@ cosmwasm-schema             = { workspace = true }
 cosmwasm-std                = { workspace = true, features = ["stargate"] }
 cw2                         = { workspace = true }
 cw-storage-plus             = { workspace = true }
-mars-owner                  = { workspace = true }
-mars-rewards-collector-base = { workspace = true }
-mars-types                  = { workspace = true }
+fury-owner                  = { workspace = true }
+fury-rewards-collector-base = { workspace = true }
+fury-types                  = { workspace = true }
 
 [dev-dependencies]
-mars-osmosis = { workspace = true }
-mars-owner   = { workspace = true }
-mars-testing = { workspace = true }
-mars-utils   = { workspace = true }
+fury-osmosis = { workspace = true }
+fury-owner   = { workspace = true }
+fury-testing = { workspace = true }
+fury-utils   = { workspace = true }
 osmosis-std  = { workspace = true }
 serde        = { workspace = true }

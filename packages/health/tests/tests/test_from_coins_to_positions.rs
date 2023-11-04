@@ -3,12 +3,12 @@ use std::collections::HashMap;
 use cosmwasm_std::{
     coin, coins, testing::MockQuerier, Addr, Decimal, QuerierWrapper, StdError, Uint128,
 };
-use mars_health::{
+use fury_health::{
     health::{Health, Position},
-    query::MarsQuerier,
+    query::FuryQuerier,
 };
-use mars_testing::MarsMockQuerier;
-use mars_types::{
+use fury_testing::FuryMockQuerier;
+use fury_types::{
     params::{AssetParams, CmSettings, LiquidationBonus, RedBankSettings},
     red_bank::Market,
 };
@@ -20,7 +20,7 @@ fn from_coins_to_positions() {
     let red_bank_addr = Addr::unchecked("red_bank");
     let mock_querier = mock_setup();
     let querier_wrapper = QuerierWrapper::new(&mock_querier);
-    let querier = MarsQuerier::new(&querier_wrapper, &oracle_addr, &red_bank_addr);
+    let querier = FuryQuerier::new(&querier_wrapper, &oracle_addr, &red_bank_addr);
 
     // 1. Collateral and no debt
     let collateral = coins(300, "osmo");
@@ -119,8 +119,8 @@ fn from_coins_to_positions() {
 //  ----------------------------------------
 //  |  ATOM   |   10.2  |    70     |  75  |
 //  ----------------------------------------
-fn mock_setup() -> MarsMockQuerier {
-    let mut mock_querier = MarsMockQuerier::new(MockQuerier::new(&[]));
+fn mock_setup() -> FuryMockQuerier {
+    let mut mock_querier = FuryMockQuerier::new(MockQuerier::new(&[]));
     // Set Markets
     let osmo_market = Market {
         denom: "osmo".to_string(),

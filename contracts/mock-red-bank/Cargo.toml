@@ -1,5 +1,5 @@
 [package]
-name          = "mars-mock-red-bank"
+name          = "fury-mock-red-bank"
 version       = { workspace = true }
 authors       = { workspace = true }
 license       = { workspace = true }
@@ -23,4 +23,4 @@ cosmwasm-schema = { workspace = true }
 cosmwasm-std    = { workspace = true }
 cw-storage-plus = { workspace = true }
 cw-utils        = { workspace = true }
-mars-types      = { workspace = true }
+fury-types      = { workspace = true }

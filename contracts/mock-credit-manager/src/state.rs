@@ -1,5 +1,5 @@
 use cw_storage_plus::{Item, Map};
-use mars_types::{
+use fury_types::{
     credit_manager::{ConfigResponse, Positions},
     health::AccountKind,
 };

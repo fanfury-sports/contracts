@@ -1,6 +1,6 @@
 [package]
-name          = "mars-incentives"
-description   = "A smart contract that manages MARS incentives for depositors"
+name          = "fury-incentives"
+description   = "A smart contract that manages FURY incentives for depositors"
 version       = { workspace = true }
 authors       = { workspace = true }
 edition       = { workspace = true }
@@ -16,7 +16,7 @@ doctest    = false
 
 [features]
 # for more explicit tests, cargo test --features=backtraces
-backtraces = ["cosmwasm-std/backtraces", "mars-testing/backtraces", "mars-utils/backtraces", "mars-red-bank/backtraces"]
+backtraces = ["cosmwasm-std/backtraces", "fury-testing/backtraces", "fury-utils/backtraces", "fury-red-bank/backtraces"]
 library    = []
 
 [dependencies]
@@ -24,16 +24,16 @@ cosmwasm-schema = { workspace = true }
 cosmwasm-std    = { workspace = true }
 cw2             = { workspace = true }
 cw-storage-plus = { workspace = true }
-mars-owner      = { workspace = true }
-mars-types      = { workspace = true }
-mars-utils      = { workspace = true }
+fury-owner      = { workspace = true }
+fury-types      = { workspace = true }
+fury-utils      = { workspace = true }
 thiserror       = { workspace = true }
 
 # Old red-bank types used for migration.
-mars-red-bank-types-old = { package = "mars-red-bank-types", git = "https://github.com/mars-protocol/red-bank", tag = "v1.0.0" }
+fury-red-bank-types-old = { package = "fury-red-bank-types", git = "https://github.com/fury-protocol/red-bank", tag = "v1.0.0" }
 
 [dev-dependencies]
-mars-testing        = { workspace = true }
+fury-testing        = { workspace = true }
 osmosis-std         = { workspace = true }
-mars-red-bank       = { workspace = true }
+fury-red-bank       = { workspace = true }
 test-case           = { workspace = true }

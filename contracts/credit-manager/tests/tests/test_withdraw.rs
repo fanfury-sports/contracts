@@ -1,6 +1,6 @@
 use cosmwasm_std::{coin, coins, Addr, Coin, OverflowError, OverflowOperation::Sub, Uint128};
-use mars_credit_manager::error::{ContractError, ContractError::NotTokenOwner};
-use mars_types::credit_manager::Action;
+use fury_credit_manager::error::{ContractError, ContractError::NotTokenOwner};
+use fury_types::credit_manager::Action;
 
 use super::helpers::{assert_err, uatom_info, uosmo_info, AccountToFund, MockEnv};
 

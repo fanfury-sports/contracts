@@ -1,7 +1,7 @@
 use cosmwasm_schema::write_api;
 use cosmwasm_std::Empty;
-use mars_mock_credit_manager::msg::ExecuteMsg;
-use mars_types::credit_manager::QueryMsg;
+use fury_mock_credit_manager::msg::ExecuteMsg;
+use fury_types::credit_manager::QueryMsg;
 
 fn main() {
     write_api! {

@@ -1,11 +1,11 @@
 use cosmwasm_std::{
     CheckedFromRatioError, CheckedMultiplyFractionError, DivideByZeroError, OverflowError, StdError,
 };
-use mars_utils::error::ValidationError;
+use fury_utils::error::ValidationError;
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]
-pub enum MarsError {
+pub enum FuryError {
     #[error("{0}")]
     Std(#[from] StdError),
 
@@ -42,10 +42,10 @@ pub enum MarsError {
     Validation(#[from] ValidationError),
 }
 
-impl From<MarsError> for StdError {
-    fn from(source: MarsError) -> Self {
+impl From<FuryError> for StdError {
+    fn from(source: FuryError) -> Self {
         match source {
-            MarsError::Std(e) => e,
+            FuryError::Std(e) => e,
             e => StdError::generic_err(e.to_string()),
         }
     }
@@ -56,30 +56,30 @@ impl From<MarsError> for StdError {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::error::MarsError;
+    use crate::error::FuryError;
 
     #[test]
-    fn mars_error_to_std_error() {
+    fn fury_error_to_std_error() {
         {
-            let mars_error = MarsError::Unauthorized {};
+            let fury_error = FuryError::Unauthorized {};
 
-            let std_error: StdError = mars_error.into();
+            let std_error: StdError = fury_error.into();
 
             assert_eq!(std_error, StdError::generic_err("Unauthorized"))
         }
 
         {
-            let mars_error = MarsError::Std(StdError::generic_err("Some error"));
+            let fury_error = FuryError::Std(StdError::generic_err("Some error"));
 
-            let std_error: StdError = mars_error.into();
+            let std_error: StdError = fury_error.into();
 
             assert_eq!(std_error, StdError::generic_err("Some error"))
         }
 
         {
-            let mars_error = MarsError::Std(StdError::invalid_data_size(1, 2));
+            let fury_error = FuryError::Std(StdError::invalid_data_size(1, 2));
 
-            let std_error: StdError = mars_error.into();
+            let std_error: StdError = fury_error.into();
 
             assert_eq!(std_error, StdError::invalid_data_size(1, 2))
         }

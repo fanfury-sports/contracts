@@ -1,8 +1,8 @@
 use std::{collections::HashMap, str::FromStr};
 
 use cosmwasm_std::{coin, Addr, Decimal, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     adapters::vault::{
         CoinValue, Vault, VaultAmount, VaultPosition, VaultPositionAmount, VaultPositionValue,
     },
@@ -11,17 +11,17 @@ use mars_types::{
     params::{HlsParams, VaultConfig},
 };
 
-use super::helpers::{udai_info, umars_info, ustars_info};
+use super::helpers::{udai_info, ufury_info, ustars_info};
 
 #[test]
 fn missing_borrow_denom_price_data() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -35,7 +35,7 @@ fn missing_borrow_denom_price_data() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -43,7 +43,7 @@ fn missing_borrow_denom_price_data() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -62,12 +62,12 @@ fn missing_borrow_denom_price_data() {
 
 #[test]
 fn missing_borrow_denom_params() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([(udai.denom.clone(), udai.params.clone())]),
@@ -82,7 +82,7 @@ fn missing_borrow_denom_params() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom,
@@ -90,7 +90,7 @@ fn missing_borrow_denom_params() {
                     amount: Uint128::new(3100),
                 },
                 DebtAmount {
-                    denom: umars.denom.clone(),
+                    denom: ufury.denom.clone(),
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },
@@ -103,22 +103,22 @@ fn missing_borrow_denom_params() {
     };
 
     let err: HealthError =
-        h.max_borrow_amount_estimate(&umars.denom, &BorrowTarget::Deposit).unwrap_err();
-    assert_eq!(err, HealthError::MissingParams(umars.denom));
+        h.max_borrow_amount_estimate(&ufury.denom, &BorrowTarget::Deposit).unwrap_err();
+    assert_eq!(err, HealthError::MissingParams(ufury.denom));
 }
 
 #[test]
 fn cannot_borrow_when_unhealthy() {
-    let umars = umars_info();
+    let ufury = ufury_info();
     let udai = udai_info();
 
     let denoms_data = DenomsData {
         prices: HashMap::from([
-            (umars.denom.clone(), umars.price),
+            (ufury.denom.clone(), ufury.price),
             (udai.denom.clone(), udai.price),
         ]),
         params: HashMap::from([
-            (umars.denom.clone(), umars.params.clone()),
+            (ufury.denom.clone(), ufury.params.clone()),
             (udai.denom.clone(), udai.params.clone()),
         ]),
     };
@@ -132,7 +132,7 @@ fn cannot_borrow_when_unhealthy() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom), coin(33, &udai.denom)],
+            deposits: vec![coin(1200, &ufury.denom), coin(33, &udai.denom)],
             debts: vec![
                 DebtAmount {
                     denom: udai.denom.clone(),
@@ -140,7 +140,7 @@ fn cannot_borrow_when_unhealthy() {
                     amount: Uint128::new(2500),
                 },
                 DebtAmount {
-                    denom: umars.denom,
+                    denom: ufury.denom,
                     shares: Default::default(),
                     amount: Uint128::new(200),
                 },

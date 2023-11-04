@@ -1,5 +1,5 @@
 use cosmwasm_std::Empty;
-use mars_oracle_base::OracleBase;
+use fury_oracle_base::OracleBase;
 
 use crate::{OsmosisPriceSourceChecked, OsmosisPriceSourceUnchecked};
 
@@ -15,8 +15,8 @@ pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub mod entry {
     use cosmwasm_std::{entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response};
     use cw2::set_contract_version;
-    use mars_oracle_base::ContractResult;
-    use mars_types::oracle::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
+    use fury_oracle_base::ContractResult;
+    use fury_types::oracle::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
 
     use super::*;
     use crate::migrations;

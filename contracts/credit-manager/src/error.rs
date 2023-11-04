@@ -4,10 +4,10 @@ use cosmwasm_std::{
 };
 use cw2::VersionError;
 use cw_utils::PaymentError;
-use mars_liquidation::error::LiquidationError;
-use mars_owner::OwnerError;
-use mars_types::adapters::{oracle::OracleError, vault::VaultError};
-use mars_utils::error::GuardError;
+use fury_liquidation::error::LiquidationError;
+use fury_owner::OwnerError;
+use fury_types::adapters::{oracle::OracleError, vault::VaultError};
+use fury_utils::error::GuardError;
 use thiserror::Error;
 
 pub type ContractResult<T> = Result<T, ContractError>;

@@ -7,7 +7,7 @@ pub mod astroport_swapper;
 /// cosmwasm_std::testing overrides and custom test helpers
 mod helpers;
 mod incentives_querier;
-mod mars_mock_querier;
+mod fury_mock_querier;
 mod mock_address_provider;
 mod mocks;
 mod oracle_querier;
@@ -21,7 +21,7 @@ pub mod test_runner;
 pub mod wasm_oracle;
 
 pub use helpers::*;
-pub use mars_mock_querier::MarsMockQuerier;
+pub use fury_mock_querier::FuryMockQuerier;
 pub use mocks::*;
 
 pub mod integration;

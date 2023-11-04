@@ -1,11 +1,11 @@
 use cosmwasm_std::{Addr, Decimal, Order, StdResult, Storage, Uint128};
 use cw_storage_plus::{Bound, Item, Map, PrefixBound};
-use mars_owner::Owner;
-use mars_types::{
+use fury_owner::Owner;
+use fury_types::{
     incentives::{Config, IncentiveState},
     keys::{UserId, UserIdKey},
 };
-use mars_utils::guard::Guard;
+use fury_utils::guard::Guard;
 
 use crate::ContractError;
 

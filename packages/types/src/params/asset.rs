@@ -1,6 +1,6 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Api, Decimal, Uint128};
-use mars_utils::{
+use fury_utils::{
     error::ValidationError,
     helpers::{decimal_param_le_one, decimal_param_lt_one, validate_native_denom},
 };
@@ -13,7 +13,7 @@ use super::{
     },
     hls::HlsParamsBase,
 };
-use crate::error::MarsError;
+use crate::error::FuryError;
 
 #[cw_serde]
 pub struct CmSettings<T> {
@@ -95,7 +95,7 @@ impl From<AssetParams> for AssetParamsUnchecked {
 }
 
 impl AssetParamsUnchecked {
-    pub fn check(&self, api: &dyn Api) -> Result<AssetParams, MarsError> {
+    pub fn check(&self, api: &dyn Api) -> Result<AssetParams, FuryError> {
         validate_native_denom(&self.denom)?;
 
         decimal_param_lt_one(self.max_loan_to_value, "max_loan_to_value")?;

@@ -14,14 +14,14 @@ const wethOsmoPool = 'gamm/pool/704'
 const wbtcOsmoPool = 'gamm/pool/712'
 const atomStAtomPool = 'gamm/pool/803'
 
-const mars = 'ibc/573FCD90FACEE750F55A8864EF7D38265F07E5A9273FA0E8DAFD39951332B580'
+const fury = 'ibc/573FCD90FACEE750F55A8864EF7D38265F07E5A9273FA0E8DAFD39951332B580'
 
 const pythContractAddr = 'osmo13ge29x4e2s63a8ytz2px8gurtyznmue4a69n5275692v3qn3ks8q7cwck7'
 const protocolAdminAddr = 'osmo14w4x949nwcrqgfe53pxs3k7x53p0gvlrq34l5n'
 
-// note the following addresses are all 'mars' bech32 prefix
-const safetyFundAddr = 'mars1s4hgh56can3e33e0zqpnjxh0t5wdf7u3pze575'
-const feeCollectorAddr = 'mars17xpfvakm2amg962yls6f84z3kell8c5ldy6e7x'
+// note the following addresses are all 'fury' bech32 prefix
+const safetyFundAddr = 'furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a'
+const feeCollectorAddr = 'furya17xpfvakm2amg962yls6f84z3kell8c5llvck70'
 
 const defaultCreditLine = '100000000000000'
 
@@ -775,10 +775,10 @@ const swapperRoutes = [
   },
   {
     denom_in: axl,
-    denom_out: mars,
+    denom_out: fury,
     route: [
       { pool_id: 812, token_out_denom: osmo },
-      { pool_id: 907, token_out_denom: mars },
+      { pool_id: 907, token_out_denom: fury },
     ],
   },
   {
@@ -870,10 +870,10 @@ const swapperRoutes = [
   },
   {
     denom_in: wbtc,
-    denom_out: mars,
+    denom_out: fury,
     route: [
       { pool_id: 712, token_out_denom: osmo },
-      { pool_id: 907, token_out_denom: mars },
+      { pool_id: 907, token_out_denom: fury },
     ],
   },
   { denom_in: axlUSDC, denom_out: osmo, route: [{ pool_id: 678, token_out_denom: osmo }] },
@@ -962,31 +962,31 @@ const swapperRoutes = [
   },
   {
     denom_in: weth,
-    denom_out: mars,
+    denom_out: fury,
     route: [
       { pool_id: 704, token_out_denom: osmo },
-      { pool_id: 907, token_out_denom: mars },
+      { pool_id: 907, token_out_denom: fury },
     ],
   },
   {
     denom_in: osmo,
-    denom_out: mars,
-    route: [{ pool_id: 907, token_out_denom: mars }],
+    denom_out: fury,
+    route: [{ pool_id: 907, token_out_denom: fury }],
   },
   {
     denom_in: atom,
-    denom_out: mars,
+    denom_out: fury,
     route: [
       { pool_id: 1, token_out_denom: 'uosmo' },
-      { pool_id: 907, token_out_denom: mars },
+      { pool_id: 907, token_out_denom: fury },
     ],
   },
   {
     denom_in: axlUSDC,
-    denom_out: mars,
+    denom_out: fury,
     route: [
       { pool_id: 678, token_out_denom: osmo },
-      { pool_id: 907, token_out_denom: mars },
+      { pool_id: 907, token_out_denom: fury },
     ],
   },
 ]
@@ -996,7 +996,7 @@ const swapperRoutes = [
 export const osmosisMainnetConfig: DeploymentConfig = {
   mainnet: true,
   deployerMnemonic: '',
-  marsDenom: mars,
+  furyDenom: fury,
   atomDenom: atom,
   safetyFundAddr: safetyFundAddr,
   protocolAdminAddr: protocolAdminAddr,
@@ -1017,7 +1017,7 @@ export const osmosisMainnetConfig: DeploymentConfig = {
     timeoutSeconds: 600,
     channelId: 'channel-557',
     safetyFundFeeShare: '0.5',
-    feeCollectorDenom: mars,
+    feeCollectorDenom: fury,
     safetyFundDenom: axlUSDC,
     slippageTolerance: '0.01',
   },
@@ -1041,7 +1041,7 @@ export const osmosisMainnetConfig: DeploymentConfig = {
   maxValueForBurn: '10000',
   maxUnlockingPositions: '1',
   maxSlippage: '0.2',
-  zapperContractName: 'mars_zapper_osmosis',
+  zapperContractName: 'fury_zapper_osmosis',
   runTests: false,
   assets: [
     osmoAsset,

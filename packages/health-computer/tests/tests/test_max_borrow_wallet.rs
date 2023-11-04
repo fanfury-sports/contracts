@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 use cosmwasm_std::{coin, Uint128};
-use mars_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
-use mars_types::{
+use fury_rover_health_computer::{DenomsData, HealthComputer, VaultsData};
+use fury_types::{
     credit_manager::Positions,
     health::{AccountKind, BorrowTarget},
 };
 
-use super::helpers::{udai_info, umars_info};
+use super::helpers::{udai_info, ufury_info};
 
 #[test]
 fn max_borrow_wallet_offset_good() {
@@ -43,11 +43,11 @@ fn max_borrow_wallet_offset_good() {
 
 #[test]
 fn max_borrow_wallet_offset_margin_of_error() {
-    let umars = umars_info();
+    let ufury = ufury_info();
 
     let denoms_data = DenomsData {
-        prices: HashMap::from([(umars.denom.clone(), umars.price)]),
-        params: HashMap::from([(umars.denom.clone(), umars.params.clone())]),
+        prices: HashMap::from([(ufury.denom.clone(), ufury.price)]),
+        params: HashMap::from([(ufury.denom.clone(), ufury.params.clone())]),
     };
 
     let vaults_data = VaultsData {
@@ -59,7 +59,7 @@ fn max_borrow_wallet_offset_margin_of_error() {
         kind: AccountKind::Default,
         positions: Positions {
             account_id: "123".to_string(),
-            deposits: vec![coin(1200, &umars.denom)],
+            deposits: vec![coin(1200, &ufury.denom)],
             debts: vec![],
             lends: vec![],
             vaults: vec![],
@@ -69,7 +69,7 @@ fn max_borrow_wallet_offset_margin_of_error() {
     };
 
     let max_borrow_amount =
-        h.max_borrow_amount_estimate(&umars.denom, &BorrowTarget::Wallet).unwrap();
+        h.max_borrow_amount_estimate(&ufury.denom, &BorrowTarget::Wallet).unwrap();
 
     // Normally could be 960, but conservative offset rounding has a margin of error
     assert_eq!(Uint128::new(959), max_borrow_amount);

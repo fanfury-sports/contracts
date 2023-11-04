@@ -1,7 +1,7 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{coin, Addr, Coin, Decimal, Uint128};
 use cw_utils::Duration;
-use mars_types::{
+use fury_types::{
     credit_manager::{ActionAmount, ActionCoin},
     params::{
         AssetParamsUnchecked, CmSettings, HlsParamsUnchecked, LiquidationBonus, RedBankSettings,

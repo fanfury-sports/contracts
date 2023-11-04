@@ -1,6 +1,6 @@
 use cosmwasm_schema::write_api;
-use mars_oracle_wasm::WasmPriceSourceUnchecked;
-use mars_types::oracle::{
+use fury_oracle_wasm::WasmPriceSourceUnchecked;
+use fury_types::oracle::{
     ExecuteMsg, InstantiateMsg, QueryMsg, WasmOracleCustomExecuteMsg, WasmOracleCustomInitParams,
 };
 

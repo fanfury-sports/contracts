@@ -1,6 +1,6 @@
 use cosmwasm_std::{DepsMut, Response};
 use cw2::{assert_contract_version, set_contract_version};
-use mars_oracle_base::ContractError;
+use fury_oracle_base::ContractError;
 
 use crate::contract::{CONTRACT_NAME, CONTRACT_VERSION};
 

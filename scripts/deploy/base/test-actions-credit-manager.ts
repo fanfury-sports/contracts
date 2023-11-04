@@ -5,23 +5,23 @@ import assert from 'assert'
 import { printBlue, printGreen } from '../../utils/chalk'
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import {
-  MarsCreditManagerClient,
-  MarsCreditManagerQueryClient,
-} from '../../types/generated/mars-credit-manager/MarsCreditManager.client'
-import { MarsAccountNftQueryClient } from '../../types/generated/mars-account-nft/MarsAccountNft.client'
+  FuryCreditManagerClient,
+  FuryCreditManagerQueryClient,
+} from '../../types/generated/fury-credit-manager/FuryCreditManager.client'
+import { FuryAccountNftQueryClient } from '../../types/generated/fury-account-nft/FuryAccountNft.client'
 import {
   Action,
   Coin,
   ConfigUpdates,
   ExecuteMsg,
-} from '../../types/generated/mars-credit-manager/MarsCreditManager.types'
-import { MarsMockVaultQueryClient } from '../../types/generated/mars-mock-vault/MarsMockVault.client'
-import { VaultConfigBaseForString } from '../../types/generated/mars-params/MarsParams.types'
+} from '../../types/generated/fury-credit-manager/FuryCreditManager.types'
+import { FuryMockVaultQueryClient } from '../../types/generated/fury-mock-vault/FuryMockVault.client'
+import { VaultConfigBaseForString } from '../../types/generated/fury-params/FuryParams.types'
 
 export class Rover {
-  private exec: MarsCreditManagerClient
-  private query: MarsCreditManagerQueryClient
-  private nft: MarsAccountNftQueryClient
+  private exec: FuryCreditManagerClient
+  private query: FuryCreditManagerQueryClient
+  private nft: FuryAccountNftQueryClient
   private accountId?: string
 
   constructor(
@@ -31,9 +31,9 @@ export class Rover {
     private cwClient: SigningCosmWasmClient,
     private actions: TestActions,
   ) {
-    this.exec = new MarsCreditManagerClient(cwClient, userAddr, storage.addresses.creditManager!)
-    this.query = new MarsCreditManagerQueryClient(cwClient, storage.addresses.creditManager!)
-    this.nft = new MarsAccountNftQueryClient(cwClient, storage.addresses.accountNft!)
+    this.exec = new FuryCreditManagerClient(cwClient, userAddr, storage.addresses.creditManager!)
+    this.query = new FuryCreditManagerQueryClient(cwClient, storage.addresses.creditManager!)
+    this.nft = new FuryAccountNftQueryClient(cwClient, storage.addresses.accountNft!)
   }
 
   async updateConfig(updates: ConfigUpdates) {
@@ -288,7 +288,7 @@ export class Rover {
   }
 
   async getVaultInfo(v: VaultConfigBaseForString): Promise<VaultInfo> {
-    const client = new MarsMockVaultQueryClient(this.cwClient, v.addr)
+    const client = new FuryMockVaultQueryClient(this.cwClient, v.addr)
     return {
       tokens: await client.info(),
       lockup: await this.getLockup(v),

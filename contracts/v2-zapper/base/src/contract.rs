@@ -5,7 +5,7 @@ use cosmwasm_std::{
     Response, StdResult, Uint128,
 };
 use cw_utils::one_coin;
-use mars_types::zapper::{CallbackMsg, ExecuteMsg, InstantiateMsg, QueryMsg};
+use fury_types::zapper::{CallbackMsg, ExecuteMsg, InstantiateMsg, QueryMsg};
 
 use crate::{ContractError, LpPool};
 

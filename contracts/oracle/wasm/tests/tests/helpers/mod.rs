@@ -4,17 +4,17 @@ use cosmwasm_std::{
     testing::{mock_env, MockApi, MockQuerier, MockStorage},
     DepsMut, OwnedDeps,
 };
-use mars_oracle_wasm::{contract::entry, WasmPriceSourceUnchecked};
-use mars_testing::{mock_info, MarsMockQuerier};
-use mars_types::oracle::{ExecuteMsg, InstantiateMsg, WasmOracleCustomInitParams};
+use fury_oracle_wasm::{contract::entry, WasmPriceSourceUnchecked};
+use fury_testing::{mock_info, FuryMockQuerier};
+use fury_types::oracle::{ExecuteMsg, InstantiateMsg, WasmOracleCustomInitParams};
 
 pub fn setup_test(
     astroport_factory_address: &str,
-) -> OwnedDeps<MockStorage, MockApi, MarsMockQuerier> {
+) -> OwnedDeps<MockStorage, MockApi, FuryMockQuerier> {
     let mut deps = OwnedDeps::<_, _, _> {
         storage: MockStorage::default(),
         api: MockApi::default(),
-        querier: MarsMockQuerier::new(MockQuerier::new(&[])),
+        querier: FuryMockQuerier::new(MockQuerier::new(&[])),
         custom_query_type: PhantomData,
     };
 
