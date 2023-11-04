@@ -2175,7 +2175,7 @@ dependencies = [
  "cw2 1.1.1",
  "fury-owner 2.0.0",
  "fury-red-bank",
- "fury-red-bank-types 1.0.0 (git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0)",
+ "fury-red-bank-types 1.0.0 (git+https://github.com/fanfury-sports/contracts)",
  "fury-testing",
  "fury-types",
  "fury-utils 2.0.0",
@@ -2459,7 +2459,7 @@ dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "fury-owner 1.2.0",
- "fury-utils 1.0.0 (git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0)",
+ "fury-utils 1.0.0 (git+https://github.com/fanfury-sports/contracts)",
  "thiserror",
 ]
 
