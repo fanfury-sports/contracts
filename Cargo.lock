@@ -2454,7 +2454,7 @@ dependencies = [
 [[package]]
 name = "fury-red-bank-types"
 version = "1.0.0"
-source = "git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/fanfury-sports/contractsfe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2690,7 +2690,7 @@ dependencies = [
 [[package]]
 name = "fury-utils"
 version = "1.0.0"
-source = "git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/fanfury-sports/contractsfe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-std",
  "thiserror",
