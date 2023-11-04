@@ -34,7 +34,7 @@ fury-oracle-wasm               = { workspace = true }
 fury-osmosis                   = { workspace = true }
 fury-owner                     = { workspace = true }
 fury-params                    = { workspace = true }
-fury-red-bank                  = { workspace = true }
+mars-red-bank                  = { workspace = true }
 fury-rewards-collector-osmosis = { workspace = true }
 fury-swapper-astroport         = { workspace = true }
 fury-types                     = { workspace = true }

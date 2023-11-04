@@ -114,7 +114,7 @@ fury-oracle-base               = { path = "./contracts/oracle/base" }
 fury-oracle-osmosis            = { path = "./contracts/oracle/osmosis" }
 fury-oracle-wasm               = { path = "./contracts/oracle/wasm" }
 fury-params                    = { path = "./contracts/params" }
-fury-red-bank                  = { path = "./contracts/red-bank" }
+mars-red-bank                  = { path = "./contracts/red-bank" }
 fury-rewards-collector-base    = { path = "./contracts/rewards-collector/base" }
 fury-rewards-collector-neutron = { path = "./contracts/rewards-collector/neutron" }
 fury-rewards-collector-osmosis = { path = "./contracts/rewards-collector/osmosis" }

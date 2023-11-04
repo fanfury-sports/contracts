@@ -4,7 +4,7 @@ index 7d900594..d4475675 100644
 +++ b/packages/types/Cargo.toml
 @@ -1,5 +1,6 @@
  [package]
- name          = "fury-red-bank-types"
+ name          = "mars-red-bank-types"
 +description   = "Messages and types for Red Bank smart contracts"
  version       = { workspace = true }
  authors       = { workspace = true }

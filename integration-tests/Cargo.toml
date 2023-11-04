@@ -27,7 +27,7 @@ fury-oracle-base               = { workspace = true }
 fury-oracle-osmosis            = { workspace = true }
 fury-osmosis                   = { workspace = true }
 fury-params                    = { workspace = true }
-fury-red-bank                  = { workspace = true }
+mars-red-bank                  = { workspace = true }
 fury-rewards-collector-osmosis = { workspace = true }
 fury-swapper-osmosis           = { workspace = true }
 fury-testing                   = { workspace = true }

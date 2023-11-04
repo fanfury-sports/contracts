@@ -29,7 +29,7 @@ fn wrong_contract_name() {
     assert_eq!(
         err,
         ContractError::Version(VersionError::WrongContract {
-            expected: "crates.io:fury-red-bank".to_string(),
+            expected: "crates.io:mars-red-bank".to_string(),
             found: "contract_xyz".to_string()
         })
     );
@@ -38,7 +38,7 @@ fn wrong_contract_name() {
 #[test]
 fn wrong_contract_version() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-red-bank", "4.1.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-red-bank", "4.1.0").unwrap();
 
     let err = migrate(deps.as_mut(), mock_env(), Empty {}).unwrap_err();
 
@@ -54,7 +54,7 @@ fn wrong_contract_version() {
 #[test]
 fn full_migration() {
     let mut deps = mock_dependencies(&[]);
-    cw2::set_contract_version(deps.as_mut().storage, "crates.io:fury-red-bank", "1.0.0").unwrap();
+    cw2::set_contract_version(deps.as_mut().storage, "crates.io:mars-red-bank", "1.0.0").unwrap();
 
     let old_owner = "spiderman_246";
     v1_state::OWNER
@@ -112,7 +112,7 @@ fn full_migration() {
     );
 
     let new_contract_version = ContractVersion {
-        contract: "crates.io:fury-red-bank".to_string(),
+        contract: "crates.io:mars-red-bank".to_string(),
         version: "2.0.0".to_string(),
     };
     assert_eq!(cw2::get_contract_version(deps.as_ref().storage).unwrap(), new_contract_version);

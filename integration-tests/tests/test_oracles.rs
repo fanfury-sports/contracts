@@ -39,7 +39,7 @@ use crate::helpers::{
 mod helpers;
 
 const OSMOSIS_ORACLE_CONTRACT_NAME: &str = "fury-oracle-osmosis";
-const OSMOSIS_RED_BANK_CONTRACT_NAME: &str = "fury-red-bank";
+const OSMOSIS_RED_BANK_CONTRACT_NAME: &str = "mars-red-bank";
 const OSMOSIS_ADDR_PROVIDER_CONTRACT_NAME: &str = "fury-address-provider";
 const OSMOSIS_REWARDS_CONTRACT_NAME: &str = "fury-rewards-collector-osmosis";
 const OSMOSIS_INCENTIVES_CONTRACT_NAME: &str = "fury-incentives";

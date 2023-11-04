@@ -13,7 +13,7 @@ import {
   VaultConfigBaseForString,
 } from './generated/fury-params/FuryParams.types'
 import { NeutronIbcConfig } from './generated/fury-rewards-collector-base/FuryRewardsCollectorBase.types'
-import { Uint128 } from './generated/fury-red-bank/FuryRedBank.types'
+import { Uint128 } from './generated/mars-red-bank/FuryRedBank.types'
 import { Duration, VaultInfoResponse } from './generated/fury-mock-vault/FuryMockVault.types'
 
 type SwapRoute = {

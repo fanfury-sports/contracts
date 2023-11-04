@@ -1,5 +1,5 @@
 {
-  "contract_name": "fury-red-bank",
+  "contract_name": "mars-red-bank",
   "contract_version": "2.0.0",
   "idl_version": "1.0.0",
   "instantiate": {

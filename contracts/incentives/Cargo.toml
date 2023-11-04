@@ -16,7 +16,7 @@ doctest    = false
 
 [features]
 # for more explicit tests, cargo test --features=backtraces
-backtraces = ["cosmwasm-std/backtraces", "fury-testing/backtraces", "fury-utils/backtraces", "fury-red-bank/backtraces"]
+backtraces = ["cosmwasm-std/backtraces", "fury-testing/backtraces", "fury-utils/backtraces", "mars-red-bank/backtraces"]
 library    = []
 
 [dependencies]
@@ -30,10 +30,10 @@ fury-utils      = { workspace = true }
 thiserror       = { workspace = true }
 
 # Old red-bank types used for migration.
-fury-red-bank-types-old = { package = "fury-red-bank-types", git = "https://github.com/mars-protocol/red-bank", tag = "v1.0.0" }
+mars-red-bank-types-old = { package = "mars-red-bank-types", git = "https://github.com/mars-protocol/red-bank", tag = "v1.0.0" }
 
 [dev-dependencies]
 fury-testing        = { workspace = true }
 osmosis-std         = { workspace = true }
-fury-red-bank       = { workspace = true }
+mars-red-bank       = { workspace = true }
 test-case           = { workspace = true }

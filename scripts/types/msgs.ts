@@ -1,5 +1,5 @@
 import { InstantiateMsg as ParamsInstantiateMsg } from './generated/fury-params/FuryParams.types'
-import { InstantiateMsg as RedBankInstantiateMsg } from './generated/fury-red-bank/FuryRedBank.types'
+import { InstantiateMsg as RedBankInstantiateMsg } from './generated/mars-red-bank/FuryRedBank.types'
 import { InstantiateMsg as AddressProviderInstantiateMsg } from './generated/fury-address-provider/FuryAddressProvider.types'
 import { InstantiateMsg as IncentivesInstantiateMsg } from './generated/fury-incentives/FuryIncentives.types'
 import { InstantiateMsg as RewardsInstantiateMsg } from './generated/fury-rewards-collector-base/FuryRewardsCollectorBase.types'
