@@ -19,7 +19,7 @@ A bug bounty is currently open for these contracts. See details [here][2].
 2. Get the wasm binary executable on your local machine.
 
    ```bash
-   git clone https://github.com/fury-protocol/contracts.git
+   git clone https://github.com/mars-protocol/contracts.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -223,7 +223,7 @@ cargo make test
 
 Contents of this repository are open source under [GNU General Public License v3](./LICENSE) or later.
 
-[1]: https://github.com/fury-protocol/fury-audits
+[1]: https://github.com/mars-protocol/fury-audits
 [2]: https://immunefi.com/bounty/fury/
 [3]: https://docs.osmosis.zone/osmosis-core/osmosisd/
 [4]: https://rustup.rs/
@@ -258,5 +258,5 @@ Contents of this repository are open source under [GNU General Public License v3
 [33]: https://neutron.celat.one/pion-1/contracts/neutron15dn9w9vcdkpp2kfjuz4suqh2w8ajyqsgujlykm9x58hsjss5ff7qpmhlln
 [34]: https://neutron.celat.one/pion-1/contracts/neutron1re4v85k6kr8r7f3j4s4vrk3dvlyefc3xeg7jetv2jlpskahs5xrs8d6vw5
 [35]: https://neutron.celat.one/pion-1/contracts/neutron16xdh5w4dynfjrvnfuhv9h2znks94fyt4gp448jhtmjs3xd6smjvqumh9x2
-[36]: https://www.mintscan.io/fury-protocol/accounts/furya17xpfvakm2amg962yls6f84z3kell8c5llvck70
-[37]: https://www.mintscan.io/fury-protocol/accounts/furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a
+[36]: https://www.mintscan.io/mars-protocol/accounts/furya17xpfvakm2amg962yls6f84z3kell8c5llvck70
+[37]: https://www.mintscan.io/mars-protocol/accounts/furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a

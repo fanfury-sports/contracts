@@ -2149,7 +2149,7 @@ dependencies = [
 [[package]]
 name = "fury-health"
 version = "1.0.0"
-source = "git+https://github.com/fury-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2175,7 +2175,7 @@ dependencies = [
  "cw2 1.1.1",
  "fury-owner 2.0.0",
  "fury-red-bank",
- "fury-red-bank-types 1.0.0 (git+https://github.com/fury-protocol/red-bank?tag=v1.0.0)",
+ "fury-red-bank-types 1.0.0 (git+https://github.com/mars-protocol/red-bank?tag=v1.0.0)",
  "fury-testing",
  "fury-types",
  "fury-utils 2.0.0",
@@ -2454,12 +2454,12 @@ dependencies = [
 [[package]]
 name = "fury-red-bank-types"
 version = "1.0.0"
-source = "git+https://github.com/fury-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/mars-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "fury-owner 1.2.0",
- "fury-utils 1.0.0 (git+https://github.com/fury-protocol/red-bank?tag=v1.0.0)",
+ "fury-utils 1.0.0 (git+https://github.com/mars-protocol/red-bank?tag=v1.0.0)",
  "thiserror",
 ]
 
@@ -2511,7 +2511,7 @@ dependencies = [
 [[package]]
 name = "fury-rover"
 version = "1.0.0"
-source = "git+https://github.com/fury-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2690,7 +2690,7 @@ dependencies = [
 [[package]]
 name = "fury-utils"
 version = "1.0.0"
-source = "git+https://github.com/fury-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/mars-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-std",
  "thiserror",

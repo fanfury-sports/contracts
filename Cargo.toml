@@ -48,7 +48,7 @@ authors       = [
 ]
 edition       = "2021"
 license       = "GPL-3.0-or-later"
-repository    = "https://github.com/fury-protocol/red-bank"
+repository    = "https://github.com/mars-protocol/red-bank"
 homepage      = "https://marsprotocol.io"
 documentation = "https://docs.marsprotocol.io/"
 keywords      = ["fury", "cosmos", "cosmwasm"]
@@ -99,8 +99,8 @@ fury-rover-health-computer = { path = "./packages/health-computer" }
 fury-interest-rate         = { path = "./packages/interest-rate" }
 fury-liquidation           = { path = "./packages/liquidation" }
 fury-osmosis               = { path = "./packages/chains/osmosis" }
-# Old rover types used for migration (https://github.com/fury-protocol/v2-fields-of-fury/releases/tag/v1.0.0)
-fury-rover-old             = { package = "fury-rover", git = "https://github.com/fury-protocol/v2-fields-of-fury", rev = "183e4c5" }
+# Old rover types used for migration (https://github.com/mars-protocol/v2-fields-of-fury/releases/tag/v1.0.0)
+fury-rover-old             = { package = "fury-rover", git = "https://github.com/mars-protocol/v2-fields-of-fury", rev = "183e4c5" }
 fury-testing               = { path = "./packages/testing" }
 fury-types                 = { path = "./packages/types" }
 fury-utils                 = { path = "./packages/utils" }

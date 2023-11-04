@@ -12,7 +12,7 @@ use crate::{
 
 const FROM_VERSION: &str = "1.0.0";
 
-/// Taken from original Owner package version: https://github.com/fury-protocol/owner/blob/e807c6b12511987577645c8bad68cc7bd6da5398/src/owner.rs#L158
+/// Taken from original Owner package version: https://github.com/mars-protocol/owner/blob/e807c6b12511987577645c8bad68cc7bd6da5398/src/owner.rs#L158
 pub mod v1_state {
     use cosmwasm_schema::cw_serde;
     use cosmwasm_std::Addr;

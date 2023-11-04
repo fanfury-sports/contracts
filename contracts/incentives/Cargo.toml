@@ -30,7 +30,7 @@ fury-utils      = { workspace = true }
 thiserror       = { workspace = true }
 
 # Old red-bank types used for migration.
-fury-red-bank-types-old = { package = "fury-red-bank-types", git = "https://github.com/fury-protocol/red-bank", tag = "v1.0.0" }
+fury-red-bank-types-old = { package = "fury-red-bank-types", git = "https://github.com/mars-protocol/red-bank", tag = "v1.0.0" }
 
 [dev-dependencies]
 fury-testing        = { workspace = true }
