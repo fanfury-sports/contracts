@@ -99,8 +99,8 @@ fury-rover-health-computer = { path = "./packages/health-computer" }
 fury-interest-rate         = { path = "./packages/interest-rate" }
 fury-liquidation           = { path = "./packages/liquidation" }
 fury-osmosis               = { path = "./packages/chains/osmosis" }
-# Old rover types used for migration (https://github.com/mars-protocol/v2-fields-of-mars/releases/tag/v1.0.0)
-fury-rover-old             = { package = "fury-rover", git = "https://github.com/mars-protocol/v2-fields-of-mars", rev = "183e4c5" }
+# Old rover types used for migration (https://github.com/mars-protocol/v2-fields-of-fury/releases/tag/v1.0.0)
+fury-rover-old             = { package = "fury-rover", git = "https://github.com/mars-protocol/v2-fields-of-fury", rev = "183e4c5" }
 fury-testing               = { path = "./packages/testing" }
 fury-types                 = { path = "./packages/types" }
 fury-utils                 = { path = "./packages/utils" }
