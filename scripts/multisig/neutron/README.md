@@ -117,7 +117,7 @@ $NEUTRON_MULTI
    For address-provider, incentives, oracle, red-bank, rewards-collector, swapper contracts:
 
    ```bash
-   git clone https://github.com/fanfury-sports/red-bank.git
+   git clone https://github.com/fanfury-sports/contracts.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```

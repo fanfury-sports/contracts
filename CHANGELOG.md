@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 
 This section documents the API changes compared to the Terra Classic deployment, found in the [`fury-core`](https://github.com/fanfury-sports/fury-core) repository. This section is **not comprehensive**, as the changes are numerous. Changelog for later version start here should be made comprehensive.
 
-- ([#81](https://github.com/fanfury-sports/red-bank/pull/79/files)) Red Bank: The `total_debt_value` field in `UserPositionResponse` is removed, as previously the calculation of this value was erroneous. Additionally, `total_collateral_value` is renamed to `total_enabled_collateral`.
+- ([#81](https://github.com/fanfury-sports/contracts/pull/79/files)) Red Bank: The `total_debt_value` field in `UserPositionResponse` is removed, as previously the calculation of this value was erroneous. Additionally, `total_collateral_value` is renamed to `total_enabled_collateral`.
 
 ```diff
 struct UserPositionResponse {
@@ -29,7 +29,7 @@ struct UserPositionResponse {
 }
 ```
 
-- ([#79](https://github.com/fanfury-sports/red-bank/pull/79/files)) Incentives: The `user_address` parameter in `QueryMsg::UserUnclaimedRewards` is renamed to just `user` in accordance with the [coding guildelines](./CODING_GUIDELINES.md):
+- ([#79](https://github.com/fanfury-sports/contracts/pull/79/files)) Incentives: The `user_address` parameter in `QueryMsg::UserUnclaimedRewards` is renamed to just `user` in accordance with the [coding guildelines](./CODING_GUIDELINES.md):
 
 ```diff
 enum QueryMsg {
@@ -40,7 +40,7 @@ enum QueryMsg {
 }
 ```
 
-- ([#79](https://github.com/fanfury-sports/red-bank/pull/79/files)) Incentives: "maToken address" is replaced with the asset denom in the execute and query messages related to asset incentive:
+- ([#79](https://github.com/fanfury-sports/contracts/pull/79/files)) Incentives: "maToken address" is replaced with the asset denom in the execute and query messages related to asset incentive:
 
 ```diff
 enum ExecuteMsg {
@@ -59,7 +59,7 @@ enum QueryMsg {
 }
 ```
 
-- ([#79](https://github.com/fanfury-sports/red-bank/pull/79/files)) Incentives: A new `address_provider` field is added to the instantiate message and config response:
+- ([#79](https://github.com/fanfury-sports/contracts/pull/79/files)) Incentives: A new `address_provider` field is added to the instantiate message and config response:
 
 ```diff
 struct InstantiateMsg {
@@ -75,7 +75,7 @@ struct Config {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: Execute messages for creating and updating markets have been simplified:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: Execute messages for creating and updating markets have been simplified:
 
 ```diff
 enum ExecuteMsg {
@@ -93,7 +93,7 @@ enum ExecuteMsg {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: `underlying_liquidity_amount` query now takes the asset's denom instead of the maToken contract address:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: `underlying_liquidity_amount` query now takes the asset's denom instead of the maToken contract address:
 
 ```diff
 enum QueryMsg {
@@ -105,7 +105,7 @@ enum QueryMsg {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: `market` query now no longer returns the maToken address. Additionally, it now returns the total scaled amount of collateral. The frontend should now query this method instead of the maToken's total supply:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: `market` query now no longer returns the maToken address. Additionally, it now returns the total scaled amount of collateral. The frontend should now query this method instead of the maToken's total supply:
 
 ```diff
 struct Market {
@@ -129,7 +129,7 @@ struct Market {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: `user_collateral` query now returns the collateral scaled amount and amount. The frontend should now query this method instead of the maToken contracts:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: `user_collateral` query now returns the collateral scaled amount and amount. The frontend should now query this method instead of the maToken contracts:
 
 ```diff
 struct UserCollateralResponse {
@@ -140,7 +140,7 @@ struct UserCollateralResponse {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: `user_debt` query now returns whether the debt is being borrowed as uncollateralized loan:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: `user_debt` query now returns whether the debt is being borrowed as uncollateralized loan:
 
 ```diff
 struct UserDebtResponse {
@@ -151,7 +151,7 @@ struct UserDebtResponse {
 }
 ```
 
-- ([#76](https://github.com/fanfury-sports/red-bank/pull/76/files)) Red Bank: Parameters related to maToken have been removed from instantiate message, the `update_config` execute message, and the response type for config query:
+- ([#76](https://github.com/fanfury-sports/contracts/pull/76/files)) Red Bank: Parameters related to maToken have been removed from instantiate message, the `update_config` execute message, and the response type for config query:
 
 ```diff
 struct CreateOrUpdateConfig {
@@ -169,7 +169,7 @@ struct Config {
 }
 ```
 
-- ([#69](https://github.com/fanfury-sports/red-bank/pull/69/files)) Red Bank: `Market` no longer includes an index:
+- ([#69](https://github.com/fanfury-sports/contracts/pull/69/files)) Red Bank: `Market` no longer includes an index:
 
 ```diff
 struct Market {
@@ -180,7 +180,7 @@ struct Market {
 }
 ```
 
-- ([#69](https://github.com/fanfury-sports/red-bank/pull/69/files)) Red Bank: The total number of markets is no longer returned in `ConfigResponse`:
+- ([#69](https://github.com/fanfury-sports/contracts/pull/69/files)) Red Bank: The total number of markets is no longer returned in `ConfigResponse`:
 
 ```diff
 struct ConfigResponse {
@@ -192,7 +192,7 @@ struct ConfigResponse {
 }
 ```
 
-- ([#69](https://github.com/fanfury-sports/red-bank/pull/69/files)) Red Bank: Previously, the enumerative queries `user_debts` and `user_collaterals` return the user's debt or collateral amounts in **every single asset that Red Bank supports**. Now they will only return the assets **for which the user has non-zero amounts deposited or borrowed**.
+- ([#69](https://github.com/fanfury-sports/contracts/pull/69/files)) Red Bank: Previously, the enumerative queries `user_debts` and `user_collaterals` return the user's debt or collateral amounts in **every single asset that Red Bank supports**. Now they will only return the assets **for which the user has non-zero amounts deposited or borrowed**.
 
 Additionally, the two queries now support pagination:
 
@@ -211,7 +211,7 @@ enum QueryMsg {
 }
 ```
 
-- ([#63](https://github.com/fanfury-sports/red-bank/pull/63)) Red Bank: Rename a few query functions:
+- ([#63](https://github.com/fanfury-sports/contracts/pull/63)) Red Bank: Rename a few query functions:
 
 | old query        | new query         | description                                    |
 | ---------------- | ----------------- | ---------------------------------------------- |
@@ -221,7 +221,7 @@ enum QueryMsg {
 | -                | `UserCollateral`  | a user's collateral position in a single asset |
 | `UserCollateral` | `UserCollaterals` | a user's collateral positions in all assets    |
 
-- ([#63](https://github.com/fanfury-sports/red-bank/pull/63)) Red Bank: Changes to a few query response types:
+- ([#63](https://github.com/fanfury-sports/contracts/pull/63)) Red Bank: Changes to a few query response types:
 
 Response to `Markets`:
 
@@ -259,7 +259,7 @@ type UserCollateralsResponse = {
 type UserCollateralsResponse = UserCollateralResponse[];
 ```
 
-- ([#61](https://github.com/fanfury-sports/red-bank/pull/61)) Red Bank: Implement variable naming convension.
+- ([#61](https://github.com/fanfury-sports/contracts/pull/61)) Red Bank: Implement variable naming convension.
 
 ```diff
 pub struct CreateOrUpdateConfig {
@@ -319,7 +319,7 @@ pub struct QueryMsg {
 }
 ```
 
-- ([#55](https://github.com/fanfury-sports/red-bank/pull/55)) Red Bank: the option for the liquidator to request receiving the underlying asset is removed. Now the liquidator always receives collateral shares. To withdraw the underlying asset, dispatch another `ExecuteMsg::Withdraw`.
+- ([#55](https://github.com/fanfury-sports/contracts/pull/55)) Red Bank: the option for the liquidator to request receiving the underlying asset is removed. Now the liquidator always receives collateral shares. To withdraw the underlying asset, dispatch another `ExecuteMsg::Withdraw`.
 
 ```diff
 pub struct ExecuteMsg {
@@ -331,7 +331,7 @@ pub struct ExecuteMsg {
 }
 ```
 
-- ([#53](https://github.com/fanfury-sports/red-bank/pull/53)) Red Bank: Several unnecessary parameters in the execute message are removed:
+- ([#53](https://github.com/fanfury-sports/contracts/pull/53)) Red Bank: Several unnecessary parameters in the execute message are removed:
 
 ```diff
 pub struct ExecuteMsg {
@@ -352,7 +352,7 @@ pub struct ExecuteMsg {
 }
 ```
 
-- ([#46](https://github.com/fanfury-sports/red-bank/pull/46)) Red Bank: the dynamic interest rate model is removed. The `InterestRateModel` struct is simplified:
+- ([#46](https://github.com/fanfury-sports/contracts/pull/46)) Red Bank: the dynamic interest rate model is removed. The `InterestRateModel` struct is simplified:
 
 ```diff
 - pub enum InterestRateModel {

@@ -48,7 +48,7 @@ authors       = [
 ]
 edition       = "2021"
 license       = "GPL-3.0-or-later"
-repository    = "https://github.com/fanfury-sports/red-bank"
+repository    = "https://github.com/fanfury-sports/contracts"
 homepage      = "https://marsprotocol.io"
 documentation = "https://docs.marsprotocol.io/"
 keywords      = ["fury", "cosmos", "cosmwasm"]
