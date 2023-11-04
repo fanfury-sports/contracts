@@ -103,7 +103,7 @@ fn swapping_asset() {
 /// skipped.
 ///
 /// See this issue for more explanation:
-/// https://github.com/mars-protocol/red-bank/issues/166
+/// https://github.com/fanfury-sports/red-bank/issues/166
 #[test]
 fn skipping_swap_if_denom_matches() {
     let mut deps = helpers::setup_test();

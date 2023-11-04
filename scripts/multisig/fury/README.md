@@ -6,7 +6,7 @@ The multisig on Fury Hub is set to have 5 multisig holders with a threshold of 3
 
 1. Install homebrew: <https://brew.sh/>
 
-2. Clone the following repository: <https://github.com/mars-protocol/hub/tags>
+2. Clone the following repository: <https://github.com/fanfury-sports/hub/tags>
 
 3. Check out to the latest stable release:
 
@@ -88,7 +88,7 @@ furyad query account $FURY_MULTI \
 1. Get the wasm binary executable on your local machine.
 
    ```bash
-   git clone https://github.com/mars-protocol/periphery
+   git clone https://github.com/fanfury-sports/periphery
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -228,7 +228,7 @@ _Note: The multisig must have at least one tx against it for the address to exis
 9. Verify the new contract. Get the wasm binary executable on your local machine.
 
    ```bash
-   git clone https://github.com/mars-protocol/periphery
+   git clone https://github.com/fanfury-sports/periphery
    git checkout <commit-id>
    ```
 

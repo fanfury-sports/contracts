@@ -28,7 +28,7 @@ import {
   InstantiateMsg as RedBankInstantiateMsg,
   ExecuteMsg as RedBankExecuteMsg,
   QueryMsg as RedBankQueryMsg,
-} from '../../types/generated/mars-red-bank/FuryRedBank.types'
+} from '../../types/generated/fury-red-bank/FuryRedBank.types'
 import {
   AddressResponseItem,
   InstantiateMsg as AddressProviderInstantiateMsg,

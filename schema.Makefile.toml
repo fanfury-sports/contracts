@@ -16,7 +16,7 @@ fn main() -> std::io::Result<()> {
         "fury-credit-manager",
         "fury-incentives",
         "fury-mock-vault",
-        "mars-red-bank",
+        "fury-red-bank",
         "fury-rewards-collector-base",
         "fury-params",
         "fury-rover-health",

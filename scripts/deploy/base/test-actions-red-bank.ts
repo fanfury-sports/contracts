@@ -4,7 +4,7 @@ import { printRed, printYellow } from '../../utils/chalk'
 import { Storage } from './storage'
 import assert from 'assert'
 
-import { QueryMsg as RedBankQueryMsg } from '../../types/generated/mars-red-bank/FuryRedBank.types'
+import { QueryMsg as RedBankQueryMsg } from '../../types/generated/fury-red-bank/FuryRedBank.types'
 
 export class Deployer {
   constructor(

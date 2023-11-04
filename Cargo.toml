@@ -48,7 +48,7 @@ authors       = [
 ]
 edition       = "2021"
 license       = "GPL-3.0-or-later"
-repository    = "https://github.com/mars-protocol/red-bank"
+repository    = "https://github.com/fanfury-sports/red-bank"
 homepage      = "https://marsprotocol.io"
 documentation = "https://docs.marsprotocol.io/"
 keywords      = ["fury", "cosmos", "cosmwasm"]
@@ -99,8 +99,8 @@ fury-rover-health-computer = { path = "./packages/health-computer" }
 fury-interest-rate         = { path = "./packages/interest-rate" }
 fury-liquidation           = { path = "./packages/liquidation" }
 fury-osmosis               = { path = "./packages/chains/osmosis" }
-# Old rover types used for migration (https://github.com/mars-protocol/v2-fields-of-fury/releases/tag/v1.0.0)
-fury-rover-old             = { package = "fury-rover", git = "https://github.com/mars-protocol/v2-fields-of-fury", rev = "183e4c5" }
+# Old rover types used for migration (https://github.com/fanfury-sports/v2-fields-of-fury/releases/tag/v1.0.0)
+fury-rover-old             = { package = "fury-rover", git = "https://github.com/fanfury-sports/v2-fields-of-fury", rev = "183e4c5" }
 fury-testing               = { path = "./packages/testing" }
 fury-types                 = { path = "./packages/types" }
 fury-utils                 = { path = "./packages/utils" }
@@ -114,7 +114,7 @@ fury-oracle-base               = { path = "./contracts/oracle/base" }
 fury-oracle-osmosis            = { path = "./contracts/oracle/osmosis" }
 fury-oracle-wasm               = { path = "./contracts/oracle/wasm" }
 fury-params                    = { path = "./contracts/params" }
-mars-red-bank                  = { path = "./contracts/red-bank" }
+fury-red-bank                  = { path = "./contracts/red-bank" }
 fury-rewards-collector-base    = { path = "./contracts/rewards-collector/base" }
 fury-rewards-collector-neutron = { path = "./contracts/rewards-collector/neutron" }
 fury-rewards-collector-osmosis = { path = "./contracts/rewards-collector/osmosis" }

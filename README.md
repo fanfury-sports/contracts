@@ -19,7 +19,7 @@ A bug bounty is currently open for these contracts. See details [here][2].
 2. Get the wasm binary executable on your local machine.
 
    ```bash
-   git clone https://github.com/mars-protocol/contracts.git
+   git clone https://github.com/fanfury-sports/contracts.git
    git checkout <commit-id>
    cargo make rust-optimizer
    ```
@@ -169,7 +169,7 @@ cargo make test
 | fury-incentives        | [`osmo1nkahswfr8shg8rlxqwup0vgahp0dk4x8w6tkv3rra8rratnut36sk22vrm`][15] |
 | fury-oracle            | [`osmo1mhznfr60vjdp2gejhyv2gax9nvyyzhd3z0qcwseyetkfustjauzqycsy2g`][16] |
 | fury-params            | [`osmo1nlmdxt9ctql2jr47qd4fpgzg84cjswxyw6q99u4y4u4q6c2f5ksq7ysent`][17] |
-| mars-red-bank          | [`osmo1c3ljch9dfw5kf52nfwpxd2zmj2ese7agnx0p9tenkrryasrle5sqf3ftpg`][18] |
+| fury-red-bank          | [`osmo1c3ljch9dfw5kf52nfwpxd2zmj2ese7agnx0p9tenkrryasrle5sqf3ftpg`][18] |
 | fury-rewards-collector | [`osmo1urvqe5mw00ws25yqdd4c4hlh8kdyf567mpcml7cdve9w08z0ydcqvsrgdy`][19] |
 | fury-swapper           | [`osmo1wee0z8c7tcawyl647eapqs4a88q8jpa7ddy6nn2nrs7t47p2zhxswetwla`][20] |
 | fury-zapper            | [`osmo17qwvc70pzc9mudr8t02t3pl74hhqsgwnskl734p4hug3s8mkerdqzduf7c`][21] |
@@ -185,7 +185,7 @@ cargo make test
 | fury-incentives        | [`osmo1nkahswfr8shg8rlxqwup0vgahp0dk4x8w6tkv3rra8rratnut36sk22vrm`][15] |
 | fury-oracle            | [`osmo1mhznfr60vjdp2gejhyv2gax9nvyyzhd3z0qcwseyetkfustjauzqycsy2g`][16] |
 | fury-params            | [`osmo1aye5qcer5n52crrkaf35jprsad2807q6kg3eeeu7k79h4slxfausfqhc9y`][23] |
-| mars-red-bank          | [`osmo1c3ljch9dfw5kf52nfwpxd2zmj2ese7agnx0p9tenkrryasrle5sqf3ftpg`][18] |
+| fury-red-bank          | [`osmo1c3ljch9dfw5kf52nfwpxd2zmj2ese7agnx0p9tenkrryasrle5sqf3ftpg`][18] |
 | fury-rewards-collector | [`osmo1urvqe5mw00ws25yqdd4c4hlh8kdyf567mpcml7cdve9w08z0ydcqvsrgdy`][19] |
 | fury-swapper           | [`osmo1wee0z8c7tcawyl647eapqs4a88q8jpa7ddy6nn2nrs7t47p2zhxswetwla`][20] |
 | fury-zapper            | [`osmo17qwvc70pzc9mudr8t02t3pl74hhqsgwnskl734p4hug3s8mkerdqzduf7c`][21] |
@@ -197,7 +197,7 @@ cargo make test
 | fury-address-provider     | [`neutron17yehp4x7n79zq9dlw4g7xmnrvwdjjj2yecq26844sg8yu74knlxqfx5vqv`][24] |
 | fury-incentives           | [`neutron1aszpdh35zsaz0yj80mz7f5dtl9zq5jfl8hgm094y0j0vsychfekqxhzd39`][25] |
 | fury-oracle               | [`neutron1dwp6m7pdrz6rnhdyrx5ha0acsduydqcpzkylvfgspsz60pj2agxqaqrr7g`][26] |
-| mars-red-bank             | [`neutron1n97wnm7q6d2hrcna3rqlnyqw2we6k0l8uqvmyqq6gsml92epdu7quugyph`][27] |
+| fury-red-bank             | [`neutron1n97wnm7q6d2hrcna3rqlnyqw2we6k0l8uqvmyqq6gsml92epdu7quugyph`][27] |
 | fury-rewards-collector    | [`neutron1h4l6rvylzcuxwdw3gzkkdzfjdxf4mv2ypfdgvnvag0dtz6x07gps6fl2vm`][28] |
 | fury-swapper              | [`neutron1udr9fc3kd743dezrj38v2ac74pxxr6qsx4xt4nfpcfczgw52rvyqyjp5au`][29] |
 
@@ -208,7 +208,7 @@ cargo make test
 | fury-address-provider     | [`neutron187fjlesys2c0z7xzhu43we4rx7tc4twnr5m6r2u7u5hpm03wvjqs0gk2lp`][30] |
 | fury-incentives           | [`neutron187hw8pqfhmxt4tk9star7tkjhu438k566jtgjskz4889pndp2vysh73ezh`][31] |
 | fury-oracle               | [`neutron1g4samkydfdyjec424ccucvjcuuls0ql8mfp2glf739mg0uqr74yqhdx9kn`][32] |
-| mars-red-bank             | [`neutron15dn9w9vcdkpp2kfjuz4suqh2w8ajyqsgujlykm9x58hsjss5ff7qpmhlln`][33] |
+| fury-red-bank             | [`neutron15dn9w9vcdkpp2kfjuz4suqh2w8ajyqsgujlykm9x58hsjss5ff7qpmhlln`][33] |
 | fury-rewards-collector    | [`neutron1re4v85k6kr8r7f3j4s4vrk3dvlyefc3xeg7jetv2jlpskahs5xrs8d6vw5`][34] |
 | fury-swapper              | [`neutron16xdh5w4dynfjrvnfuhv9h2znks94fyt4gp448jhtmjs3xd6smjvqumh9x2`][35] |
 
@@ -223,7 +223,7 @@ cargo make test
 
 Contents of this repository are open source under [GNU General Public License v3](./LICENSE) or later.
 
-[1]: https://github.com/mars-protocol/fury-audits
+[1]: https://github.com/fanfury-sports/fury-audits
 [2]: https://immunefi.com/bounty/fury/
 [3]: https://docs.osmosis.zone/osmosis-core/osmosisd/
 [4]: https://rustup.rs/
@@ -258,5 +258,5 @@ Contents of this repository are open source under [GNU General Public License v3
 [33]: https://neutron.celat.one/pion-1/contracts/neutron15dn9w9vcdkpp2kfjuz4suqh2w8ajyqsgujlykm9x58hsjss5ff7qpmhlln
 [34]: https://neutron.celat.one/pion-1/contracts/neutron1re4v85k6kr8r7f3j4s4vrk3dvlyefc3xeg7jetv2jlpskahs5xrs8d6vw5
 [35]: https://neutron.celat.one/pion-1/contracts/neutron16xdh5w4dynfjrvnfuhv9h2znks94fyt4gp448jhtmjs3xd6smjvqumh9x2
-[36]: https://www.mintscan.io/mars-protocol/accounts/furya17xpfvakm2amg962yls6f84z3kell8c5llvck70
-[37]: https://www.mintscan.io/mars-protocol/accounts/furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a
+[36]: https://www.mintscan.io/fanfury-sports/accounts/furya17xpfvakm2amg962yls6f84z3kell8c5llvck70
+[37]: https://www.mintscan.io/fanfury-sports/accounts/furya1s4hgh56can3e33e0zqpnjxh0t5wdf7u3n2mm7a

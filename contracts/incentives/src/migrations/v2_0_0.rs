@@ -53,7 +53,7 @@ pub mod v1_state {
     }
 
     // Copy of helpers from v1.0.0 tag:
-    // https://github.com/mars-protocol/red-bank/blob/v1.0.0/contracts/incentives/src/helpers.rs
+    // https://github.com/fanfury-sports/red-bank/blob/v1.0.0/contracts/incentives/src/helpers.rs
     // Included as dependency coudn't generate proper schema for fury-incentive, even with specified
     // version.
     pub mod helpers {

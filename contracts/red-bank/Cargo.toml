@@ -1,5 +1,5 @@
 [package]
-name          = "mars-red-bank"
+name          = "fury-red-bank"
 description   = "A smart contract that manages asset deposit, borrowing, and liquidations"
 version       = { workspace = true }
 authors       = { workspace = true }

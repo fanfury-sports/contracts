@@ -2149,7 +2149,7 @@ dependencies = [
 [[package]]
 name = "fury-health"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/fanfury-sports/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2174,8 +2174,8 @@ dependencies = [
  "cw-storage-plus 1.1.0",
  "cw2 1.1.1",
  "fury-owner 2.0.0",
- "mars-red-bank",
- "mars-red-bank-types 1.0.0 (git+https://github.com/mars-protocol/red-bank?tag=v1.0.0)",
+ "fury-red-bank",
+ "fury-red-bank-types 1.0.0 (git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0)",
  "fury-testing",
  "fury-types",
  "fury-utils 2.0.0",
@@ -2198,7 +2198,7 @@ dependencies = [
  "fury-oracle-osmosis",
  "fury-osmosis",
  "fury-params",
- "mars-red-bank",
+ "fury-red-bank",
  "fury-rewards-collector-osmosis",
  "fury-swapper-osmosis",
  "fury-testing",
@@ -2417,7 +2417,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "mars-red-bank"
+name = "fury-red-bank"
 version = "2.0.0"
 dependencies = [
  "anyhow",
@@ -2439,7 +2439,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "mars-red-bank-types"
+name = "fury-red-bank-types"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cca59bb17daa753c30d3c934e0779736200708cb89a34020fa805b1cb05e7278"
@@ -2452,14 +2452,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "mars-red-bank-types"
+name = "fury-red-bank-types"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "fury-owner 1.2.0",
- "fury-utils 1.0.0 (git+https://github.com/mars-protocol/red-bank?tag=v1.0.0)",
+ "fury-utils 1.0.0 (git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0)",
  "thiserror",
 ]
 
@@ -2511,7 +2511,7 @@ dependencies = [
 [[package]]
 name = "fury-rover"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
+source = "git+https://github.com/fanfury-sports/v2-fields-of-fury?rev=183e4c5#183e4c58b3de7389d0d7ebcacc248ea6efaa1728"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -2522,7 +2522,7 @@ dependencies = [
  "cw721-base 0.16.0",
  "fury-health 1.0.0",
  "fury-owner 1.2.0",
- "mars-red-bank-types 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "fury-red-bank-types 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "schemars",
  "serde",
  "thiserror",
@@ -2647,7 +2647,7 @@ dependencies = [
  "fury-osmosis",
  "fury-owner 2.0.0",
  "fury-params",
- "mars-red-bank",
+ "fury-red-bank",
  "fury-rewards-collector-osmosis",
  "fury-swapper-astroport",
  "fury-types",
@@ -2690,7 +2690,7 @@ dependencies = [
 [[package]]
 name = "fury-utils"
 version = "1.0.0"
-source = "git+https://github.com/mars-protocol/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
+source = "git+https://github.com/fanfury-sports/red-bank?tag=v1.0.0#13fcc446fe687dfb8f08ffacd57b1ab6ad6cfcc9"
 dependencies = [
  "cosmwasm-std",
  "thiserror",
